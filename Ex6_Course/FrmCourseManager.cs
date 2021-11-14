@@ -47,6 +47,7 @@ namespace Ex6_Course
          SeedData();
 
          DatabaseLoad_Enrolments();
+
          DatabaseLoad_Students();
          DatabaseLoad_Courses();
         
@@ -359,32 +360,11 @@ namespace Ex6_Course
       #endregion
 
       #region Enrollment-CRUD
-
-      private void lvEnrolment_SelectedIndexChanged(object sender, EventArgs e)
-      {
-
-         if (lvEnrolments.SelectedItems.Count == 0)
-         {
-            lvEnrolments.Text = txtGrade.Text = "";
-            return;
-         }
-
-         int selectedIndex = lvEnrolments.SelectedIndices[0];
-
-         ListViewItem lvItem = lvEnrolments.Items[selectedIndex];
-
-         string sPk = lvItem.SubItems[0].Text;
-
-         lblStudent.Text = LblCourse.Text = "";
-
-         txtGrade.Text = lvItem.SubItems[3].Text;
-
-      }
       private void btnNewEnrol_Click(object sender, EventArgs e)
       {
          txtDebug.Text = "btnNewEnrol_Click()\r\n";
 
-         // -- Get CourseId from Listview
+         //Get CourseId from Listview
          if (lvCourses.SelectedItems.Count == 0)
          {
             return;
@@ -395,7 +375,7 @@ namespace Ex6_Course
          string sPk = lvItem.SubItems[0].Text;
          long CoursePk = Convert.ToInt64(sPk);
 
-         // -- Get StudentId from Listview
+         //Get StudentId from Listview
          if (lvStudents.SelectedItems.Count == 0)
          {
             return;
@@ -411,6 +391,9 @@ namespace Ex6_Course
             db.Database.Log = Logger.Log;
 
             Enrollment enroll = db.Enrollments.Create();
+
+            if (txtGrade.Text != "")
+               enroll.Grade = Convert.ToInt32(txtGrade.Text);
 
             Course CourseToLink = db.Courses.First(c => c.CourseId == CoursePk);
             Student StudentToLink = db.Students.First(s => s.StudentId == StudentPk);
@@ -444,17 +427,15 @@ namespace Ex6_Course
             }
          }
 
-         lblStudent.Text = LblCourse.Text = "";
-
          DatabaseLoad_Enrolments();
 
 
       }
-
-
-      private void btnUpdateEnrol_Click(object sender, EventArgs e)
+      private void btnEnrolmentUpdate_Click(object sender, EventArgs e)
       {
-         //Get PrimaryKey from Listview
+         txtDebug.Text = "btnEnrolmentUpdate_Click()\r\n";
+
+         //Get CourseId from Listview
          if (lvEnrolments.SelectedItems.Count == 0)
          {
             return;
@@ -463,64 +444,35 @@ namespace Ex6_Course
          int selectedIndex = lvEnrolments.SelectedIndices[0];
          ListViewItem lvItem = lvEnrolments.Items[selectedIndex];
          string sPk = lvItem.SubItems[0].Text;
-         long pk = Convert.ToInt64(sPk);
+         long EnrolPk = Convert.ToInt64(sPk);
 
          using (CourseManager db = new CourseManager())
          {
             db.Database.Log = Logger.Log;
-            // Get course to delete
-            Enrollment EnrolmentToUpdate = db.Enrollments.First(en => en.EnrollmentId == pk);
+            Enrollment EnrolToUpdate = db.Enrollments.First(en => en.EnrollmentId == EnrolPk);
 
-            if (EnrolmentToUpdate != null)
-            {
-               if (txtGrade.Text != "")
-                  EnrolmentToUpdate.Grade = int.Parse(txtGrade.Text);
+            int grade = 0;
+            var isNumeric = int.TryParse("123", out grade);
 
-               db.SaveChanges();
-            }
+            if (isNumeric)
+               EnrolToUpdate.Grade = int.Parse(txtGrade.Text);
+
+
+            //How do you get linked tables??
+
+            //Examples of getting linked table
+            //Student StudentInEnrolment = db.Enrollments.First(en => en.EnrollmentId == EnrolToUpdate.);  //No student PK
+
+           // Student EnrolmentInStudent = db.Students.First(listEnrolments => listEnrolments.Enrollments.First(en => en.EnrollmentId == EnrolPk)); 
+
+
+
          }
 
-         lblStudent.Text = LblCourse.Text = "";
-
-         DatabaseLoad_Enrolments();
-
-      }
-
-      private void btnDeleteEnrol_Click(object sender, EventArgs e)
-      {
-         //Get PrimaryKey from Listview
-         if (lvEnrolments.SelectedItems.Count == 0)
-         {
-            return;
-         }
-
-         int selectedIndex = lvCourses.SelectedIndices[0];
-         ListViewItem lvItem = lvEnrolments.Items[selectedIndex];
-         string sPk = lvItem.SubItems[0].Text;
-         long pk = Convert.ToInt64(sPk);
-
-         using (CourseManager db = new CourseManager())
-         {
-            db.Database.Log = Logger.Log;
-            // Get course to delete
-            Enrollment EnrolmentToDelete = db.Enrollments.First(en => en.EnrollmentId == pk);
-
-            if (EnrolmentToDelete != null)
-            {
-               // Delete 
-               db.Enrollments.Remove(EnrolmentToDelete);
-               db.SaveChanges();
-            }
-         }
-
-         lblStudent.Text = LblCourse.Text = "";
-
-         DatabaseLoad_Enrolments();
       }
 
       void DatabaseLoad_Enrolments()
       {
-         
          lvEnrolments.Items.Clear();
 
          using (CourseManager db = new CourseManager())
@@ -529,9 +481,14 @@ namespace Ex6_Course
 
             DbSet<Enrollment> enrolments = db.Enrollments;
 
-            foreach (Enrollment en in enrolments)
+            foreach (Enrollment e in enrolments)
             {
+
+
+               //To DO ??
+
                /*
+               //To Do - look u p
                EF Message: SELECT 
                 1 AS [C1], 
                 [Extent1].[EnrollmentId] AS [EnrollmentId], 
@@ -541,13 +498,12 @@ namespace Ex6_Course
                 FROM [dbo].[Enrollments] AS [Extent1] 
                */
 
-               //To DO Lookup???
                // Student student = db.Students.First(s => s.StudentId == e.StudentEnrollmentsStudentId);
                // Course course = db.Courses.First(c => c.CourseId == e.CourseEnrollmentsCourseId);
 
-               txtDebug.Text += String.Format("Loaded: {0} {1} {2} {3} ", en.EnrollmentId, "student?", "course?", en.Grade.ToString());
+               txtDebug.Text += String.Format("Loaded: {0} {1} {2} {3} ", e.EnrollmentId, "student?", "course?", "Grade?");//;   e.EnrollmentId, e.EnrollmentId);//  + "\r\n";
 
-               string[] row = { en.EnrollmentId.ToString(), "student?", "course?", en.Grade.ToString() };
+               string[] row = { e.EnrollmentId.ToString(), "student?", "course?", "grade?" };
 
                ListViewItem listViewItem = new ListViewItem(row);
                lvEnrolments.Items.Add(listViewItem);
@@ -656,6 +612,6 @@ namespace Ex6_Course
 
       }
 
-     
+    
    }
 }
