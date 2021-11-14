@@ -433,6 +433,7 @@ namespace Ex6_Course
             //Get CourseId from Listview
             if (lvEnrolments.SelectedItems.Count == 0)
             {
+                txtDebug.Text = "NO Enrolment Selected? \r\n";
                 return;
             }
 
@@ -460,9 +461,10 @@ namespace Ex6_Course
                 //Changes work in linked tables
                 Student stu = EnrolToUpdate.Student;
                 stu.FirstName = "Albert";
+                stu.LastName = "Einstein";
 
                 Course course = EnrolToUpdate.Course;
-                course.CourseLabel += "Relativity";
+                course.Title = "Relativity";
 
 
                 // This Exception handler helps to describe what went wrong with the EF database save.
@@ -492,6 +494,38 @@ namespace Ex6_Course
             DatabaseLoad_Enrolments();
         }
 
+        private void btnDeleteEnrol_Click(object sender, EventArgs e)
+        {
+            //Get PrimaryKey from Listview
+            if (lvEnrolments.SelectedItems.Count == 0)
+            {
+                txtDebug.Text = "Cannot delete, NO Enrolment Selected ? \r\n";
+                return;
+            }
+
+            int selectedIndex = lvEnrolments.SelectedIndices[0];
+            ListViewItem lvItem = lvEnrolments.Items[selectedIndex];
+            string sPk = lvItem.SubItems[0].Text;
+            long pk = Convert.ToInt64(sPk);
+
+            using (CourseManager db = new CourseManager())
+            {
+                db.Database.Log = Logger.Log;
+                // Get course to delete
+                Enrollment EnrolToDelete = db.Enrollments.First(en => en.EnrollmentId == pk);
+
+                if (EnrolToDelete != null)
+                {
+                    // Delete 
+                    db.Enrollments.Remove(EnrolToDelete);
+                    db.SaveChanges();
+                }
+            }
+
+            txtGrade.Text = "";
+
+            DatabaseLoad_Enrolments();
+        }
 
         void DatabaseLoad_Enrolments()
         {
@@ -642,5 +676,7 @@ namespace Ex6_Course
             SeedData();
 
         }
+
+       
     }
 }
