@@ -456,8 +456,7 @@ namespace Ex6_Course
                     EnrolToUpdate.Grade = int.Parse(txtGrade.Text);
 
                 //With Bidirectional Association you can access child objects via parent, e.g Course.Student etc
-                //And if you include "MultipleActiveResultSets=true" in your connection string
-
+                
                 //Changes work in linked tables
                 Student stu = EnrolToUpdate.Student;
                 stu.FirstName = "Albert";
@@ -503,19 +502,17 @@ namespace Ex6_Course
                 db.Database.Log = Logger.Log;
 
                 DbSet<Enrollment> enrolments = db.Enrollments;
-
-                //Get strongly typed
-                //reader.Enumerate.Select(r => GetMyTypeFromRecord(r))
-
-                //The foreach exposes an IDataRecord, which puts you in a very similar boat to the while
+               
                 foreach (Enrollment en in enrolments)
                 {
                     string StudentName = "";
                     string CourseTitle = "";
 
-
                     /*
-                    //Already an open datareader error?
+                    //If you get already an open datareader error?
+                    
+                    //Simply include "MultipleActiveResultSets=true" in your connection string
+
                     It is not about closing connection. EF manages connection correctly. 
                     My understanding of this problem is that there are multiple data retrieval commands executed on single connection 
                     (or single command with multiple selects) while next DataReader is executed before first one has completed the reading. 
@@ -524,7 +521,7 @@ namespace Ex6_Course
                     and you will trigger lazy loading for loaded entity inside the iteration.
                     
                     */
-                   
+
                     Course course = en.Course;
 
                     if (course != null)
