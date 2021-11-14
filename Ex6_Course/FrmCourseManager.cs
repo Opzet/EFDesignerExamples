@@ -455,15 +455,14 @@ namespace Ex6_Course
                 if (isNumeric)
                     EnrolToUpdate.Grade = int.Parse(txtGrade.Text);
 
-                //With Bidirectional mapping you can access objects in enrolment
+                //With Bidirectional Association you can access child objects via parent, e.g Course.Student etc
                 //And if you include "MultipleActiveResultSets=true" in your connection string
-                Student stu = EnrolToUpdate.Student;
 
-                //Changes dont seem to work,  association rather than join??
+                //Changes work in linked tables
+                Student stu = EnrolToUpdate.Student;
                 stu.FirstName = "Albert";
 
                 Course course = EnrolToUpdate.Course;
-                //Changes dont seem to work,  association rather than join??
                 course.CourseLabel += "Relativity";
 
 
