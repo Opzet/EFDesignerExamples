@@ -13,21 +13,12 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using System.Data.Entity.Migrations;
+using System.Data.Entity;
 
-namespace Migrations
+namespace Ex1_Person
 {
    /// <inheritdoc/>
-   public sealed partial class PersonModelDbMigrationConfiguration : DbMigrationsConfiguration<Ex1_Person.PersonModel>
+   public partial class PersonContextDatabaseInitializer : CreateDatabaseIfNotExists<Ex1_Person.PersonContext>
    {
-      partial void Init();
-
-      /// <inheritdoc/>
-      public PersonModelDbMigrationConfiguration()
-      {
-         AutomaticMigrationsEnabled = true;
-         AutomaticMigrationDataLossAllowed = false;
-         Init();
-      }
    }
 }

@@ -58,9 +58,9 @@
       <DependentUpon>frmPerson.cs</DependentUpon>
     </Compile>
     <Compile Include="Generated_PersonModel\Person.generated.cs" />
-    <Compile Include="Generated_PersonModel\PersonModel.generated.cs" />
-    <Compile Include="Generated_PersonModel\PersonModelDatabaseInitializer.generated.cs" />
-    <Compile Include="Generated_PersonModel\PersonModelDbMigrationConfiguration.generated.cs" />
+    <Compile Include="Generated_PersonModel\PersonContext.generated.cs" />
+    <Compile Include="Generated_PersonModel\PersonContextDatabaseInitializer.generated.cs" />
+    <Compile Include="Generated_PersonModel\PersonContextDbMigrationConfiguration.generated.cs" />
     <Compile Include="PersonModel.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
