@@ -39,10 +39,13 @@ namespace Ex2_ModelOne2One
       /// <summary>
       /// Public constructor with required data
       /// </summary>
+      /// <param name="id"></param>
       /// <param name="addressid"></param>
       /// <param name="person"></param>
-      public Address(long addressid, global::Ex2_ModelOne2One.Person person)
+      public Address(long id, long addressid, global::Ex2_ModelOne2One.Person person)
       {
+         this.Id = id;
+
          this.AddressId = addressid;
 
          if (person == null) throw new ArgumentNullException(nameof(person));
@@ -55,11 +58,12 @@ namespace Ex2_ModelOne2One
       /// <summary>
       /// Static create function (for use in LINQ queries, etc.)
       /// </summary>
+      /// <param name="id"></param>
       /// <param name="addressid"></param>
       /// <param name="person"></param>
-      public static Address Create(long addressid, global::Ex2_ModelOne2One.Person person)
+      public static Address Create(long id, long addressid, global::Ex2_ModelOne2One.Person person)
       {
-         return new Address(addressid, person);
+         return new Address(id, addressid, person);
       }
 
       /*************************************************************************
@@ -67,7 +71,7 @@ namespace Ex2_ModelOne2One
        *************************************************************************/
 
       /// <summary>
-      /// Identity, Required
+      /// Identity, Indexed, Required
       /// </summary>
       [Key]
       [Required]
