@@ -198,3 +198,9 @@ SignalIR:
    2: notifier.Change += this.OnChange;
    3: notifier.Start("MyConnection", "SELECT SomeColumn FROM dbo.SomeTable");
  ```
+
+### Install Nuget Package
+
+Install-Package EntitySignal.Client
+
+ https://entitysignal.com/
