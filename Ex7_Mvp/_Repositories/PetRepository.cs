@@ -1,25 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Remoting.Contexts;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using Ex7_Mvp.Models;
 
 
 namespace Ex7_Mvp._Repositories
 {
-    // Adapted from https://github.com/RJCodeAdvance/CRUD-MVP-C-SHARP-SQL-WINFORMS-PART-3-FINAL
+ 
 
-    // MVP Design Pattern for winform
-    // ------------------------------
-    //<Db Crud <- Model> Presenter layer [Interface] (Wire up Model <-> Gui Controls) based upon events  <Model<-View Events> [GUI] fire Events
-    // Model: [Datacontext] 
-    // Pesenter: Wire up Model and View together,
-    // Interface: events fire CRUD methods in repository
-    // View: GUI A passive view 
+    
 
-    //1. Don't depend on classes
-    // If you want to have your code testable, depend on interface that is implemented by a class.
+    // To detect changes in a database comes from the SqlDependency class, problem is these classes only work with SQL Server non-Express
+    // Some common gotchas:
+    //  Does not work with SQL Server Express;
+    //  There’s a specific order by which the connection and SqlDependency.Start must be called, if you stick to my code, it should work;
+    //  Needs SQL Server Service Broker enabled for the database that we are monitoring, but does not require creating a queue or service, SqlDependency does that for us automatically;
+    //  Your application pool identity needs to have permissions to connect to the notification queue, see them here;
+    //  Won’t work with any SQL query, a number of restrictions apply; see here;
+    //  SqlDependency is very sensitive, and you can easily run into problems if you try different things.
+        var notifier = new ChangeNotifier();
+   2: notifier.Change += this.OnChange;
+   3: notifier.Start("MyConnection", "SELECT SomeColumn FROM dbo.SomeTable");
+
+
     public class PetRepository : IPetRepository
     {
         //Constructor

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Ex7_Mvp.Models
 {
+    // This is created manually to expose repository (database methods)
+    // Used by the presenter to databind the GUI
    public interface IPetRepository
     {
         void Add(PetModel petModel);

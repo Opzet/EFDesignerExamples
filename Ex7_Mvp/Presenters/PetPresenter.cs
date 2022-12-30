@@ -13,7 +13,7 @@ namespace Ex7_Mvp.Presenters
     {
         // Represent the state and behavior of the presentation independently of the GUI controls used in the interface
         
-        // Load up view object that has an interface to ui . ie. Databound
+        // Load up view object that has an interface to ui . ie. model<->view is Databound via presenter logic (not code behind)
 
 
         //Fields

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="4.2.1.3" Id="cba47279-0950-4257-bb2c-e4d5e72a52a4" entityContainerName="EFContainer" namespace="Ex7_Mvp.Models" connectionString="Data Source=svr;Initial Catalog=Mvp;Persist Security Info=True;User ID=Apps;Password=Passwx1" automaticMigrationsEnabled="true" contextOutputDirectory="Models" entityFrameworkVersion="EF6" showCascadeDeletes="false" databaseType="None" warnOnMissingDocumentation="false" exposeForeignKeys="false" generateDbContextFactory="false" showInterfaceIndicators="false" xmlns="http://schemas.microsoft.com/dsltools/EFModel">
   <comments>
-    <comment Id="ad474672-5403-4586-8765-85f5b5e0b637" text="Use SSMS to create db instance for Mvp&#xD;&#xA;&#xD;&#xA;Using Sql Server as doing multiuser&#xD;&#xA;" />
+    <comment Id="ad474672-5403-4586-8765-85f5b5e0b637" text="Using SSMS connection string to create db instance for Mvp&#xD;&#xA;&#xD;&#xA;Using Sql Server as doing multiuser&#xD;&#xA;" />
   </comments>
   <classes>
     <modelRootHasClasses Id="325d6e52-c22d-4d28-a8ee-bb6b7082a23e">
