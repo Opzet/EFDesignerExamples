@@ -1,4 +1,4 @@
-# Entity Framework Visual Editor - Examples
+# Entity Framework Visual Editor - Examples for https://github.com/msawczyn/EFDesigner
 An open source EF GUI tool works and here are some examples of how you get setup to use it..
 ENTITY FRAMEWORK is a modern ORM way of using DB access.  EF itself is robust and solid
 
