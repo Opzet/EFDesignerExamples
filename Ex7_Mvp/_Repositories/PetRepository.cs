@@ -10,23 +10,7 @@ using Ex7_Mvp.Models;
 
 namespace Ex7_Mvp._Repositories
 {
- 
-
-    
-
-    // To detect changes in a database comes from the SqlDependency class, problem is these classes only work with SQL Server non-Express
-    // Some common gotchas:
-    //  Does not work with SQL Server Express;
-    //  There’s a specific order by which the connection and SqlDependency.Start must be called, if you stick to my code, it should work;
-    //  Needs SQL Server Service Broker enabled for the database that we are monitoring, but does not require creating a queue or service, SqlDependency does that for us automatically;
-    //  Your application pool identity needs to have permissions to connect to the notification queue, see them here;
-    //  Won’t work with any SQL query, a number of restrictions apply; see here;
-    //  SqlDependency is very sensitive, and you can easily run into problems if you try different things.
-        var notifier = new ChangeNotifier();
-   2: notifier.Change += this.OnChange;
-   3: notifier.Start("MyConnection", "SELECT SomeColumn FROM dbo.SomeTable");
-
-
+    //This is the Entityframework CRUD for the database, it is easy to test and review without breaking GUI
     public class PetRepository : IPetRepository
     {
         //Constructor

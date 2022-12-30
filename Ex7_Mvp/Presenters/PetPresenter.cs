@@ -11,18 +11,20 @@ namespace Ex7_Mvp.Presenters
 {
     public class PetPresenter
     {
-        // Represent the state and behavior of the presentation independently of the GUI controls used in the interface
-        
-        // Load up view object that has an interface to ui . ie. model<->view is Databound via presenter logic (not code behind)
+        // Adapted from https://github.com/RJCodeAdvance/CRUD-MVP-C-SHARP-SQL-WINFORMS-PART-3-FINAL
 
+        // Represent the state and behavior of the presentation independently of the GUI controls used in the interface
+
+        // Load up view object that has an interface to ui . ie. IRepository <Presenter> IView is Databound via presenter logic (not code behind)
 
         //Fields
         private IPetView view;
         private IPetRepository repository;
         private BindingSource petsBindingSource;
+
         private IEnumerable<PetModel> petList;
 
-        //Constructor
+        //Constructor - PRESENTER links interfaces IVIEW and IREPOSITORY
         public PetPresenter(IPetView view, IPetRepository repository)
         {
             this.petsBindingSource = new BindingSource();
