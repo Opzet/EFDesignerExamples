@@ -71,6 +71,7 @@ namespace Ex7_Mvp.Presenters
 
         private void AddNewPet(object sender, EventArgs e)
         {
+            view.PetId = "";
             view.IsEdit = false;          
         }
 
