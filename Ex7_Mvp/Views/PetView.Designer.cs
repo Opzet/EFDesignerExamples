@@ -158,6 +158,7 @@ namespace Ex7_Mvp.Views
             this.btnDelete.TabIndex = 4;
             this.btnDelete.Text = "Delete";
             this.btnDelete.UseVisualStyleBackColor = false;
+            this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
             // btnEdit
             // 
@@ -170,6 +171,7 @@ namespace Ex7_Mvp.Views
             this.btnEdit.TabIndex = 3;
             this.btnEdit.Text = "Edit";
             this.btnEdit.UseVisualStyleBackColor = false;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
             // 
             // btnAddNew
             // 
@@ -183,6 +185,7 @@ namespace Ex7_Mvp.Views
             this.btnAddNew.TabIndex = 2;
             this.btnAddNew.Text = "Add new";
             this.btnAddNew.UseVisualStyleBackColor = false;
+            this.btnAddNew.Click += new System.EventHandler(this.btnAddNew_Click);
             // 
             // btnSearch
             // 
@@ -194,6 +197,7 @@ namespace Ex7_Mvp.Views
             this.btnSearch.TabIndex = 1;
             this.btnSearch.Text = "Search";
             this.btnSearch.UseVisualStyleBackColor = false;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // txtSearch
             // 
@@ -233,6 +237,7 @@ namespace Ex7_Mvp.Views
             this.btnCancel.TabIndex = 15;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
             // btnSave
             // 
@@ -242,6 +247,7 @@ namespace Ex7_Mvp.Views
             this.btnSave.TabIndex = 14;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
             // label6
             // 
@@ -298,7 +304,7 @@ namespace Ex7_Mvp.Views
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(59, 31);
+            this.label3.Location = new System.Drawing.Point(59, 32);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(58, 20);
             this.label3.TabIndex = 7;
@@ -306,12 +312,15 @@ namespace Ex7_Mvp.Views
             // 
             // txtPetId
             // 
-            this.txtPetId.Location = new System.Drawing.Point(63, 54);
+            this.txtPetId.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPetId.ForeColor = System.Drawing.Color.DarkGray;
+            this.txtPetId.Location = new System.Drawing.Point(63, 55);
             this.txtPetId.Name = "txtPetId";
             this.txtPetId.ReadOnly = true;
-            this.txtPetId.Size = new System.Drawing.Size(154, 29);
+            this.txtPetId.Size = new System.Drawing.Size(54, 22);
             this.txtPetId.TabIndex = 6;
             this.txtPetId.Text = "0";
+            this.txtPetId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // PetView
             // 

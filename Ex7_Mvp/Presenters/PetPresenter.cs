@@ -131,7 +131,7 @@ namespace Ex7_Mvp.Presenters
                 view.Message = "Pet deleted successfully";
                 LoadAllPetList();
             }
-            catch (Exception ex)
+            catch //(Exception ex)
             {
                 view.IsSuccessful = false;
                 view.Message = "An error ocurred, could not delete pet";

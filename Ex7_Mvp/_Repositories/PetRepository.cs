@@ -157,7 +157,9 @@ namespace Ex7_Mvp._Repositories
             using (EFContainer db = new EFContainer())
             {
                 PetModel petinDb = db.PetModels.Find(pet.Id);
-                petinDb = pet;
+                petinDb.Name = pet.Name;
+                petinDb.Type = pet.Type;
+                petinDb.Colour = pet.Colour;
                 db.SaveChanges();
             }
 
@@ -208,19 +210,23 @@ namespace Ex7_Mvp._Repositories
 
         public IEnumerable<PetModel> GetByValue(string value)
         {
-            var petList = new List<PetModel>();
+            List<PetModel> petList = new List<PetModel>();
             int petId = int.TryParse(value, out _) ? Convert.ToInt32(value) : 0;
 
             using (EFContainer db = new EFContainer())
             {
-                petList = db.PetModels.Where(p => p.Id == petId).ToList();
-                
-                // Query for all pets that match value  in any field
-                //var blogs = from b in context.Blogs
-                //            where b.Name.StartsWith("B")
-                //            select b;
+                // Query for all pets that match value in any field
+                var enumpetList = from b in db.PetModels
+                                  where
+                                  (
+                                        b.Id == petId 
+                                        || b.Name.ToUpper().Contains(value.ToUpper())
+                                        || b.Type.ToUpper().Contains(value.ToUpper()) 
+                                        || b.Colour.ToUpper().Contains(value.ToUpper())
+                                   )
+                                   select b;
 
-                //petList = db.PetModels.ToList();
+                petList = enumpetList.ToList();
             }
              //string petName = value;
             //using (var connection = new SqlConnection(connectionString))
