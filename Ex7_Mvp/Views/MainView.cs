@@ -15,16 +15,29 @@ namespace Ex7_Mvp.Views
         public MainView()
         {
             InitializeComponent();
-            btnPets.Click += delegate { ShowPetView?.Invoke(this, EventArgs.Empty); };
+           
         }
 
         public event EventHandler ShowPetView;
-        public event EventHandler ShowOwnerView;
+        public event EventHandler ShowOwnerView; //To Do
         public event EventHandler ShowVetsView;
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+        private void btnPets_Click(object sender, EventArgs e)
+        {
+            ShowPetView?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void MainView_Load(object sender, EventArgs e)
+        {
+            //Show default 
+            ShowPetView?.Invoke(this, EventArgs.Empty);
+        }
+
+       
     }
 }

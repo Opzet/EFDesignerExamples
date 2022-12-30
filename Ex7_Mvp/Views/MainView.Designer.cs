@@ -55,6 +55,7 @@ namespace Ex7_Mvp.Views
             this.btnPets.TabIndex = 0;
             this.btnPets.Text = "Pets";
             this.btnPets.UseVisualStyleBackColor = false;
+            this.btnPets.Click += new System.EventHandler(this.btnPets_Click);
             // 
             // MainView
             // 
@@ -67,6 +68,7 @@ namespace Ex7_Mvp.Views
             this.Name = "MainView";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainView";
+            this.Load += new System.EventHandler(this.MainView_Load);
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 

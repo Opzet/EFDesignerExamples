@@ -31,6 +31,7 @@ namespace Ex7_Mvp.Presenters
 
             //Subscribe event handler methods to view events
             this.view.SearchEvent += SearchPet;
+            this.view.SearchClearEvent += SearchClear;
             this.view.AddNewEvent += AddNewPet;
             this.view.EditEvent += LoadSelectedPetToEdit;
             this.view.DeleteEvent += DeleteSelectedPet;
@@ -61,10 +62,18 @@ namespace Ex7_Mvp.Presenters
             else petList = repository.GetAll();
             petsBindingSource.DataSource = petList;
         }
+
+        private void SearchClear(object sender, EventArgs e)
+        {
+            view.SearchValue = "";
+            LoadAllPetList();
+        }
+
         private void AddNewPet(object sender, EventArgs e)
         {
             view.IsEdit = false;          
         }
+
         private void LoadSelectedPetToEdit(object sender, EventArgs e)
         {
 

@@ -22,12 +22,13 @@ namespace Ex7_Mvp.Views
 
         //Events
         event EventHandler SearchEvent;
+        event EventHandler SearchClearEvent;
         event EventHandler AddNewEvent;
         event EventHandler EditEvent;
         event EventHandler DeleteEvent;
         event EventHandler SaveEvent;
         event EventHandler CancelEvent;
-
+        
         //Methods
         void SetPetListBindingSource(BindingSource petList);
         void Show();//Optional

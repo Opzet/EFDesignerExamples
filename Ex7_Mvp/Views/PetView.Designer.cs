@@ -52,6 +52,7 @@ namespace Ex7_Mvp.Views
             this.txtPetName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtPetId = new System.Windows.Forms.TextBox();
+            this.btnClearSearch = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPagePetList.SuspendLayout();
@@ -106,6 +107,7 @@ namespace Ex7_Mvp.Views
             // tabPagePetList
             // 
             this.tabPagePetList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(49)))), ((int)(((byte)(66)))), ((int)(((byte)(82)))));
+            this.tabPagePetList.Controls.Add(this.btnClearSearch);
             this.tabPagePetList.Controls.Add(this.dataGridView);
             this.tabPagePetList.Controls.Add(this.label2);
             this.tabPagePetList.Controls.Add(this.btnDelete);
@@ -205,7 +207,7 @@ namespace Ex7_Mvp.Views
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSearch.Location = new System.Drawing.Point(24, 31);
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(638, 26);
+            this.txtSearch.Size = new System.Drawing.Size(587, 26);
             this.txtSearch.TabIndex = 0;
             // 
             // tabPagePetDetail
@@ -322,6 +324,18 @@ namespace Ex7_Mvp.Views
             this.txtPetId.Text = "0";
             this.txtPetId.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // btnClearSearch
+            // 
+            this.btnClearSearch.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClearSearch.AutoSize = true;
+            this.btnClearSearch.Location = new System.Drawing.Point(617, 27);
+            this.btnClearSearch.Name = "btnClearSearch";
+            this.btnClearSearch.Size = new System.Drawing.Size(45, 30);
+            this.btnClearSearch.TabIndex = 8;
+            this.btnClearSearch.Text = "X";
+            this.btnClearSearch.UseVisualStyleBackColor = true;
+            this.btnClearSearch.Click += new System.EventHandler(this.btnClearSearch_Click);
+            // 
             // PetView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -371,5 +385,6 @@ namespace Ex7_Mvp.Views
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtPetId;
         private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.Button btnClearSearch;
     }
 }

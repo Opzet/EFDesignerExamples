@@ -34,7 +34,6 @@ namespace Ex7_Mvp._Repositories
                     //Initalises just first time
                     DeleteandSeed();
                 }
-                
             }
         }
 
@@ -56,15 +55,11 @@ namespace Ex7_Mvp._Repositories
 
                 Console.WriteLine(db.Database.Connection.ConnectionString);
             }
-
             SeedData();
-
         }
 
         public class Logger
         {
-            //TO DO Show in text box on screen
-
             public static void Log(string message)
             {
                 Console.WriteLine("EF Message: {0} ", message);
@@ -104,8 +99,6 @@ namespace Ex7_Mvp._Repositories
                     db.PetModels.Add(pet);
                     Console.WriteLine($"Added Pet: {pet.Name}");
                 }
-                //'PK_dbo.PetModels'. Cannot insert duplicate key in object 'dbo.PetModels'. The duplicate key value is (0).
-
                 db.SaveChanges();
                 Console.WriteLine("Saved seed data to Db ok");
             }
@@ -120,18 +113,8 @@ namespace Ex7_Mvp._Repositories
                 db.PetModels.Add(petModel);
                 db.SaveChanges();
             }
-            //using (var connection = new SqlConnection(connectionString))
-            //using (var command = new SqlCommand())
-            //{
-            //    connection.Open();
-            //    command.Connection = connection;
-            //    command.CommandText = "insert into Pet values (@name, @type, @colour)";
-            //    command.Parameters.Add("@name", SqlDbType.NVarChar).Value = petModel.Name;
-            //    command.Parameters.Add("@type", SqlDbType.NVarChar).Value = petModel.Type;
-            //    command.Parameters.Add("@colour", SqlDbType.NVarChar).Value = petModel.Colour;
-            //    command.ExecuteNonQuery();
-            //}
         }
+
         public void Delete(long id)
         {
             using (EFContainer db = new EFContainer())
@@ -141,17 +124,8 @@ namespace Ex7_Mvp._Repositories
                 db.PetModels.Remove(pet);
                 db.SaveChanges();
             }
-
-            //using (var connection = new SqlConnection(connectionString))
-            //using (var command = new SqlCommand())
-            //{
-            //    connection.Open();
-            //    command.Connection = connection;
-            //    command.CommandText = "delete from Pet where Pet_Id=@id";
-            //    command.Parameters.Add("@id", SqlDbType.Int).Value = id;           
-            //    command.ExecuteNonQuery();
-            //}
         }
+
         public void Edit(PetModel pet)
         {
             using (EFContainer db = new EFContainer())
@@ -162,21 +136,6 @@ namespace Ex7_Mvp._Repositories
                 petinDb.Colour = pet.Colour;
                 db.SaveChanges();
             }
-
-            //using (var connection = new SqlConnection(connectionString))
-            //using (var command = new SqlCommand())
-            //{
-            //    connection.Open();
-            //    command.Connection = connection;
-            //    command.CommandText = @"update Pet 
-            //                            set Pet_Name=@name,Pet_Type= @type,Pet_Colour= @colour 
-            //                            where Pet_Id=@id";
-            //    command.Parameters.Add("@name", SqlDbType.NVarChar).Value = petModel.Name;
-            //    command.Parameters.Add("@type", SqlDbType.NVarChar).Value = petModel.Type;
-            //    command.Parameters.Add("@colour", SqlDbType.NVarChar).Value = petModel.Colour;
-            //    command.Parameters.Add("@id", SqlDbType.Int).Value = petModel.Id;
-            //    command.ExecuteNonQuery();
-            //}
         }
 
         public IEnumerable<PetModel> GetAll()
@@ -186,25 +145,6 @@ namespace Ex7_Mvp._Repositories
             {
                 petList = db.PetModels.ToList();
             }
-            //using (var connection = new SqlConnection(connectionString))
-            //using (var command = new SqlCommand())
-            //{
-            //    connection.Open();
-            //    command.Connection = connection;
-            //    command.CommandText = "Select *from Pet order by Pet_Id desc";
-            //    using (var reader = command.ExecuteReader())
-            //    {
-            //        while (reader.Read())
-            //        {
-            //            var petModel = new PetModel();
-            //            petModel.Id = (int)reader[0];
-            //            petModel.Name = reader[1].ToString();
-            //            petModel.Type = reader[2].ToString();
-            //            petModel.Colour = reader[3].ToString();
-            //            petList.Add(petModel);
-            //        }
-            //    }
-            //}
             return petList;
         }
 
@@ -228,31 +168,6 @@ namespace Ex7_Mvp._Repositories
 
                 petList = enumpetList.ToList();
             }
-             //string petName = value;
-            //using (var connection = new SqlConnection(connectionString))
-            //using (var command = new SqlCommand())
-            //{
-            //    connection.Open();
-            //    command.Connection = connection;
-            //    command.CommandText = @"Select *from Pet
-            //                            where Pet_Id=@id or Pet_Name like @name+'%' 
-            //                            order by Pet_Id desc";
-            //    command.Parameters.Add("@id", SqlDbType.Int).Value = petId;
-            //    command.Parameters.Add("@name", SqlDbType.NVarChar).Value = petName;
-
-            //    using (var reader = command.ExecuteReader())
-            //    {
-            //        while (reader.Read())
-            //        {
-            //            var petModel = new PetModel();
-            //            petModel.Id = (int)reader[0];
-            //            petModel.Name = reader[1].ToString();
-            //            petModel.Type = reader[2].ToString();
-            //            petModel.Colour = reader[3].ToString();
-            //            petList.Add(petModel);
-            //        }
-            //    }
-            //}
             return petList;
         }
     }
