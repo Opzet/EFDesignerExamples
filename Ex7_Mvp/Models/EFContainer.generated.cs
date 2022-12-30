@@ -20,13 +20,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure.Annotations;
 
-namespace Ex1_Person
+namespace Ex7_Mvp.Models
 {
    /// <inheritdoc/>
-   public partial class PersonModel : DbContext
+   public partial class EFContainer : DbContext
    {
       #region DbSets
-      public virtual System.Data.Entity.DbSet<global::Ex1_Person.Person> People { get; set; }
+      public virtual System.Data.Entity.DbSet<global::Ex7_Mvp.Models.PetModel> PetModels { get; set; }
       #endregion DbSets
 
       #region Constructors
@@ -36,67 +36,67 @@ namespace Ex1_Person
       /// <summary>
       /// Default connection string
       /// </summary>
-      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;Integrated Security=True";
+      public static string ConnectionString { get; set; } = @"Data Source=svr;Initial Catalog=Mvp;Persist Security Info=True;User ID=Apps;Password=Passwx1";
       /// <inheritdoc />
-      public PersonModel() : base(ConnectionString)
+      public EFContainer() : base(ConnectionString)
       {
          Configuration.LazyLoadingEnabled = true;
          Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<PersonModel>(new PersonModelDatabaseInitializer());
+         System.Data.Entity.Database.SetInitializer<EFContainer>(new EFContainerDatabaseInitializer());
          CustomInit();
       }
 
       /// <inheritdoc />
-      public PersonModel(string connectionString) : base(connectionString)
+      public EFContainer(string connectionString) : base(connectionString)
       {
          Configuration.LazyLoadingEnabled = true;
          Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<PersonModel>(new PersonModelDatabaseInitializer());
+         System.Data.Entity.Database.SetInitializer<EFContainer>(new EFContainerDatabaseInitializer());
          CustomInit();
       }
 
       /// <inheritdoc />
-      public PersonModel(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model) : base(connectionString, model)
+      public EFContainer(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model) : base(connectionString, model)
       {
          Configuration.LazyLoadingEnabled = true;
          Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<PersonModel>(new PersonModelDatabaseInitializer());
+         System.Data.Entity.Database.SetInitializer<EFContainer>(new EFContainerDatabaseInitializer());
          CustomInit();
       }
 
       /// <inheritdoc />
-      public PersonModel(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection) : base(existingConnection, contextOwnsConnection)
+      public EFContainer(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection) : base(existingConnection, contextOwnsConnection)
       {
          Configuration.LazyLoadingEnabled = true;
          Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<PersonModel>(new PersonModelDatabaseInitializer());
+         System.Data.Entity.Database.SetInitializer<EFContainer>(new EFContainerDatabaseInitializer());
          CustomInit();
       }
 
       /// <inheritdoc />
-      public PersonModel(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection) : base(existingConnection, model, contextOwnsConnection)
+      public EFContainer(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection) : base(existingConnection, model, contextOwnsConnection)
       {
          Configuration.LazyLoadingEnabled = true;
          Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<PersonModel>(new PersonModelDatabaseInitializer());
+         System.Data.Entity.Database.SetInitializer<EFContainer>(new EFContainerDatabaseInitializer());
          CustomInit();
       }
 
       /// <inheritdoc />
-      public PersonModel(System.Data.Entity.Infrastructure.DbCompiledModel model) : base(model)
+      public EFContainer(System.Data.Entity.Infrastructure.DbCompiledModel model) : base(model)
       {
          Configuration.LazyLoadingEnabled = true;
          Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<PersonModel>(new PersonModelDatabaseInitializer());
+         System.Data.Entity.Database.SetInitializer<EFContainer>(new EFContainerDatabaseInitializer());
          CustomInit();
       }
 
       /// <inheritdoc />
-      public PersonModel(System.Data.Entity.Core.Objects.ObjectContext objectContext, bool dbContextOwnsObjectContext) : base(objectContext, dbContextOwnsObjectContext)
+      public EFContainer(System.Data.Entity.Core.Objects.ObjectContext objectContext, bool dbContextOwnsObjectContext) : base(objectContext, dbContextOwnsObjectContext)
       {
          Configuration.LazyLoadingEnabled = true;
          Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<PersonModel>(new PersonModelDatabaseInitializer());
+         System.Data.Entity.Database.SetInitializer<EFContainer>(new EFContainerDatabaseInitializer());
          CustomInit();
       }
 
@@ -113,31 +113,22 @@ namespace Ex1_Person
 
          modelBuilder.HasDefaultSchema("dbo");
 
-         modelBuilder.Entity<global::Ex1_Person.Person>()
-                     .ToTable("People")
+         modelBuilder.Entity<global::Ex7_Mvp.Models.PetModel>()
+                     .ToTable("PetModels")
                      .HasKey(t => t.Id);
-         modelBuilder.Entity<global::Ex1_Person.Person>()
+         modelBuilder.Entity<global::Ex7_Mvp.Models.PetModel>()
                      .Property(t => t.Id)
                      .IsRequired()
                      .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-         modelBuilder.Entity<global::Ex1_Person.Person>()
-                     .Property(t => t.FirstName)
-                     .HasMaxLength(25);
-         modelBuilder.Entity<global::Ex1_Person.Person>()
-                     .Property(t => t.MiddleName)
-                     .HasMaxLength(35);
-         modelBuilder.Entity<global::Ex1_Person.Person>()
-                     .Property(t => t.LastName)
-                     .HasMaxLength(35);
-         modelBuilder.Entity<global::Ex1_Person.Person>()
-                     .Property(t => t.PreferredName)
-                     .HasMaxLength(75);
-         modelBuilder.Entity<global::Ex1_Person.Person>()
-                     .Property(t => t.Email)
-                     .HasMaxLength(45);
-         modelBuilder.Entity<global::Ex1_Person.Person>()
-                     .Property(t => t.Phone)
-                     .HasMaxLength(15);
+         modelBuilder.Entity<global::Ex7_Mvp.Models.PetModel>()
+                     .Property(t => t.Name)
+                     .HasMaxLength(50);
+         modelBuilder.Entity<global::Ex7_Mvp.Models.PetModel>()
+                     .Property(t => t.Type)
+                     .HasMaxLength(50);
+         modelBuilder.Entity<global::Ex7_Mvp.Models.PetModel>()
+                     .Property(t => t.Colour)
+                     .HasMaxLength(50);
 
          OnModelCreatedImpl(modelBuilder);
       }

@@ -22,16 +22,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Ex1_Person
+namespace Ex7_Mvp.Models
 {
-   public partial class Person
+   public partial class PetModel
    {
       partial void Init();
 
       /// <summary>
       /// Default constructor
       /// </summary>
-      public Person()
+      public PetModel()
       {
          Init();
       }
@@ -40,62 +40,37 @@ namespace Ex1_Person
        * Properties
        *************************************************************************/
 
-      public DateTime? DOB { get; set; }
-
       /// <summary>
-      /// Max length = 45
+      /// Min length = 3, Max length = 50
       /// </summary>
-      [MaxLength(45)]
-      [StringLength(45)]
-      public string Email { get; set; }
+      [MinLength(3)]
+      [MaxLength(50)]
+      [StringLength(50)]
+      public string Colour { get; set; }
 
       /// <summary>
-      /// Max length = 25
-      /// </summary>
-      [MaxLength(25)]
-      [StringLength(25)]
-      public string FirstName { get; set; }
-
-      /// <summary>
-      /// Identity, Required
+      /// Identity, Indexed, Required
       /// </summary>
       [Key]
       [Required]
+      [System.ComponentModel.DataAnnotations.Display(Name="Primary Key")]
       public long Id { get; set; }
 
       /// <summary>
-      /// Max length = 35
+      /// Min length = 3, Max length = 50
       /// </summary>
-      [MaxLength(35)]
-      [StringLength(35)]
-      public string LastName { get; set; }
+      [MinLength(3)]
+      [MaxLength(50)]
+      [StringLength(50)]
+      public string Name { get; set; }
 
       /// <summary>
-      /// Max length = 35
+      /// Min length = 3, Max length = 50
       /// </summary>
-      [MaxLength(35)]
-      [StringLength(35)]
-      public string MiddleName { get; set; }
-
-      /// <summary>
-      /// Max length = 15
-      /// </summary>
-      [MaxLength(15)]
-      [StringLength(15)]
-      public string Phone { get; set; }
-
-      /// <summary>
-      /// Max length = 75
-      /// </summary>
-      [MaxLength(75)]
-      [StringLength(75)]
-      public string PreferredName { get; set; }
-
-      /// <summary>
-      /// Concurrency token
-      /// </summary>
-      [System.ComponentModel.DataAnnotations.Timestamp]
-      public Byte[] Timestamp { get; set; }
+      [MinLength(3)]
+      [MaxLength(50)]
+      [StringLength(50)]
+      public string Type { get; set; }
 
    }
 }

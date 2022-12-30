@@ -387,8 +387,8 @@ namespace Ex6_Course
 
                 Enrollment enroll = db.Enrollments.Create();
 
-                if (txtGrade.Text != "")
-                    enroll.Grade = Convert.ToInt32(txtGrade.Text);
+                int grade = int.TryParse(txtGrade.Text, out _) ? Convert.ToInt32(txtGrade.Text) : 0;
+                enroll.Grade = Convert.ToInt32(grade);
 
                 Course CourseToLink = db.Courses.First(c => c.CourseId == CoursePk);
                 Student StudentToLink = db.Students.First(s => s.StudentId == StudentPk);

@@ -15,10 +15,10 @@
 
 using System.Data.Entity;
 
-namespace Ex1_Person
+namespace PetModel
 {
    /// <inheritdoc/>
-   public partial class PersonModelDatabaseInitializer : CreateDatabaseIfNotExists<Ex1_Person.PersonModel>
+   public partial class PetModelsDatabaseInitializer : MigrateDatabaseToLatestVersion<PetModel.PetModels, Migrations.PetModelsDbMigrationConfiguration>
    {
    }
 }

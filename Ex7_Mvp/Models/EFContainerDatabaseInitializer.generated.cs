@@ -15,10 +15,10 @@
 
 using System.Data.Entity;
 
-namespace Ex1_Person
+namespace Ex7_Mvp.Models
 {
    /// <inheritdoc/>
-   public partial class PersonModelDatabaseInitializer : CreateDatabaseIfNotExists<Ex1_Person.PersonModel>
+   public partial class EFContainerDatabaseInitializer : MigrateDatabaseToLatestVersion<Ex7_Mvp.Models.EFContainer, Ex7_Mvp.Migrations.EFContainerDbMigrationConfiguration>
    {
    }
 }
