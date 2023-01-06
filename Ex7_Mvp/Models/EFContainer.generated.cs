@@ -36,7 +36,7 @@ namespace Ex7_Mvp.Models
       /// <summary>
       /// Default connection string
       /// </summary>
-      public static string ConnectionString { get; set; } = @"Data Source=svr;Initial Catalog=Mvp;Persist Security Info=True;User ID=Apps;Password=Passwx1";
+      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;Integrated Security=True";
       /// <inheritdoc />
       public EFContainer() : base(ConnectionString)
       {

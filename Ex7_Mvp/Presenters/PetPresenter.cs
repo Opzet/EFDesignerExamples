@@ -93,7 +93,7 @@ namespace Ex7_Mvp.Presenters
         private void SavePet(object sender, EventArgs e)
         {
             var model = new PetModel();
-            model.Id = Convert.ToInt32(view.PetId);
+            
             model.Name = view.PetName;
             model.Type = view.PetType;
             model.Colour = view.PetColour;
@@ -111,6 +111,7 @@ namespace Ex7_Mvp.Presenters
                     view.Message = "Pet added sucessfully";
                 }
                 view.IsSuccessful = true;
+
                 LoadAllPetList();
                 CleanviewFields();
             }

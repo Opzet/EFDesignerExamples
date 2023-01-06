@@ -20,11 +20,11 @@ namespace Ex7_Mvp._Repositories
             {
                 db.Database.Log = Logger.Log;
                
-                if (!db.Database.Exists())
-                {
+                //if (!db.Database.Exists())
+                //{
                     //Initalises just first time
                     DeleteandSeed();
-                }
+                //}
             }
         }
 
