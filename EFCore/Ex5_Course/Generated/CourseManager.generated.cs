@@ -93,8 +93,7 @@ namespace Ex5_Course
          modelBuilder.Entity<global::Ex5_Course.Course>()
                      .HasMany<global::Ex5_Course.Enrollment>(p => p.Enrollments)
                      .WithOne(p => p.Course)
-                     .HasForeignKey("CourseCourseId")
-                     .IsRequired();
+                     .HasForeignKey("CourseCourseId");
 
          modelBuilder.Entity<global::Ex5_Course.Enrollment>()
                      .ToTable("Enrollments")
@@ -114,8 +113,7 @@ namespace Ex5_Course
          modelBuilder.Entity<global::Ex5_Course.Student>()
                      .HasMany<global::Ex5_Course.Enrollment>(p => p.Enrollments)
                      .WithOne(p => p.Student)
-                     .HasForeignKey("StudentStudentId")
-                     .IsRequired();
+                     .HasForeignKey("StudentStudentId");
 
          OnModelCreatedImpl(modelBuilder);
       }

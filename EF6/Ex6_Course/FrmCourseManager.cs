@@ -393,8 +393,8 @@ namespace Ex6_Course
                 Course CourseToLink = db.Courses.First(c => c.CourseId == CoursePk);
                 Student StudentToLink = db.Students.First(s => s.StudentId == StudentPk);
 
-                StudentToLink.Enrollments.Add(enroll);
-                CourseToLink.Enrollments.Add(enroll);
+                enroll.Student = StudentToLink;
+                enroll.Course = CourseToLink;
 
                 db.Enrollments.Add(enroll);
 
