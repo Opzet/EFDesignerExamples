@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
-using System.Linq;
 using System.Windows.Forms;
+
+using System.Data.Entity.Validation;
+using Microsoft.EntityFrameworkCore;
+using System.Linq;
+
 
 namespace Ex6_Course
 {
     public partial class FrmCourseManager : Form
     {
+        DbContextOptionsBuilder<CourseManager> optionsBuilder;
+
         public FrmCourseManager()
         {
             InitializeComponent();
+
+            optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
+            optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
+            optionsBuilder.LogTo(Console.WriteLine);
+            optionsBuilder.EnableDetailedErrors();
         }
 
         public class Logger
@@ -26,7 +35,7 @@ namespace Ex6_Course
 
         private void FrmCourseManager_Load(object sender, EventArgs e)
         {
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
 
@@ -74,7 +83,7 @@ namespace Ex6_Course
 
             lvStudents.Items.Clear();
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
 
@@ -96,7 +105,7 @@ namespace Ex6_Course
 
             txtDebug.Text = "btnNewStudent_Click()\r\n";
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
 
@@ -145,7 +154,7 @@ namespace Ex6_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
                 // Get student to delete
@@ -175,7 +184,7 @@ namespace Ex6_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
 
@@ -221,7 +230,7 @@ namespace Ex6_Course
 
             lvCourses.Items.Clear();
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
 
@@ -248,7 +257,7 @@ namespace Ex6_Course
 
             txtDebug.Text = "btnNewCourse_Click()\r\n";
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
 
@@ -301,7 +310,7 @@ namespace Ex6_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
                 // Get course to delete
@@ -333,7 +342,7 @@ namespace Ex6_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
                 // Get course to delete
@@ -381,7 +390,7 @@ namespace Ex6_Course
             sPk = lvItem.SubItems[0].Text;
             long StudentPk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
 
@@ -444,7 +453,7 @@ namespace Ex6_Course
             string sPk = lvItem.SubItems[0].Text;
             long EnrolPk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
 
                 db.Database.Log = Logger.Log;
@@ -508,7 +517,7 @@ namespace Ex6_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
                 // Get course to delete
@@ -531,7 +540,7 @@ namespace Ex6_Course
         {
             lvEnrolments.Items.Clear();
 
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 db.Database.Log = Logger.Log;
 
@@ -605,7 +614,7 @@ namespace Ex6_Course
         #region SeedDb
         void SeedData()
         {
-            using (CourseManager db = new CourseManager())
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 List<Student> students = new List<Student>
             {

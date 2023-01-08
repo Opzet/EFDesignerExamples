@@ -9,7 +9,7 @@ namespace Ex4_ModelInvoice
 {
     public partial class FrmInvoice : Form
     {
-        DbContextOptionsBuilder<AccountingSystemModel> optionsBuilder;// = new DbContextOptionsBuilder<EFModelOne2One>();
+        DbContextOptionsBuilder<AccountingSystemModel> optionsBuilder;
 
         public FrmInvoice()
         {
