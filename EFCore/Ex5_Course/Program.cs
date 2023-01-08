@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ex6_Course
+namespace Ex5_Course
 {
     static class Program
     {

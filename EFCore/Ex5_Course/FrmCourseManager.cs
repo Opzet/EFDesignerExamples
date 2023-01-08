@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 
-namespace Ex6_Course
+namespace Ex5_Course
 {
     public partial class FrmCourseManager : Form
     {
@@ -37,15 +37,14 @@ namespace Ex6_Course
         {
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
 
-                db.Database.Delete();
+                db.Database.EnsureDeleted();
                 txtDebug.Text += "Deleted DB\r\n";
 
-                db.Database.CreateIfNotExists();
+                db.Database.EnsureCreated();
                 txtDebug.Text += "Created DB\r\n";
 
-                txtConnection.Text = db.Database.Connection.ConnectionString;
+                txtConnection.Text = CourseManager.ConnectionString;
             }
 
             SeedData();
@@ -85,7 +84,6 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
 
                 DbSet<Student> people = db.Students;
 
@@ -107,9 +105,7 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
-
-                Student student = db.Students.Create();
+                Student student = new Student();
 
                 student.FirstName = txtFirstname.Text;
                 student.LastName = txtLastname.Text;
@@ -156,7 +152,6 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
                 // Get student to delete
                 Student StudentToDelete = db.Students.First(s => s.StudentId == pk);
 
@@ -186,8 +181,6 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
-
                 Student student = db.Students.SingleOrDefault(b => b.StudentId == pk);
                 if (student != null)
                 {
@@ -232,8 +225,6 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
-
                 DbSet<Course> courses = db.Courses;
 
                 int count = courses.Count();
@@ -259,9 +250,7 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
-
-                Course course = db.Courses.Create();
+                Course course = new Course();
 
                 course.CourseLabel = txtCourseID.Text;
                 course.Title = txtTitle.Text;
@@ -312,7 +301,6 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
                 // Get course to delete
                 Course CourseToDelete = db.Courses.First(c => c.CourseId == pk);
 
@@ -344,7 +332,6 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
                 // Get course to delete
                 Course CourseToUpdate = db.Courses.First(c => c.CourseId == pk);
 
@@ -392,15 +379,15 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
-
-                Enrollment enroll = db.Enrollments.Create();
-
                 int grade = int.TryParse(txtGrade.Text, out _) ? Convert.ToInt32(txtGrade.Text) : 0;
-                enroll.Grade = Convert.ToInt32(grade);
 
                 Course CourseToLink = db.Courses.First(c => c.CourseId == CoursePk);
                 Student StudentToLink = db.Students.First(s => s.StudentId == StudentPk);
+
+                Enrollment enroll = new Enrollment(CourseToLink);
+
+                enroll.Grade = Convert.ToInt32(grade);
+                enroll.Student = StudentToLink;
 
                 StudentToLink.Enrollments.Add(enroll);
                 CourseToLink.Enrollments.Add(enroll);
@@ -455,8 +442,6 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-
-                db.Database.Log = Logger.Log;
                 Enrollment EnrolToUpdate = db.Enrollments.First(en => en.EnrollmentId == EnrolPk);
 
                 int grade = 0;
@@ -466,7 +451,7 @@ namespace Ex6_Course
                     EnrolToUpdate.Grade = int.Parse(txtGrade.Text);
 
                 //With Bidirectional Association you can access child objects via parent, e.g Course.Student etc
-                
+
                 //Changes work in linked tables
                 Student stu = EnrolToUpdate.Student;
                 stu.FirstName = "Albert";
@@ -519,7 +504,6 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
                 // Get course to delete
                 Enrollment EnrolToDelete = db.Enrollments.First(en => en.EnrollmentId == pk);
 
@@ -542,10 +526,8 @@ namespace Ex6_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
-
                 DbSet<Enrollment> enrolments = db.Enrollments;
-               
+
                 foreach (Enrollment en in enrolments)
                 {
                     string StudentName = "";
@@ -574,8 +556,8 @@ namespace Ex6_Course
 
                     if (stu != null)
                         StudentName = stu.FirstName + " " + stu.LastName;
-                 
-                    txtDebug.Text += String.Format("Loaded: {0} {1} {2} {3} ", en.EnrollmentId, CourseTitle, StudentName, en.Grade.ToString());//;   e.EnrollmentId, e.EnrollmentId);//  + "\r\n";
+
+                    txtDebug.Text += $"Loaded: {en.EnrollmentId} {CourseTitle} {StudentName} {en.Grade.ToString()} ";
 
                     string[] row = { en.EnrollmentId.ToString(), CourseTitle, StudentName, en.Grade.ToString() };
 
@@ -628,13 +610,9 @@ namespace Ex6_Course
             new Student{FirstName="Nino",LastName="Olivetto"}//EnrollmentDate=DateTime.Parse("2005-09-01")}
             };
 
-                //This does not work
-                //students.ForEach(s => db.Students.Add(s));
-
-                //Have to use create?  Dont know why?
                 foreach (Student s in students)
                 {
-                    Student stu = db.Students.Create();
+                    Student stu = new Student();
                     stu.FirstName = s.FirstName;
                     stu.LastName = s.LastName;
 
@@ -656,13 +634,9 @@ namespace Ex6_Course
             new Course{CourseLabel="2042",Title="Literature",Credits=4,}
             };
 
-                //This does not work
-                //courses.ForEach(s => db.Courses.Add(s));
-
-                //Have to use create?  Dont know why?
                 foreach (Course c in courses)
                 {
-                    Course course = db.Courses.Create();
+                    Course course = new Course();
                     course.CourseLabel = c.CourseLabel;
                     course.Title = c.Title;
                     course.Credits = c.Credits;
@@ -685,7 +659,5 @@ namespace Ex6_Course
             SeedData();
 
         }
-
-       
     }
 }
