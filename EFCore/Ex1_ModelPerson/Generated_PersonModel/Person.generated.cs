@@ -57,7 +57,7 @@ namespace Ex1_ModelPerson
       public string FirstName { get; set; }
 
       /// <summary>
-      /// Identity, Required
+      /// Identity, Indexed, Required
       /// </summary>
       [Key]
       [Required]

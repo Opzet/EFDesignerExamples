@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ex1_ModelPerson", "Ex1_Mode
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ex7_WebApi", "Ex7_WebApi\Ex7_WebApi.csproj", "{5FC51BA7-2336-464A-B641-FC2FD0D469AB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ex2_ModelOne2One", "Ex2_ModelOne2One\Ex2_ModelOne2One.csproj", "{C14DCEF2-17A2-440A-ADD2-20AB84383B81}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex3_ModelOnetoMany", "Ex3_ModelManytoMany\Ex3_ModelOnetoMany.csproj", "{CD767834-7004-444D-B7D8-58AC359ED441}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{5FC51BA7-2336-464A-B641-FC2FD0D469AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FC51BA7-2336-464A-B641-FC2FD0D469AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FC51BA7-2336-464A-B641-FC2FD0D469AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C14DCEF2-17A2-440A-ADD2-20AB84383B81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C14DCEF2-17A2-440A-ADD2-20AB84383B81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C14DCEF2-17A2-440A-ADD2-20AB84383B81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C14DCEF2-17A2-440A-ADD2-20AB84383B81}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD767834-7004-444D-B7D8-58AC359ED441}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD767834-7004-444D-B7D8-58AC359ED441}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD767834-7004-444D-B7D8-58AC359ED441}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD767834-7004-444D-B7D8-58AC359ED441}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

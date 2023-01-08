@@ -12,7 +12,7 @@
         <elementListCompartment Id="32de1807-666b-4b06-be9a-30110ff4db7c" absoluteBounds="3.1920833535119892, 4.3776074668889233, 1.4700000000000002, 0.2493896484375" name="SourcesCompartment" titleTextColor="Black" itemTextColor="White" />
       </nestedChildShapes>
     </classShape>
-    <commentBoxShape Id="6935a329-aa86-457c-9598-4aeb0443f393" absoluteBounds="2.6354167303070426, 0.614583314396441, 2.6562500344589353, 0.62291667629033309" fillColor="255, 255, 204" outlineColor="204, 204, 102" textColor="Black" outlineDashStyle="Solid" outlineThickness="0.01">
+    <commentBoxShape Id="6935a329-aa86-457c-9598-4aeb0443f393" absoluteBounds="1.947916709817946, 0.55208331253379583, 4.1354167452082038, 1.0083333544433115" fillColor="255, 255, 204" outlineColor="204, 204, 102" textColor="Black" outlineDashStyle="Solid" outlineThickness="0.01">
       <commentMoniker Id="cd1a6032-f294-4420-b2c4-fc78fc5b770f" />
     </commentBoxShape>
   </nestedChildShapes>
