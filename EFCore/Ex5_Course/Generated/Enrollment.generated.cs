@@ -29,11 +29,88 @@ namespace Ex5_Course
       partial void Init();
 
       /// <summary>
-      /// Default constructor
+      /// Default constructor. Protected due to required properties, but present because EF needs it.
       /// </summary>
-      public Enrollment()
+      protected Enrollment()
       {
          Init();
+      }
+
+      /// <summary>
+      /// Replaces default constructor, since it's protected. Caller assumes responsibility for setting all required values before saving.
+      /// </summary>
+      public static Enrollment CreateEnrollmentUnsafe()
+      {
+         return new Enrollment();
+      }
+
+      /// <summary>
+      /// Public constructor with required data
+      /// </summary>
+      /// <param name="course"></param>
+      public Enrollment(global::Ex5_Course.Course course) : this()
+      {
+         if (course == null) throw new ArgumentNullException(nameof(course));
+         this.Course = course;
+         course.Enrollments.Add(this);
+
+      }
+
+      /// <summary>
+      /// Public constructor with required data
+      /// </summary>
+      /// <param name="student"></param>
+      public Enrollment(global::Ex5_Course.Student student) : this()
+      {
+         if (student == null) throw new ArgumentNullException(nameof(student));
+         this.Student = student;
+         student.Enrollments.Add(this);
+
+      }
+
+      /// <summary>
+      /// Public constructor with required data
+      /// </summary>
+      /// <param name="course"></param>
+      /// <param name="student"></param>
+      public Enrollment(global::Ex5_Course.Course course, global::Ex5_Course.Student student) : this()
+      {
+         if (course == null) throw new ArgumentNullException(nameof(course));
+         this.Course = course;
+         course.Enrollments.Add(this);
+
+         if (student == null) throw new ArgumentNullException(nameof(student));
+         this.Student = student;
+         student.Enrollments.Add(this);
+
+      }
+
+      /// <summary>
+      /// Static create function (for use in LINQ queries, etc.)
+      /// </summary>
+      /// <param name="course"></param>
+      public static Enrollment Create(global::Ex5_Course.Course course)
+      {
+         return new Enrollment(course);
+      }
+
+      /// <summary>
+      /// Static create function (for use in LINQ queries, etc.)
+      /// </summary>
+      /// <param name="student"></param>
+      public static Enrollment Create(global::Ex5_Course.Student student)
+      {
+         return new Enrollment(student);
+      }
+
+      /// <summary>
+      /// Static create function (for use in LINQ queries, etc.)
+      /// </summary>
+      /// <param name="course"></param>
+      /// <param name="student"></param>
+      public static Enrollment Create(global::Ex5_Course.Course course, global::Ex5_Course.Student student)
+      {
+         return new Enrollment(course, student);
       }
 
       /*************************************************************************
@@ -53,8 +130,14 @@ namespace Ex5_Course
        * Navigation properties
        *************************************************************************/
 
+      /// <summary>
+      /// Required
+      /// </summary>
       public virtual global::Ex5_Course.Course Course { get; set; }
 
+      /// <summary>
+      /// Required
+      /// </summary>
       public virtual global::Ex5_Course.Student Student { get; set; }
 
    }

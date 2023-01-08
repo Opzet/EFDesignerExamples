@@ -21,7 +21,7 @@
         <elementListCompartment Id="a136d98b-1cdb-4a6c-ba57-56f639cc5c99" absoluteBounds="0.5149999999999999, 4.9737988247101512, 2.0637500176951287, 0.63399251302083326" name="SourcesCompartment" titleTextColor="Black" itemTextColor="White" />
       </nestedChildShapes>
     </classShape>
-    <bidirectionalConnector Id="876fab66-01be-474b-a783-65d07531cef5" edgePoints="[(3.97916671074927 : 5.31222902144616); (2.59375001769513 : 5.31222902144616)]" fixedFrom="NotFixed" fixedTo="NotFixed" color="White" dashStyle="Solid" textColor="White">
+    <bidirectionalConnector Id="876fab66-01be-474b-a783-65d07531cef5" edgePoints="[(3.97916671074927 : 5.31222902144616); (2.59375001769513 : 5.31222902144616)]" fixedFrom="NotFixed" fixedTo="NotFixed" color="113, 111, 110" dashStyle="Solid" textColor="White">
       <bidirectionalAssociationMoniker Id="e1ffa16f-ad31-4361-97c9-df91cfcd19cb" />
       <relativeChildShapes />
       <nodes>
@@ -38,7 +38,7 @@
         <elementListCompartment Id="2cf32665-fde5-407c-bef8-5e41d640b14e" absoluteBounds="3.921250041909516, 3.8688183897982045, 1.9700000149011614, 0.2493896484375" name="SourcesCompartment" titleTextColor="Black" itemTextColor="White" />
       </nestedChildShapes>
     </classShape>
-    <bidirectionalConnector Id="d10a4c00-b978-424c-81d7-81731064c0bf" edgePoints="[(3.90625004190952 : 3.98931235074376); (2.59375001769513 : 3.98931235074376)]" fixedFrom="NotFixed" fixedTo="NotFixed" color="White" dashStyle="Solid" textColor="White">
+    <bidirectionalConnector Id="d10a4c00-b978-424c-81d7-81731064c0bf" edgePoints="[(3.90625004190952 : 3.98931235074376); (2.59375001769513 : 3.98931235074376)]" fixedFrom="NotFixed" fixedTo="NotFixed" color="113, 111, 110" dashStyle="Solid" textColor="White">
       <bidirectionalAssociationMoniker Id="490d62df-bd7e-40e9-a537-8af98e811b4a" />
       <relativeChildShapes />
       <nodes>

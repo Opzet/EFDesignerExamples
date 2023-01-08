@@ -379,20 +379,17 @@ namespace Ex5_Course
 
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
-                Enrollment enroll = new Enrollment(); // db.Enrollments.Create();
-                
-                db.Enrollments.Add(enroll);
+               
+                Course CourseToLink = db.Courses.First(c => c.CourseId == CoursePk);
+                Student StudentToLink = db.Students.First(s => s.StudentId == StudentPk);
 
+                Enrollment enroll = new Enrollment(CourseToLink, StudentToLink); // db.Enrollments.Create();
+                                                                                 // enroll.Student = StudentToLink;
+                                                                                 // enroll.Course = CourseToLink;
                 int grade = int.TryParse(txtGrade.Text, out _) ? Convert.ToInt32(txtGrade.Text) : 0;
                 enroll.Grade = Convert.ToInt32(grade);
 
-                Course CourseToLink = db.Courses.First(c => c.CourseId == CoursePk);
-                Student StudentToLink = db.Students.First(s => s.StudentId == StudentPk);
-                                
-                enroll.Student = StudentToLink;
-                enroll.Course = CourseToLink;
-
-               
+                db.Enrollments.Add(enroll);
 
                 // This Exception handler helps to describe what went wrong with the EF database save.
                 // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
