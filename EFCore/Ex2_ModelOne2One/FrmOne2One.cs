@@ -1,33 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Data.Entity.Validation;
-using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore; //<- Add this
+
+// Install Nuget PAckages
+// ----------------------
+// TOOLS>NUGET PACKAGE MANAGE> 'Nuget GUI' or 'Package Manager Console'
+// PM:> nuget install Microsoft.EntityFramework
+// PM:> NUGET Microsoft.EntityFrameworkCore.SqlServer
+
 
 namespace Ex2_ModelOne2One
 {
     public partial class FrmOne2One : Form
     {
         //https://medium.com/@emekadc/how-to-implement-one-to-one-one-to-many-and-many-to-many-relationships-when-designing-a-database-9da2de684710
-        DbContextOptionsBuilder<EFModelOne2One> optionsBuilder;// = new DbContextOptionsBuilder<EFModelOne2One>();
+        DbContextOptionsBuilder<EFModelOne2One> optionsBuilder;
 
         public FrmOne2One()
         {
             InitializeComponent();
 
+            // If you have issues: 
+            // Check nuget packages are installed / reinstall
+            // ----------------------------------------------
             // PM> Install-Package Microsoft.EntityFrameworkCore.SqlServer
 
             // Check your connection string matches you sqllocaldb
-
+            // ----------------------------------------------------
             //> sqllocaldb i
 
             // MSSQLLocalDB
@@ -93,7 +94,7 @@ namespace Ex2_ModelOne2One
                 context.People.Add(person1);
 
 
-                //Create another 1:1 record 
+                //Create another 1 : 0/1 record 
 
                 Person person2 = new Person();
                 Address address2 = new Address();

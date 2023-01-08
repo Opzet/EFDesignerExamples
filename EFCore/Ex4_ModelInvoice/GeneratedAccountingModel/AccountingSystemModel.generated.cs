@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v3.0.7.2
+//     Produced by Entity Framework Visual Editor v4.2.1.3
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -17,8 +17,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure.Annotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ex4_ModelInvoice
 {
@@ -26,88 +25,54 @@ namespace Ex4_ModelInvoice
    public partial class AccountingSystemModel : DbContext
    {
       #region DbSets
-      public virtual System.Data.Entity.DbSet<global::Ex4_ModelInvoice.InvoiceDetails> InvoiceDetails { get; set; }
-      public virtual System.Data.Entity.DbSet<global::Ex4_ModelInvoice.InvoiceHeaders> InvoiceHeaders { get; set; }
+      public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex4_ModelInvoice.InvoiceDetails> InvoiceDetails { get; set; }
+      public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex4_ModelInvoice.InvoiceHeaders> InvoiceHeaders { get; set; }
+
       #endregion DbSets
-
-      #region Constructors
-
-      partial void CustomInit();
 
       /// <summary>
       /// Default connection string
       /// </summary>
-      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\dbinstance;Initial Catalog=EFLocalDb;Integrated Security=True";
-      /// <inheritdoc />
-      public AccountingSystemModel() : base(ConnectionString)
+      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFLocalDb;Integrated Security=True";
+
+      /// <summary>
+      ///     <para>
+      ///         Initializes a new instance of the <see cref="T:Microsoft.EntityFrameworkCore.DbContext" /> class using the specified options.
+      ///         The <see cref="M:Microsoft.EntityFrameworkCore.DbContext.OnConfiguring(Microsoft.EntityFrameworkCore.DbContextOptionsBuilder)" /> method will still be called to allow further
+      ///         configuration of the options.
+      ///     </para>
+      /// </summary>
+      /// <param name="options">The options for this context.</param>
+      public AccountingSystemModel(DbContextOptions<AccountingSystemModel> options) : base(options)
       {
-         Configuration.LazyLoadingEnabled = true;
-         Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<AccountingSystemModel>(new AccountingSystemModelDatabaseInitializer());
-         CustomInit();
       }
 
+      partial void CustomInit(DbContextOptionsBuilder optionsBuilder);
+
       /// <inheritdoc />
-      public AccountingSystemModel(string connectionString) : base(connectionString)
+      protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
       {
-         Configuration.LazyLoadingEnabled = true;
-         Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<AccountingSystemModel>(new AccountingSystemModelDatabaseInitializer());
-         CustomInit();
+         CustomInit(optionsBuilder);
       }
 
-      /// <inheritdoc />
-      public AccountingSystemModel(string connectionString, System.Data.Entity.Infrastructure.DbCompiledModel model) : base(connectionString, model)
-      {
-         Configuration.LazyLoadingEnabled = true;
-         Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<AccountingSystemModel>(new AccountingSystemModelDatabaseInitializer());
-         CustomInit();
-      }
+      partial void OnModelCreatingImpl(ModelBuilder modelBuilder);
+      partial void OnModelCreatedImpl(ModelBuilder modelBuilder);
 
-      /// <inheritdoc />
-      public AccountingSystemModel(System.Data.Common.DbConnection existingConnection, bool contextOwnsConnection) : base(existingConnection, contextOwnsConnection)
-      {
-         Configuration.LazyLoadingEnabled = true;
-         Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<AccountingSystemModel>(new AccountingSystemModelDatabaseInitializer());
-         CustomInit();
-      }
-
-      /// <inheritdoc />
-      public AccountingSystemModel(System.Data.Common.DbConnection existingConnection, System.Data.Entity.Infrastructure.DbCompiledModel model, bool contextOwnsConnection) : base(existingConnection, model, contextOwnsConnection)
-      {
-         Configuration.LazyLoadingEnabled = true;
-         Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<AccountingSystemModel>(new AccountingSystemModelDatabaseInitializer());
-         CustomInit();
-      }
-
-      /// <inheritdoc />
-      public AccountingSystemModel(System.Data.Entity.Infrastructure.DbCompiledModel model) : base(model)
-      {
-         Configuration.LazyLoadingEnabled = true;
-         Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<AccountingSystemModel>(new AccountingSystemModelDatabaseInitializer());
-         CustomInit();
-      }
-
-      /// <inheritdoc />
-      public AccountingSystemModel(System.Data.Entity.Core.Objects.ObjectContext objectContext, bool dbContextOwnsObjectContext) : base(objectContext, dbContextOwnsObjectContext)
-      {
-         Configuration.LazyLoadingEnabled = true;
-         Configuration.ProxyCreationEnabled = true;
-         System.Data.Entity.Database.SetInitializer<AccountingSystemModel>(new AccountingSystemModelDatabaseInitializer());
-         CustomInit();
-      }
-
-      #endregion Constructors
-
-      partial void OnModelCreatingImpl(System.Data.Entity.DbModelBuilder modelBuilder);
-      partial void OnModelCreatedImpl(System.Data.Entity.DbModelBuilder modelBuilder);
-
-      /// <inheritdoc />
-      protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
+      /// <summary>
+      ///     Override this method to further configure the model that was discovered by convention from the entity types
+      ///     exposed in <see cref="T:Microsoft.EntityFrameworkCore.DbSet`1" /> properties on your derived context. The resulting model may be cached
+      ///     and re-used for subsequent instances of your derived context.
+      /// </summary>
+      /// <remarks>
+      ///     If a model is explicitly set on the options for this context (via <see cref="M:Microsoft.EntityFrameworkCore.DbContextOptionsBuilder.UseModel(Microsoft.EntityFrameworkCore.Metadata.IModel)" />)
+      ///     then this method will not be run.
+      /// </remarks>
+      /// <param name="modelBuilder">
+      ///     The builder being used to construct the model for this context. Databases (and other extensions) typically
+      ///     define extension methods on this object that allow you to configure aspects of the model that are specific
+      ///     to a given database.
+      /// </param>
+      protected override void OnModelCreating(ModelBuilder modelBuilder)
       {
          base.OnModelCreating(modelBuilder);
          OnModelCreatingImpl(modelBuilder);
@@ -119,8 +84,8 @@ namespace Ex4_ModelInvoice
                      .HasKey(t => t.Id);
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceDetails>()
                      .Property(t => t.Id)
-                     .IsRequired()
-                     .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+                     .ValueGeneratedOnAdd()
+                     .IsRequired();
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceDetails>()
                      .Property(t => t.ItemDescription)
                      .HasMaxLength(255);
@@ -130,12 +95,13 @@ namespace Ex4_ModelInvoice
                      .HasKey(t => t.Id);
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceHeaders>()
                      .Property(t => t.Id)
-                     .IsRequired()
-                     .HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+                     .ValueGeneratedOnAdd()
+                     .IsRequired();
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceHeaders>()
-                     .HasMany(x => x.InvoiceDetails)
-                     .WithRequired()
-                     .Map(x => x.MapKey("InvoiceHeadersInvoiceDetailsId"));
+                     .HasMany<global::Ex4_ModelInvoice.InvoiceDetails>(p => p.InvoiceDetails)
+                     .WithOne()
+                     .HasForeignKey("InvoiceHeadersInvoiceDetailsId")
+                     .IsRequired();
 
          OnModelCreatedImpl(modelBuilder);
       }

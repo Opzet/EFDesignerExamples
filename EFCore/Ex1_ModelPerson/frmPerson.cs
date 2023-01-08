@@ -1,24 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System.Globalization;
 using System.Data.Entity.Validation;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
-//pm:> NUGET Microsoft.EntityFrameworkCore.SqlServer
+
+// TOOLS>NUGET PACKAGE MANAGE> 'Nuget GUI' or 'Package Manager Console/CLI'
+// PM:> Install-Package Microsoft.EntityFramework
+// PM:> Install-Package Microsoft.EntityFrameworkCore.SqlServer
+
 
 namespace Ex1_ModelPerson
 {
     public partial class FrmPerson : Form
     {
+        DbContextOptionsBuilder<PersonModel> optionsBuilder;
         public FrmPerson()
         {
+
+            //Setup Connection string holder
+            optionsBuilder = new DbContextOptionsBuilder<PersonModel>();
+            optionsBuilder.UseSqlServer(PersonModel.ConnectionString);
+            optionsBuilder.LogTo(Console.WriteLine);
+
             InitializeComponent();
+
         }
 
         private void FrmPerson_Load(object sender, EventArgs e)
@@ -37,27 +40,26 @@ namespace Ex1_ModelPerson
             //.Net Core has IoC (Inversion Of Control) implemented in it's roots and uses Dependency Injection, Instance pooling 
             // This means; you don't create a context, you ask the framework to give you one, based on some rules you defined before.
             // Unfortunatley, using DI enables many things, true, including complexity.. this is beyond this basic demos requirements.
-
+            
             // So for this we use, a constructor  For this example we create a dbcontext object on request and dynamically point it to the user's individual database
             // Sometimes requirements, time or money constraints, quality attributes or anything else 
 
             // This is a way to "just a way to instantiate" the object, activator's CreateInstance
-            var optionsBuilder = new DbContextOptionsBuilder<PersonModel>();
-            optionsBuilder.UseSqlServer(PersonModel.ConnectionString);
-            optionsBuilder.LogTo(Console.WriteLine);
+            
 
             using (PersonModel context = new PersonModel(optionsBuilder.Options))
             {
                 // Perform data access using the context
 
-                // context.Database.Log = Console.Write; // Done in options above
+                // ---------------
+                // TODO: I dont know where to set AutomaticMigrationDataLossAllowed = true in efmodeller tool?
+                // Can set AutomaticMigrationDataLossAllowed in break points, runtime doing it via a delete and recreate
 
-                context.Database.EnsureDeleted(); //.Delete
-
+                txtDebug.Text += "Attempting to Delete, \r\n";
+                context.Database.EnsureDeleted();
                 txtDebug.Text += "Deleted DB\r\n";
 
-                context.Database.EnsureCreated(); //.CreateIfNotExists();
-
+                context.Database.EnsureCreated();
                 txtDebug.Text += "Created DB\r\n";
 
                 Person person = new Person();

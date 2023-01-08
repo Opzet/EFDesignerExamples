@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v3.0.7.2
+//     Produced by Entity Framework Visual Editor v4.2.1.3
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -48,12 +48,11 @@ namespace Ex4_ModelInvoice
       /// Public constructor with required data
       /// </summary>
       /// <param name="_invoiceheaders0"></param>
-      public InvoiceDetails(global::Ex4_ModelInvoice.InvoiceHeaders _invoiceheaders0)
+      public InvoiceDetails(global::Ex4_ModelInvoice.InvoiceHeaders _invoiceheaders0) : this()
       {
          if (_invoiceheaders0 == null) throw new ArgumentNullException(nameof(_invoiceheaders0));
          _invoiceheaders0.InvoiceDetails.Add(this);
 
-         Init();
       }
 
       /// <summary>
