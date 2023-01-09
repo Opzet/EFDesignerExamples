@@ -8,6 +8,7 @@ using System.Linq;
 
 using System.Diagnostics;
 
+//https://learn.microsoft.com/en-us/ef/core/querying/related-data/#lazy-loading
 // To Enable-> optionsBuilder.UseLazyLoadingProxies();
 // <Change from EF6>
 // Required for Bi directional 1 to many loading
@@ -28,16 +29,16 @@ namespace Ex5_Course
             optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
             optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
 
-            // 
-            //optionsBuilder.UseLazyLoadingProxies(); // <-- no need, you enable Lazy Loading via efmodeller gui property
-            
+            // Required for Bi directional 1 to many loading
+            //  optionsBuilder.UseLazyLoadingProxies(); // <-- no need to set here,
+            // You enable Lazy Loading via efmodeller gui property
+
             if (Debugger.IsAttached)
             {
                 optionsBuilder.EnableDetailedErrors();
                 optionsBuilder.EnableSensitiveDataLogging();
                 optionsBuilder.EnableDetailedErrors();
             }
-
         }
 
         public class Logger
@@ -549,6 +550,7 @@ namespace Ex5_Course
                     string StudentName = "";
                     string CourseTitle = "";
 
+
                     /*
                     //If you get already an open datareader error?
                     
@@ -563,10 +565,13 @@ namespace Ex5_Course
                     
                     */
 
+
                     Course course = en.Course;
 
                     //Debug.Assert(en.Student != null);
                     //Debug.Assert(en.Course != null);
+
+                    // To Enable record retrival -> optionsBuilder.UseLazyLoadingProxies(); via efvisualmodeller gui 
 
                     if (course != null)
                         CourseTitle = course.Title;
