@@ -6,6 +6,13 @@ using System.Data.Entity.Validation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
+using System.Diagnostics;
+
+// To Enable-> optionsBuilder.UseLazyLoadingProxies();
+// <Change from EF6>
+// Required for Bi directional 1 to many loading
+// using Microsoft.EntityFrameworkCore.Proxies;
+// Install-Package Microsoft.EntityFrameworkCore.Proxies
 
 namespace Ex5_Course
 {
@@ -17,16 +24,24 @@ namespace Ex5_Course
         {
             InitializeComponent();
 
+            //Setup Connection string holder
             optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
             optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
-            optionsBuilder.LogTo(Console.WriteLine);
-            optionsBuilder.EnableDetailedErrors();
+
+            // 
+            //optionsBuilder.UseLazyLoadingProxies(); // <-- no need, you enable Lazy Loading via efmodeller gui property
+            
+            if (Debugger.IsAttached)
+            {
+                optionsBuilder.EnableDetailedErrors();
+                optionsBuilder.EnableSensitiveDataLogging();
+                optionsBuilder.EnableDetailedErrors();
+            }
+
         }
 
         public class Logger
         {
-            //TO DO Show in text box on screen
-
             public static void Log(string message)
             {
                 Console.WriteLine("EF Message: {0} ", message);
@@ -525,6 +540,10 @@ namespace Ex5_Course
             {
                 DbSet<Enrollment> enrolments = db.Enrollments;
 
+
+                //To Do Error - Reader not returning 
+
+                
                 foreach (Enrollment en in enrolments)
                 {
                     string StudentName = "";
@@ -546,6 +565,9 @@ namespace Ex5_Course
 
                     Course course = en.Course;
 
+                    //Debug.Assert(en.Student != null);
+                    //Debug.Assert(en.Course != null);
+
                     if (course != null)
                         CourseTitle = course.Title;
 
@@ -560,6 +582,7 @@ namespace Ex5_Course
 
                     ListViewItem listViewItem = new ListViewItem(row);
                     lvEnrolments.Items.Add(listViewItem);
+
                 }
             }
         }
@@ -616,7 +639,10 @@ namespace Ex5_Course
                     db.Students.Add(stu);
                 }
 
-                //Duplicate Key added?
+                // If you get Duplicate Key added error, and it looks like PK is not auto incrementing but you have an Id setup ok..?
+                // The issue arised because ef uses a Pk naming convention that sometimes contends with table field naming.
+                // That is..Watch out for duplication / usage of both 'Id' and 'IdTablename' when creating db structure
+                // as ef uses Pk naming convention and detection.  Think of it kind of like reserved keywords?
 
                 db.SaveChanges();
 
@@ -646,15 +672,68 @@ namespace Ex5_Course
 
             DatabaseLoad_Students();
             DatabaseLoad_Courses();
+            DatabaseLoad_Enrolments();
         }
 
         #endregion
 
         private void btnSeedData_Click(object sender, EventArgs e)
         {
-
             SeedData();
+        }
 
+        private void btnBiDirectionalUpdate_Click(object sender, EventArgs e)
+        {
+            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            {
+                Enrollment EnrolToUpdate = db.Enrollments.First(en => en.EnrollmentId == EnrolPk);
+
+                int grade = 0;
+                var isNumeric = int.TryParse(txtGrade.Text, out grade);
+
+                if (isNumeric)
+                    EnrolToUpdate.Grade = int.Parse(txtGrade.Text);
+
+                //With Bidirectional Association you can access child objects via parent, e.g Course.Student etc
+
+                // We are working with Enrollment and with Bi Directional
+                // Changes work in child -> parent via linked tables student and course
+                Student stu = EnrolToUpdate.Student;
+                stu.FirstName = "Albert";
+                stu.LastName = "Einstein";
+
+                //linked table course
+                Course course = EnrolToUpdate.Course;
+                course.Title = "Relativity";
+
+
+                // This Exception handler helps to describe what went wrong with the EF database save.
+                // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                {
+                    Exception raise = dbEx;
+                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    {
+                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
+                        {
+                            string message = string.Format("{0}:{1}",
+                                validationErrors.Entry.Entity.ToString(),
+                                validationError.ErrorMessage);
+                            // raise a new exception nesting the current instance as InnerException  
+                            raise = new InvalidOperationException(message, raise);
+                        }
+                    }
+                    throw raise;
+                }
+            }
+
+            DatabaseLoad_Students();
+            DatabaseLoad_Courses();
+            DatabaseLoad_Enrolments();
         }
     }
 }

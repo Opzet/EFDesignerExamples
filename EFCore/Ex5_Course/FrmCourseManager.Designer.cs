@@ -34,9 +34,9 @@ namespace Ex5_Course
             this.txtConnection = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.lvStudents = new System.Windows.Forms.ListView();
-            this.Id = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.First = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Last = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Id = new System.Windows.Forms.ColumnHeader();
+            this.First = new System.Windows.Forms.ColumnHeader();
+            this.Last = new System.Windows.Forms.ColumnHeader();
             this.btnUpdateStudent = new System.Windows.Forms.Button();
             this.btnDeleteStudent = new System.Windows.Forms.Button();
             this.btnNewStudent = new System.Windows.Forms.Button();
@@ -46,10 +46,10 @@ namespace Ex5_Course
             this.txtFirstname = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lvCourses = new System.Windows.Forms.ListView();
-            this.ColId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColId = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader1 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader2 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader3 = new System.Windows.Forms.ColumnHeader();
             this.label10 = new System.Windows.Forms.Label();
             this.txtCourseID = new System.Windows.Forms.TextBox();
             this.btnUpdateCourse = new System.Windows.Forms.Button();
@@ -61,10 +61,10 @@ namespace Ex5_Course
             this.txtTitle = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.lvEnrolments = new System.Windows.Forms.ListView();
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader4 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader5 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader6 = new System.Windows.Forms.ColumnHeader();
+            this.columnHeader7 = new System.Windows.Forms.ColumnHeader();
             this.btnEnrolmentUpdate = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.txtGrade = new System.Windows.Forms.TextBox();
@@ -76,6 +76,7 @@ namespace Ex5_Course
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.btnSeedData = new System.Windows.Forms.Button();
+            this.btnBiDirectionalUpdate = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -83,29 +84,28 @@ namespace Ex5_Course
             // 
             // txtDebug
             // 
-            this.txtDebug.Location = new System.Drawing.Point(862, 49);
-            this.txtDebug.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtDebug.Location = new System.Drawing.Point(670, 37);
+            this.txtDebug.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtDebug.Multiline = true;
             this.txtDebug.Name = "txtDebug";
-            this.txtDebug.Size = new System.Drawing.Size(418, 742);
+            this.txtDebug.Size = new System.Drawing.Size(326, 558);
             this.txtDebug.TabIndex = 15;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(46, 29);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(36, 22);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(167, 20);
+            this.label1.Size = new System.Drawing.Size(123, 15);
             this.label1.TabIndex = 14;
             this.label1.Text = "Sql Server Connection";
             // 
             // txtConnection
             // 
-            this.txtConnection.Location = new System.Drawing.Point(46, 52);
-            this.txtConnection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtConnection.Location = new System.Drawing.Point(36, 39);
+            this.txtConnection.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txtConnection.Name = "txtConnection";
-            this.txtConnection.Size = new System.Drawing.Size(734, 26);
+            this.txtConnection.Size = new System.Drawing.Size(572, 23);
             this.txtConnection.TabIndex = 13;
             this.txtConnection.Text = "...";
             // 
@@ -119,9 +119,11 @@ namespace Ex5_Course
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtLastname);
             this.groupBox1.Controls.Add(this.txtFirstname);
-            this.groupBox1.Location = new System.Drawing.Point(51, 88);
+            this.groupBox1.Location = new System.Drawing.Point(40, 66);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(730, 192);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox1.Size = new System.Drawing.Size(568, 144);
             this.groupBox1.TabIndex = 16;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Student";
@@ -134,10 +136,10 @@ namespace Ex5_Course
             this.Last});
             this.lvStudents.FullRowSelect = true;
             this.lvStudents.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvStudents.HideSelection = false;
-            this.lvStudents.Location = new System.Drawing.Point(12, 22);
+            this.lvStudents.Location = new System.Drawing.Point(9, 16);
+            this.lvStudents.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lvStudents.Name = "lvStudents";
-            this.lvStudents.Size = new System.Drawing.Size(445, 156);
+            this.lvStudents.Size = new System.Drawing.Size(347, 118);
             this.lvStudents.TabIndex = 21;
             this.lvStudents.UseCompatibleStateImageBehavior = false;
             this.lvStudents.View = System.Windows.Forms.View.Details;
@@ -162,9 +164,10 @@ namespace Ex5_Course
             // 
             this.btnUpdateStudent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnUpdateStudent.ForeColor = System.Drawing.Color.White;
-            this.btnUpdateStudent.Location = new System.Drawing.Point(628, 149);
+            this.btnUpdateStudent.Location = new System.Drawing.Point(488, 112);
+            this.btnUpdateStudent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnUpdateStudent.Name = "btnUpdateStudent";
-            this.btnUpdateStudent.Size = new System.Drawing.Size(75, 29);
+            this.btnUpdateStudent.Size = new System.Drawing.Size(58, 22);
             this.btnUpdateStudent.TabIndex = 7;
             this.btnUpdateStudent.Text = "Update";
             this.btnUpdateStudent.UseVisualStyleBackColor = false;
@@ -174,9 +177,10 @@ namespace Ex5_Course
             // 
             this.btnDeleteStudent.BackColor = System.Drawing.Color.Red;
             this.btnDeleteStudent.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteStudent.Location = new System.Drawing.Point(548, 149);
+            this.btnDeleteStudent.Location = new System.Drawing.Point(426, 112);
+            this.btnDeleteStudent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnDeleteStudent.Name = "btnDeleteStudent";
-            this.btnDeleteStudent.Size = new System.Drawing.Size(75, 29);
+            this.btnDeleteStudent.Size = new System.Drawing.Size(58, 22);
             this.btnDeleteStudent.TabIndex = 6;
             this.btnDeleteStudent.Text = "Del";
             this.btnDeleteStudent.UseVisualStyleBackColor = false;
@@ -186,9 +190,10 @@ namespace Ex5_Course
             // 
             this.btnNewStudent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnNewStudent.ForeColor = System.Drawing.Color.White;
-            this.btnNewStudent.Location = new System.Drawing.Point(466, 149);
+            this.btnNewStudent.Location = new System.Drawing.Point(362, 112);
+            this.btnNewStudent.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnNewStudent.Name = "btnNewStudent";
-            this.btnNewStudent.Size = new System.Drawing.Size(75, 29);
+            this.btnNewStudent.Size = new System.Drawing.Size(58, 22);
             this.btnNewStudent.TabIndex = 5;
             this.btnNewStudent.Text = "New";
             this.btnNewStudent.UseVisualStyleBackColor = false;
@@ -197,34 +202,38 @@ namespace Ex5_Course
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(464, 88);
+            this.label3.Location = new System.Drawing.Point(361, 66);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(80, 20);
+            this.label3.Size = new System.Drawing.Size(58, 15);
             this.label3.TabIndex = 4;
             this.label3.Text = "Lastname";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(464, 22);
+            this.label2.Location = new System.Drawing.Point(361, 16);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(80, 20);
+            this.label2.Size = new System.Drawing.Size(59, 15);
             this.label2.TabIndex = 3;
             this.label2.Text = "Firstname";
             // 
             // txtLastname
             // 
-            this.txtLastname.Location = new System.Drawing.Point(464, 111);
+            this.txtLastname.Location = new System.Drawing.Point(361, 83);
+            this.txtLastname.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtLastname.Name = "txtLastname";
-            this.txtLastname.Size = new System.Drawing.Size(230, 26);
+            this.txtLastname.Size = new System.Drawing.Size(180, 23);
             this.txtLastname.TabIndex = 2;
             this.txtLastname.TextChanged += new System.EventHandler(this.txtLastname_TextChanged);
             // 
             // txtFirstname
             // 
-            this.txtFirstname.Location = new System.Drawing.Point(464, 51);
+            this.txtFirstname.Location = new System.Drawing.Point(361, 38);
+            this.txtFirstname.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtFirstname.Name = "txtFirstname";
-            this.txtFirstname.Size = new System.Drawing.Size(230, 26);
+            this.txtFirstname.Size = new System.Drawing.Size(180, 23);
             this.txtFirstname.TabIndex = 1;
             this.txtFirstname.TextChanged += new System.EventHandler(this.txtFirstname_TextChanged);
             // 
@@ -240,9 +249,11 @@ namespace Ex5_Course
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.txtCredits);
             this.groupBox2.Controls.Add(this.txtTitle);
-            this.groupBox2.Location = new System.Drawing.Point(51, 298);
+            this.groupBox2.Location = new System.Drawing.Point(40, 224);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(730, 192);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox2.Size = new System.Drawing.Size(568, 144);
             this.groupBox2.TabIndex = 17;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Course";
@@ -256,10 +267,10 @@ namespace Ex5_Course
             this.columnHeader3});
             this.lvCourses.FullRowSelect = true;
             this.lvCourses.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvCourses.HideSelection = false;
-            this.lvCourses.Location = new System.Drawing.Point(12, 25);
+            this.lvCourses.Location = new System.Drawing.Point(9, 19);
+            this.lvCourses.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lvCourses.Name = "lvCourses";
-            this.lvCourses.Size = new System.Drawing.Size(445, 153);
+            this.lvCourses.Size = new System.Drawing.Size(347, 116);
             this.lvCourses.TabIndex = 21;
             this.lvCourses.UseCompatibleStateImageBehavior = false;
             this.lvCourses.View = System.Windows.Forms.View.Details;
@@ -287,26 +298,29 @@ namespace Ex5_Course
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(608, 92);
+            this.label10.Location = new System.Drawing.Point(473, 69);
+            this.label10.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(81, 20);
+            this.label10.Size = new System.Drawing.Size(58, 15);
             this.label10.TabIndex = 9;
             this.label10.Text = "Course ID";
             // 
             // txtCourseID
             // 
-            this.txtCourseID.Location = new System.Drawing.Point(608, 115);
+            this.txtCourseID.Location = new System.Drawing.Point(473, 86);
+            this.txtCourseID.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCourseID.Name = "txtCourseID";
-            this.txtCourseID.Size = new System.Drawing.Size(79, 26);
+            this.txtCourseID.Size = new System.Drawing.Size(62, 23);
             this.txtCourseID.TabIndex = 8;
             // 
             // btnUpdateCourse
             // 
             this.btnUpdateCourse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnUpdateCourse.ForeColor = System.Drawing.Color.White;
-            this.btnUpdateCourse.Location = new System.Drawing.Point(628, 149);
+            this.btnUpdateCourse.Location = new System.Drawing.Point(488, 112);
+            this.btnUpdateCourse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnUpdateCourse.Name = "btnUpdateCourse";
-            this.btnUpdateCourse.Size = new System.Drawing.Size(75, 29);
+            this.btnUpdateCourse.Size = new System.Drawing.Size(58, 22);
             this.btnUpdateCourse.TabIndex = 7;
             this.btnUpdateCourse.Text = "Update";
             this.btnUpdateCourse.UseVisualStyleBackColor = false;
@@ -316,9 +330,10 @@ namespace Ex5_Course
             // 
             this.btnDeletCourse.BackColor = System.Drawing.Color.Red;
             this.btnDeletCourse.ForeColor = System.Drawing.Color.White;
-            this.btnDeletCourse.Location = new System.Drawing.Point(548, 149);
+            this.btnDeletCourse.Location = new System.Drawing.Point(426, 112);
+            this.btnDeletCourse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnDeletCourse.Name = "btnDeletCourse";
-            this.btnDeletCourse.Size = new System.Drawing.Size(75, 29);
+            this.btnDeletCourse.Size = new System.Drawing.Size(58, 22);
             this.btnDeletCourse.TabIndex = 6;
             this.btnDeletCourse.Text = "Del";
             this.btnDeletCourse.UseVisualStyleBackColor = false;
@@ -328,9 +343,10 @@ namespace Ex5_Course
             // 
             this.btnNewCourse.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnNewCourse.ForeColor = System.Drawing.Color.White;
-            this.btnNewCourse.Location = new System.Drawing.Point(466, 149);
+            this.btnNewCourse.Location = new System.Drawing.Point(362, 112);
+            this.btnNewCourse.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnNewCourse.Name = "btnNewCourse";
-            this.btnNewCourse.Size = new System.Drawing.Size(75, 29);
+            this.btnNewCourse.Size = new System.Drawing.Size(58, 22);
             this.btnNewCourse.TabIndex = 5;
             this.btnNewCourse.Text = "New";
             this.btnNewCourse.UseVisualStyleBackColor = false;
@@ -339,37 +355,42 @@ namespace Ex5_Course
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(464, 92);
+            this.label4.Location = new System.Drawing.Point(361, 69);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(59, 20);
+            this.label4.Size = new System.Drawing.Size(44, 15);
             this.label4.TabIndex = 4;
             this.label4.Text = "Credits";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(464, 26);
+            this.label5.Location = new System.Drawing.Point(361, 20);
+            this.label5.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 20);
+            this.label5.Size = new System.Drawing.Size(29, 15);
             this.label5.TabIndex = 3;
             this.label5.Text = "Title";
             // 
             // txtCredits
             // 
-            this.txtCredits.Location = new System.Drawing.Point(464, 115);
+            this.txtCredits.Location = new System.Drawing.Point(361, 86);
+            this.txtCredits.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtCredits.Name = "txtCredits";
-            this.txtCredits.Size = new System.Drawing.Size(79, 26);
+            this.txtCredits.Size = new System.Drawing.Size(62, 23);
             this.txtCredits.TabIndex = 2;
             // 
             // txtTitle
             // 
-            this.txtTitle.Location = new System.Drawing.Point(464, 55);
+            this.txtTitle.Location = new System.Drawing.Point(361, 41);
+            this.txtTitle.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(230, 26);
+            this.txtTitle.Size = new System.Drawing.Size(180, 23);
             this.txtTitle.TabIndex = 1;
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.btnBiDirectionalUpdate);
             this.groupBox3.Controls.Add(this.lvEnrolments);
             this.groupBox3.Controls.Add(this.btnEnrolmentUpdate);
             this.groupBox3.Controls.Add(this.label9);
@@ -380,9 +401,11 @@ namespace Ex5_Course
             this.groupBox3.Controls.Add(this.btnNewEnrol);
             this.groupBox3.Controls.Add(this.label6);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Location = new System.Drawing.Point(51, 512);
+            this.groupBox3.Location = new System.Drawing.Point(40, 384);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(789, 282);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.groupBox3.Size = new System.Drawing.Size(614, 212);
             this.groupBox3.TabIndex = 18;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Enrolments - Link STUDENT with COURSE to ENROL and Record Grade";
@@ -396,10 +419,10 @@ namespace Ex5_Course
             this.columnHeader7});
             this.lvEnrolments.FullRowSelect = true;
             this.lvEnrolments.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
-            this.lvEnrolments.HideSelection = false;
-            this.lvEnrolments.Location = new System.Drawing.Point(76, 100);
+            this.lvEnrolments.Location = new System.Drawing.Point(59, 75);
+            this.lvEnrolments.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.lvEnrolments.Name = "lvEnrolments";
-            this.lvEnrolments.Size = new System.Drawing.Size(624, 141);
+            this.lvEnrolments.Size = new System.Drawing.Size(486, 107);
             this.lvEnrolments.TabIndex = 23;
             this.lvEnrolments.UseCompatibleStateImageBehavior = false;
             this.lvEnrolments.View = System.Windows.Forms.View.Details;
@@ -428,9 +451,10 @@ namespace Ex5_Course
             // 
             this.btnEnrolmentUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
             this.btnEnrolmentUpdate.ForeColor = System.Drawing.Color.White;
-            this.btnEnrolmentUpdate.Location = new System.Drawing.Point(382, 249);
+            this.btnEnrolmentUpdate.Location = new System.Drawing.Point(161, 187);
+            this.btnEnrolmentUpdate.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnEnrolmentUpdate.Name = "btnEnrolmentUpdate";
-            this.btnEnrolmentUpdate.Size = new System.Drawing.Size(103, 29);
+            this.btnEnrolmentUpdate.Size = new System.Drawing.Size(80, 22);
             this.btnEnrolmentUpdate.TabIndex = 11;
             this.btnEnrolmentUpdate.Text = "Update";
             this.btnEnrolmentUpdate.UseVisualStyleBackColor = false;
@@ -439,44 +463,49 @@ namespace Ex5_Course
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(130, 252);
+            this.label9.Location = new System.Drawing.Point(60, 188);
+            this.label9.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(54, 20);
+            this.label9.Size = new System.Drawing.Size(38, 15);
             this.label9.TabIndex = 10;
             this.label9.Text = "Grade";
             // 
             // txtGrade
             // 
-            this.txtGrade.Location = new System.Drawing.Point(200, 249);
+            this.txtGrade.Location = new System.Drawing.Point(115, 186);
+            this.txtGrade.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.txtGrade.Name = "txtGrade";
-            this.txtGrade.Size = new System.Drawing.Size(150, 26);
+            this.txtGrade.Size = new System.Drawing.Size(42, 23);
             this.txtGrade.TabIndex = 9;
             // 
             // LblCourse
             // 
             this.LblCourse.BackColor = System.Drawing.Color.White;
             this.LblCourse.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.LblCourse.Location = new System.Drawing.Point(472, 62);
+            this.LblCourse.Location = new System.Drawing.Point(367, 46);
+            this.LblCourse.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LblCourse.Name = "LblCourse";
-            this.LblCourse.Size = new System.Drawing.Size(226, 27);
+            this.LblCourse.Size = new System.Drawing.Size(176, 21);
             this.LblCourse.TabIndex = 8;
             // 
             // lblStudent
             // 
             this.lblStudent.BackColor = System.Drawing.Color.White;
             this.lblStudent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblStudent.Location = new System.Drawing.Point(70, 62);
+            this.lblStudent.Location = new System.Drawing.Point(54, 46);
+            this.lblStudent.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.lblStudent.Name = "lblStudent";
-            this.lblStudent.Size = new System.Drawing.Size(294, 27);
+            this.lblStudent.Size = new System.Drawing.Size(229, 21);
             this.lblStudent.TabIndex = 7;
             // 
             // btnDeleteEnrol
             // 
             this.btnDeleteEnrol.BackColor = System.Drawing.Color.Red;
             this.btnDeleteEnrol.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteEnrol.Location = new System.Drawing.Point(708, 211);
+            this.btnDeleteEnrol.Location = new System.Drawing.Point(551, 158);
+            this.btnDeleteEnrol.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnDeleteEnrol.Name = "btnDeleteEnrol";
-            this.btnDeleteEnrol.Size = new System.Drawing.Size(75, 29);
+            this.btnDeleteEnrol.Size = new System.Drawing.Size(58, 22);
             this.btnDeleteEnrol.TabIndex = 6;
             this.btnDeleteEnrol.Text = "Delete";
             this.btnDeleteEnrol.UseVisualStyleBackColor = false;
@@ -486,9 +515,10 @@ namespace Ex5_Course
             // 
             this.btnNewEnrol.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
             this.btnNewEnrol.ForeColor = System.Drawing.Color.White;
-            this.btnNewEnrol.Location = new System.Drawing.Point(382, 62);
+            this.btnNewEnrol.Location = new System.Drawing.Point(297, 46);
+            this.btnNewEnrol.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnNewEnrol.Name = "btnNewEnrol";
-            this.btnNewEnrol.Size = new System.Drawing.Size(75, 29);
+            this.btnNewEnrol.Size = new System.Drawing.Size(58, 22);
             this.btnNewEnrol.TabIndex = 5;
             this.btnNewEnrol.Text = "Enrol";
             this.btnNewEnrol.UseVisualStyleBackColor = false;
@@ -497,45 +527,62 @@ namespace Ex5_Course
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(464, 32);
+            this.label6.Location = new System.Drawing.Point(361, 24);
+            this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(223, 20);
+            this.label6.Size = new System.Drawing.Size(165, 15);
             this.label6.TabIndex = 4;
             this.label6.Text = "Select Course from List Above";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(76, 32);
+            this.label7.Location = new System.Drawing.Point(59, 24);
+            this.label7.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(193, 20);
+            this.label7.Size = new System.Drawing.Size(140, 15);
             this.label7.TabIndex = 3;
             this.label7.Text = "Select Student List Above";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(870, 25);
+            this.label8.Location = new System.Drawing.Point(677, 19);
+            this.label8.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(134, 20);
+            this.label8.Size = new System.Drawing.Size(96, 15);
             this.label8.TabIndex = 19;
             this.label8.Text = "Debug messages";
             // 
             // btnSeedData
             // 
-            this.btnSeedData.Location = new System.Drawing.Point(536, 15);
+            this.btnSeedData.Location = new System.Drawing.Point(417, 11);
+            this.btnSeedData.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.btnSeedData.Name = "btnSeedData";
-            this.btnSeedData.Size = new System.Drawing.Size(136, 32);
+            this.btnSeedData.Size = new System.Drawing.Size(106, 24);
             this.btnSeedData.TabIndex = 20;
             this.btnSeedData.Text = "Seed Test Data";
             this.btnSeedData.UseVisualStyleBackColor = true;
             this.btnSeedData.Click += new System.EventHandler(this.btnSeedData_Click);
             // 
+            // btnBiDirectionalUpdate
+            // 
+            this.btnBiDirectionalUpdate.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.btnBiDirectionalUpdate.ForeColor = System.Drawing.Color.White;
+            this.btnBiDirectionalUpdate.Location = new System.Drawing.Point(347, 187);
+            this.btnBiDirectionalUpdate.Margin = new System.Windows.Forms.Padding(2);
+            this.btnBiDirectionalUpdate.Name = "btnBiDirectionalUpdate";
+            this.btnBiDirectionalUpdate.Size = new System.Drawing.Size(199, 22);
+            this.btnBiDirectionalUpdate.TabIndex = 24;
+            this.btnBiDirectionalUpdate.Text = "Bi Directional Update Demo";
+            this.btnBiDirectionalUpdate.UseVisualStyleBackColor = false;
+            this.btnBiDirectionalUpdate.Click += new System.EventHandler(this.btnBiDirectionalUpdate_Click);
+            // 
             // FrmCourseManager
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1306, 805);
+            this.ClientSize = new System.Drawing.Size(1016, 604);
             this.Controls.Add(this.btnSeedData);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.groupBox3);
@@ -544,6 +591,7 @@ namespace Ex5_Course
             this.Controls.Add(this.txtDebug);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtConnection);
+            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.Name = "FrmCourseManager";
             this.Text = "Course Manager";
             this.Load += new System.EventHandler(this.FrmCourseManager_Load);
@@ -607,6 +655,7 @@ namespace Ex5_Course
       private System.Windows.Forms.ColumnHeader columnHeader5;
       private System.Windows.Forms.ColumnHeader columnHeader6;
       private System.Windows.Forms.ColumnHeader columnHeader7;
-   }
+        private System.Windows.Forms.Button btnBiDirectionalUpdate;
+    }
 }
 

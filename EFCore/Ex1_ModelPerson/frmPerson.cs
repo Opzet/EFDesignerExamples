@@ -1,10 +1,17 @@
 ﻿using System.Globalization;
 using System.Data.Entity.Validation;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using Microsoft.Extensions.Logging;
 
 // TOOLS>NUGET PACKAGE MANAGE> 'Nuget GUI' or 'Package Manager Console/CLI'
 // PM:> Install-Package Microsoft.EntityFramework
 // PM:> Install-Package Microsoft.EntityFrameworkCore.SqlServer
+
+
+// Enable-> optionsBuilder.UseLazyLoadingProxies();
+// using Microsoft.EntityFrameworkCore.Proxies;
+// Install-Package Microsoft.EntityFrameworkCore.Proxies
 
 
 namespace Ex1_ModelPerson
@@ -14,11 +21,15 @@ namespace Ex1_ModelPerson
         DbContextOptionsBuilder<PersonModel> optionsBuilder;
         public FrmPerson()
         {
-
             //Setup Connection string holder
             optionsBuilder = new DbContextOptionsBuilder<PersonModel>();
             optionsBuilder.UseSqlServer(PersonModel.ConnectionString);
-            optionsBuilder.LogTo(Console.WriteLine);
+            if (Debugger.IsAttached)
+            {
+                optionsBuilder.EnableDetailedErrors();
+                optionsBuilder.EnableSensitiveDataLogging();
+                optionsBuilder.EnableDetailedErrors();
+            }
 
             InitializeComponent();
 
