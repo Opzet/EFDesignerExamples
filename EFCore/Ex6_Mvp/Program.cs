@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ex7_Mvp.Models;
-using Ex7_Mvp.Presenters;
-using Ex7_Mvp._Repositories;
-using Ex7_Mvp.Views;
+using Ex6_Mvp.Models;
+using Ex6_Mvp.Presenters;
+using Ex6_Mvp._Repositories;
+using Ex6_Mvp.Views;
 using System.Configuration;
 
-namespace Ex7_Mvp
+namespace Ex6_Mvp
 {
     
     static class Program

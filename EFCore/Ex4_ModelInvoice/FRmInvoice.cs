@@ -3,6 +3,16 @@ using System.Windows.Forms;
 
 using System.Data.Entity.Validation;
 using Microsoft.EntityFrameworkCore;
+using Ex4_ModelInvoice;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using Microsoft.VisualBasic.ApplicationServices;
+using System.ComponentModel;
+using System.Reflection;
+using System.Security.AccessControl;
+
+// Error CS1061	'DbContextOptionsBuilder' does not contain a definition for 'UseLazyLoadingProxies'
+// and no accessible extension method 'UseLazyLoadingProxies' accepting a first argument of type
+// 'DbContextOptionsBuilder' could be found (are you missing a using directive or an assembly reference?)	
 
 
 namespace Ex4_ModelInvoice
@@ -30,9 +40,6 @@ namespace Ex4_ModelInvoice
             {
                 txtConnection.Text = AccountingSystemModel.ConnectionString;
 
-                // Perform data access using the context
-
-
                 txtDebug.Text += "\r\nEx 4: Invoice - Header and Detail\r\n----------------\r\n";
 
                 db.Database.EnsureDeleted();
@@ -42,20 +49,31 @@ namespace Ex4_ModelInvoice
                 txtDebug.Text += "Created DB\r\n";
 
                 InvoiceHeaders invHeader = new InvoiceHeaders();
-                InvoiceDetails invDetails = new InvoiceDetails(invHeader);
 
-                invHeader.Total = 150M;
+                InvoiceDetails invDetails_Line1 = new InvoiceDetails(invHeader);
+                invDetails_Line1.ItemDescription = "Item 1";
+                invDetails_Line1.Price = 11.25M;
+                invDetails_Line1.Quantity = 2570;
+                invDetails_Line1.Total = invDetails_Line1.Price * invDetails_Line1.Quantity;
 
-                invDetails.ItemDescription = "New Item";
-                invDetails.Price = 75M;
-                invDetails.Quantity = 2;
+                InvoiceDetails invDetails_Line2 = new InvoiceDetails(invHeader);
+                invDetails_Line2.ItemDescription = "Item 2";
+                invDetails_Line2.Price = 5.25M;
+                invDetails_Line2.Quantity = 1520;
+                invDetails_Line2.Total = invDetails_Line2.Price * invDetails_Line2.Quantity; 
 
                 //Associate Header and Details
-                invHeader.InvoiceDetails.Add(invDetails);
+                invHeader.InvoiceDetails.Add(invDetails_Line1);
+
+                //Associate Header and Details
+                invHeader.InvoiceDetails.Add(invDetails_Line2);
+
+                invHeader.Total = invDetails_Line1.Total + invDetails_Line2.Total;
 
                 //Save rows to Db
                 db.InvoiceHeaders.Add(invHeader);
-                db.InvoiceDetails.Add(invDetails);
+                db.InvoiceDetails.Add(invDetails_Line1); // Necessary?
+                db.InvoiceDetails.Add(invDetails_Line2); // Necessary?
 
                 try
                 {
@@ -78,27 +96,29 @@ namespace Ex4_ModelInvoice
                     throw raise;
 
                 }
+            }
 
+            using (AccountingSystemModel db = new AccountingSystemModel(optionsBuilder.Options))
+            {
                 //Read it back
-                DbSet<InvoiceHeaders> records = db.InvoiceHeaders;
+                DbSet<InvoiceHeaders> invoices = db.InvoiceHeaders;
 
-                foreach (InvoiceHeaders record in records)
+                foreach (InvoiceHeaders invoice in invoices)
                 {
-                    txtDebug.Text += String.Format("Invoice Id {0} - Total: {1}", record.Id, record.Total) + "\r\n"; ;
+                    txtDebug.Text += $"Invoice Id {invoice.Id} - Total: {invoice.Total} \r\n"; 
 
                     txtDebug.Text += "--- Detail --\r\n";
 
-                    //TODO: Error? There is already an open DataReader associated with this Command which must be closed first.
-                    //Cannot figure out how to get detail data?
-                    //foreach (InvoiceDetails details in record.InvoiceDetails)
-                    //{
-                    //  // txtDebug.Text += String.Format("Invoice Id {0} - Total: {1} |  Details Desc:{2} Qty:{3} Price:{4} Total:{5}", record.Id, record.Total, details.ItemDescription, details.Quantity, details.Price, details.Total) + "\r\n";
-                    //}
-
+                    // Error: There is already an open DataReader associated with this Command which must be closed first.
+                    // or 'DbContextOptionsBuilder' does not contain a definition for 'UseLazyLoadingProxies' 
+                    // Install Missing : PM> Install-Package Microsoft.EntityFrameworkCore.Proxies
+                    foreach (InvoiceDetails LineItem in invoice.InvoiceDetails)
+                    {
+                        txtDebug.Text += $"Line Id {LineItem.Id}  |  Details Desc:{LineItem.ItemDescription} Qty:{LineItem.Quantity} x Price:{LineItem.Price} = Sub Total:{LineItem.Total}\r\n";
+                    }
                 }
             }
         }
-
         private void FRmInvoice_Load(object sender, EventArgs e)
         {
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ex7_Mvp.Models
+namespace Ex6_Mvp.Models
 {
     // This is created manually to expose repository (database methods)
     // Used by the presenter to databind the GUI

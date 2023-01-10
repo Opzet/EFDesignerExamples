@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Runtime.Remoting.Contexts;
 using System.Security.Cryptography;
 using System.Windows.Forms;
-using Ex7_Mvp.Models;
+using Ex6_Mvp.Models;
 
 
-namespace Ex7_Mvp._Repositories
+namespace Ex6_Mvp._Repositories
 {
     //This is the Entityframework CRUD for the database, it is easy to test and review without breaking GUI
     public class PetRepository : IPetRepository

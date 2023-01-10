@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace Ex7_Mvp.Presenters.Common
+namespace Ex6_Mvp.Presenters.Common
 {
     public class ModelDataValidation
     {

@@ -33,7 +33,7 @@ namespace Ex3_ModelOnetoMany
       /// <summary>
       /// Default connection string
       /// </summary>
-      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFLocalDb;Integrated Security=True";
+      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True";
 
       /// <summary>
       ///     <para>
@@ -52,6 +52,8 @@ namespace Ex3_ModelOnetoMany
       /// <inheritdoc />
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
       {
+         optionsBuilder.UseLazyLoadingProxies();
+
          CustomInit(optionsBuilder);
       }
 

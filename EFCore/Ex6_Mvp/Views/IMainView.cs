@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Ex7_Mvp.Views
+namespace Ex6_Mvp.Views
 {
     public interface IMainView
     {

@@ -29,9 +29,6 @@
         <classShapeMoniker Id="4943984a-401b-4bcb-9169-c826fb010ac4" />
       </nodes>
     </unidirectionalConnector>
-    <commentBoxShape Id="77b853ab-e4aa-498e-a1b9-d5c1ebf563ab" absoluteBounds="2.062499986961484, 0.5, 3.0000000447034836, 1.1020833572372795" fillColor="255, 255, 204" outlineColor="204, 204, 102" textColor="Black" outlineDashStyle="Solid" outlineThickness="0.01">
-      <commentMoniker Id="00289cfe-96e9-478c-9c48-f170181b02ab" />
-    </commentBoxShape>
     <commentBoxShape Id="985a812f-0e7c-462b-8ad1-f37826d3aa5a" absoluteBounds="2.8437500102445483, 1.8437500176951289, 1.5, 0.3" fillColor="255, 255, 204" outlineColor="204, 204, 102" textColor="Black" outlineDashStyle="Solid" outlineThickness="0.01">
       <commentMoniker Id="7393c3bb-1902-4d04-9fa2-f6fb3bf7da06" />
     </commentBoxShape>

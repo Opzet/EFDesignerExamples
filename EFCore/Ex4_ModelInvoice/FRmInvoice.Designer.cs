@@ -37,9 +37,10 @@ namespace Ex4_ModelInvoice
             // 
             // btnInvoice
             // 
-            this.btnInvoice.Location = new System.Drawing.Point(37, 135);
+            this.btnInvoice.Location = new System.Drawing.Point(14, 97);
+            this.btnInvoice.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnInvoice.Name = "btnInvoice";
-            this.btnInvoice.Size = new System.Drawing.Size(243, 87);
+            this.btnInvoice.Size = new System.Drawing.Size(218, 109);
             this.btnInvoice.TabIndex = 0;
             this.btnInvoice.Text = "Create and read back Invoice header and detail";
             this.btnInvoice.UseVisualStyleBackColor = true;
@@ -47,41 +48,42 @@ namespace Ex4_ModelInvoice
             // 
             // txtDebug
             // 
-            this.txtDebug.Location = new System.Drawing.Point(347, 135);
-            this.txtDebug.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtDebug.Location = new System.Drawing.Point(239, 97);
+            this.txtDebug.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.txtDebug.Multiline = true;
             this.txtDebug.Name = "txtDebug";
-            this.txtDebug.Size = new System.Drawing.Size(421, 266);
+            this.txtDebug.Size = new System.Drawing.Size(614, 332);
             this.txtDebug.TabIndex = 11;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(33, 49);
+            this.label1.Location = new System.Drawing.Point(14, 14);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(167, 20);
+            this.label1.Size = new System.Drawing.Size(186, 25);
             this.label1.TabIndex = 10;
             this.label1.Text = "Sql Server Connection";
             // 
             // txtConnection
             // 
-            this.txtConnection.Location = new System.Drawing.Point(33, 73);
-            this.txtConnection.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.txtConnection.Location = new System.Drawing.Point(14, 44);
+            this.txtConnection.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.txtConnection.Name = "txtConnection";
-            this.txtConnection.Size = new System.Drawing.Size(734, 26);
+            this.txtConnection.Size = new System.Drawing.Size(839, 31);
             this.txtConnection.TabIndex = 9;
             this.txtConnection.Text = "...";
             // 
             // FrmInvoice
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(889, 450);
             this.Controls.Add(this.txtDebug);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtConnection);
             this.Controls.Add(this.btnInvoice);
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.Name = "FrmInvoice";
             this.Text = "Ex 4: Invoice - Header and Detail";
             this.Load += new System.EventHandler(this.FRmInvoice_Load);

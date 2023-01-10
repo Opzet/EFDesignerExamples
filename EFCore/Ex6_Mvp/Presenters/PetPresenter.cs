@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Ex7_Mvp.Models;
-using Ex7_Mvp.Views;
+using Ex6_Mvp.Models;
+using Ex6_Mvp.Views;
 
-namespace Ex7_Mvp.Presenters
+namespace Ex6_Mvp.Presenters
 {
     public class PetPresenter
     {

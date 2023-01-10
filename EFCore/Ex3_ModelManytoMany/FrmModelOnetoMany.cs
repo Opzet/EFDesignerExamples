@@ -6,13 +6,20 @@ using System.Linq;
 using System.Windows.Forms;
 using Ex3_ModelOnetoMany;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
+// To Enable-> optionsBuilder.UseLazyLoadingProxies();
+// <Change from EF6>
+// Required for Bi directional 1 to many loading
+// using Microsoft.EntityFrameworkCore.Proxies;
+// Install-Package Microsoft.EntityFrameworkCore.Proxies
 
 namespace Ex3_ModelManytoMany
 {
     public partial class FrmModelOnetoMany : Form
     {
 
-        DbContextOptionsBuilder<EFModelOnetoMany> optionsBuilder;// = new DbContextOptionsBuilder<EFModelOne2One>();
+        DbContextOptionsBuilder<EFModelOnetoMany> optionsBuilder;
 
         public FrmModelOnetoMany()
         {
@@ -111,15 +118,26 @@ namespace Ex3_ModelManytoMany
                     }
                     throw raise;
                 }
+            }
 
-                ////Read it back
-                var AllAuthors = context.Authors.ToList();
+            using (EFModelOnetoMany readback = new EFModelOnetoMany(optionsBuilder.Options))
+            {
 
-                foreach (Author author in context.Authors)
+                // Read it back - need to enable lazy loading!  See top of source
+                // Install-Package Microsoft.EntityFrameworkCore.Proxies
+                var AllAuthors = readback.Authors.ToList();
+
+                foreach (Author author in readback.Authors)
                 {
                     txtDebug.Text += "---------\r\n";
                     txtDebug.Text += $"Author: {author.Firstname} {author.Lastname}\r\n";
+
+
                     foreach (Book thisbook in author.Books)
+                    // System.InvalidOperationException: 'There is already an open DataReader associated with this Connection which must be closed first.'
+                    // This is only single reader -> 'Data Source = (localdb)\mssqllocaldb; Initial Catalog = EFLocalDb; Integrated Security = True'
+                    // need multiple, missing 'MultipleActiveResultSets=true'
+                    // so -> 'Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True'
                     {
                         txtDebug.Text += $"Book Title:{thisbook.Title} - {thisbook.ISBN}\r\n";
                     }

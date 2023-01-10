@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Ex7_Mvp.Views
+namespace Ex6_Mvp.Views
 {
     public partial class PetView : Form, IPetView
     {

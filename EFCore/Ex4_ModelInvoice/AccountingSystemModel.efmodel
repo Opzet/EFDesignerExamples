@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="4.2.1.3" Id="cba47279-0950-4257-bb2c-e4d5e72a52a4" lazyLoadingEnabled="false" entityContainerName="AccountingSystemModel" namespace="Ex4_ModelInvoice" connectionString="Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFLocalDb;Integrated Security=True" automaticMigrationsEnabled="false" contextOutputDirectory="GeneratedAccountingModel" showCascadeDeletes="false" databaseType="None" warnOnMissingDocumentation="false" exposeForeignKeys="false" generateDbContextFactory="false" showInterfaceIndicators="false" xmlns="http://schemas.microsoft.com/dsltools/EFModel">
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="4.2.1.3" Id="cba47279-0950-4257-bb2c-e4d5e72a52a4" entityContainerName="AccountingSystemModel" namespace="Ex4_ModelInvoice" connectionString="Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True" automaticMigrationsEnabled="false" contextOutputDirectory="GeneratedAccountingModel" showCascadeDeletes="false" databaseType="None" warnOnMissingDocumentation="false" exposeForeignKeys="false" generateDbContextFactory="false" showInterfaceIndicators="false" xmlns="http://schemas.microsoft.com/dsltools/EFModel">
   <comments>
-    <comment Id="00289cfe-96e9-478c-9c48-f170181b02ab" text="Invoice Example - &#xD;&#xA;&#xD;&#xA;Where do you set AutomaticMigrationDataLossAllowed??" />
     <comment Id="7393c3bb-1902-4d04-9fa2-f6fb3bf7da06" text="Working." />
     <comment Id="c1e47c27-fced-40ad-a1e6-df3c57204157" text="#&gt;&lt;#@ assembly name=&quot;Microsoft.VisualStudio.Interop&quot;" />
   </comments>

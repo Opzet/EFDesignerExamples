@@ -1,5 +1,5 @@
 ﻿
-namespace Ex7_Mvp.Views
+namespace Ex6_Mvp.Views
 {
     partial class MainView
     {
