@@ -22,7 +22,7 @@ namespace Ex6_Mvp.Presenters
         private IPetRepository repository;
         private BindingSource petsBindingSource;
 
-        private IEnumerable<PetModel> petList;
+        private IEnumerable<Pet> petList;
 
         //Constructor - PRESENTER links interfaces IVIEW and IREPOSITORY
         public PetPresenter(IPetView view, IPetRepository repository)
@@ -80,7 +80,7 @@ namespace Ex6_Mvp.Presenters
         private void LoadSelectedPetToEdit(object sender, EventArgs e)
         {
 
-            var pet = (PetModel)petsBindingSource.Current;
+            var pet = (Pet)petsBindingSource.Current;
             if (pet == null)
                 return;
 
@@ -92,7 +92,7 @@ namespace Ex6_Mvp.Presenters
         }
         private void SavePet(object sender, EventArgs e)
         {
-            var model = new PetModel();
+            var model = new Pet();
             
             model.Name = view.PetName;
             model.Type = view.PetType;
@@ -138,7 +138,7 @@ namespace Ex6_Mvp.Presenters
         {
             try
             {
-                var pet = (PetModel)petsBindingSource.Current;
+                var pet = (Pet)petsBindingSource.Current;
                 repository.Delete(pet.Id);
                 view.IsSuccessful = true;
                 view.Message = "Pet deleted successfully";

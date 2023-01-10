@@ -1,24 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Windows.Forms;
 using Ex6_Mvp.Models;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace Ex6_Mvp._Repositories
 {
     //This is the Entityframework CRUD for the database, it is easy to test and review without breaking GUI
+
+    // PM:> Install-Package Microsoft.EntityFramework
+    // PM:> Install-Package Microsoft.EntityFrameworkCore.SqlServer
+    // PM:> Install-Package Microsoft.EntityFrameworkCore.Proxies
+
     public class PetRepository : IPetRepository
     {
         //Constructor
+        public DbContextOptionsBuilder<EFPetDb> optionsBuilder;
+
         public PetRepository()
         {
-            using (EFContainer db = new EFContainer())
+            //Setup Connection string holder
+            optionsBuilder = new DbContextOptionsBuilder<EFPetDb>();
+            optionsBuilder.UseSqlServer(EFPetDb.ConnectionString);
+
+            // Required for Bi directional 1 to many loading
+            //  optionsBuilder.UseLazyLoadingProxies(); // <-- no need to set here,
+            // You enable Lazy Loading via efmodeller gui property
+
+            if (Debugger.IsAttached)
             {
-                db.Database.Log = Logger.Log;
-               
+                optionsBuilder.EnableDetailedErrors();
+                optionsBuilder.EnableSensitiveDataLogging();
+                optionsBuilder.EnableDetailedErrors();
+            }
+
+            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            {
+                
                 //if (!db.Database.Exists())
                 //{
                     //Initalises just first time
@@ -29,21 +52,16 @@ namespace Ex6_Mvp._Repositories
 
         public void DeleteandSeed()
         {
-            using (EFContainer db = new EFContainer())
+            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
             {
-                db.Database.Log = Logger.Log;
-
                 //Reset Database
-                if (db.Database.Exists())
-                {
-                    db.Database.Delete();
-                    Console.WriteLine("Deleted DB\r\n");
-                }
-
-                db.Database.Create();
+                db.Database.EnsureDeleted();
+                Console.WriteLine("Deleted DB\r\n");
+                
+                db.Database.EnsureCreated();
                 Console.WriteLine("Created DB\r\n");
 
-                Console.WriteLine(db.Database.Connection.ConnectionString);
+                Console.WriteLine(EFPetDb.ConnectionString);
             }
             SeedData();
         }
@@ -57,36 +75,36 @@ namespace Ex6_Mvp._Repositories
         }
         void SeedData()
         {
-            using (EFContainer db = new EFContainer())
+            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
             {
-                List<PetModel> Pets = new List<PetModel>
+                List<Pet> Pets = new List<Pet>
                 {
-                    new PetModel{Name= "Buttons", Type = "Dog", Colour = "White"},
-                    new PetModel{Name= "Coda", Type = "Cat", Colour = "Multicolor"},
-                    new PetModel{Name= "Merlin", Type = "Parrot", Colour = "Green-Yellow"},
-                    new PetModel{Name= "Nina", Type = "Turtle", Colour = "Dark Gray"},
-                    new PetModel{Name= "Luna", Type = "Rabbit", Colour = "White"},
-                    new PetModel{Name= "Domino", Type = "Hamster", Colour = "Orange"},
-                    new PetModel{Name= "Lucy", Type = "Monkey", Colour = "Brown"},
-                    new PetModel{Name= "Daysi", Type = "Horse", Colour = "White"},
-                    new PetModel{Name= "Zoe", Type = "Snake", Colour = "Yellow white"},
-                    new PetModel{Name= "Max", Type = "Budgie", Colour = "Yellow"},
-                    new PetModel{Name= "Charlie", Type = "Mouse", Colour = "White"},
-                    new PetModel{Name= "Rocky", Type = "Squirrel", Colour = "Brown-Orange"},
-                    new PetModel{Name= "Leo", Type = "Dog", Colour = "White-Black"},
-                    new PetModel{Name= "Loki", Type = "Cat", Colour = "Black"},
-                    new PetModel{Name= "Jasper", Type = "Dog", Colour = "Silver"},
+                    new Pet{Name= "Buttons", Type = "Dog", Colour = "White"},
+                    new Pet{Name= "Coda", Type = "Cat", Colour = "Multicolor"},
+                    new Pet{Name= "Merlin", Type = "Parrot", Colour = "Green-Yellow"},
+                    new Pet{Name= "Nina", Type = "Turtle", Colour = "Dark Gray"},
+                    new Pet{Name= "Luna", Type = "Rabbit", Colour = "White"},
+                    new Pet{Name= "Domino", Type = "Hamster", Colour = "Orange"},
+                    new Pet{Name= "Lucy", Type = "Monkey", Colour = "Brown"},
+                    new Pet{Name= "Daysi", Type = "Horse", Colour = "White"},
+                    new Pet{Name= "Zoe", Type = "Snake", Colour = "Yellow white"},
+                    new Pet{Name= "Max", Type = "Budgie", Colour = "Yellow"},
+                    new Pet{Name= "Charlie", Type = "Mouse", Colour = "White"},
+                    new Pet{Name= "Rocky", Type = "Squirrel", Colour = "Brown-Orange"},
+                    new Pet{Name= "Leo", Type = "Dog", Colour = "White-Black"},
+                    new Pet{Name= "Loki", Type = "Cat", Colour = "Black"},
+                    new Pet{Name= "Jasper", Type = "Dog", Colour = "Silver"},
                     
                 };
 
-                foreach (PetModel p in Pets)
+                foreach (Pet p in Pets)
                 {
-                    PetModel pet = db.PetModels.Create();
+                    Pet pet = new Pet(); 
                     pet.Name = p.Name;
                     pet.Type = p.Type;
                     pet.Colour = p.Colour;
 
-                    db.PetModels.Add(pet);
+                    db.Pets.Add(pet);
                     Console.WriteLine($"Added Pet: {pet.Name}");
                 }
                 db.SaveChanges();
@@ -96,31 +114,31 @@ namespace Ex6_Mvp._Repositories
 
 
                 //Methods
-        public void Add(PetModel petModel)
+        public void Add(Pet petModel)
         {
-            using (EFContainer db = new EFContainer())
+            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
             {
-                db.PetModels.Add(petModel);
+                db.Pets.Add(petModel);
                 db.SaveChanges();
             }
         }
 
         public void Delete(long id)
         {
-            using (EFContainer db = new EFContainer())
+            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
             {
-                //PetModel pet = db.PetModels.FirstOrDefault(p => p.Id == id);
-                PetModel pet = db.PetModels.Find(id);
-                db.PetModels.Remove(pet);
+                //Pet pet = db.Pets.FirstOrDefault(p => p.Id == id);
+                Pet pet = db.Pets.Find(id);
+                db.Pets.Remove(pet);
                 db.SaveChanges();
             }
         }
 
-        public void Edit(PetModel pet)
+        public void Edit(Pet pet)
         {
-            using (EFContainer db = new EFContainer())
+            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
             {
-                PetModel petinDb = db.PetModels.Find(pet.Id);
+                Pet petinDb = db.Pets.Find(pet.Id);
                 petinDb.Name = pet.Name;
                 petinDb.Type = pet.Type;
                 petinDb.Colour = pet.Colour;
@@ -128,25 +146,25 @@ namespace Ex6_Mvp._Repositories
             }
         }
 
-        public IEnumerable<PetModel> GetAll()
+        public IEnumerable<Pet> GetAll()
         {
-            var petList = new List<PetModel>();
-            using (EFContainer db = new EFContainer())
+            var petList = new List<Pet>();
+            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
             {
-                petList = db.PetModels.ToList();
+                petList = db.Pets.ToList();
             }
             return petList;
         }
 
-        public IEnumerable<PetModel> GetByValue(string value)
+        public IEnumerable<Pet> GetByValue(string value)
         {
-            List<PetModel> petList = new List<PetModel>();
+            List<Pet> petList = new List<Pet>();
             int petId = int.TryParse(value, out _) ? Convert.ToInt32(value) : 0;
 
-            using (EFContainer db = new EFContainer())
+            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
             {
                 // Query for all pets that match value in any field
-                var enumpetList = from b in db.PetModels
+                var enumpetList = from b in db.Pets
                                   where
                                   (
                                         b.Id == petId 

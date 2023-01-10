@@ -689,6 +689,19 @@ namespace Ex5_Course
 
         private void btnBiDirectionalUpdate_Click(object sender, EventArgs e)
         {
+            //Get CourseId from Listview
+            if (lvEnrolments.SelectedItems.Count == 0)
+            {
+                txtDebug.Text = "NO Enrolment Selected? \r\n";
+                return;
+            }
+
+            int selectedIndex = lvEnrolments.SelectedIndices[0];
+            ListViewItem lvItem = lvEnrolments.Items[selectedIndex];
+
+            string sPk = lvItem.SubItems[0].Text;
+            long EnrolPk = Convert.ToInt64(sPk);
+
             using (CourseManager db = new CourseManager(optionsBuilder.Options))
             {
                 Enrollment EnrolToUpdate = db.Enrollments.First(en => en.EnrollmentId == EnrolPk);

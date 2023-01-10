@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Ex6_Mvp.Models
 {
     // This is created manually to expose repository (database methods)
     // Used by the presenter to databind the GUI
-   public interface IPetRepository
+    public interface IPetRepository
     {
-        void Add(PetModel petModel);
-        void Edit(PetModel petModel);
+        void Add(Pet petModel);
+        void Edit(Pet petModel);
         void Delete(long id);
-        IEnumerable<PetModel> GetAll();
-        IEnumerable<PetModel> GetByValue(string value);//Searchs
+        IEnumerable<Pet> GetAll();
+        IEnumerable<Pet> GetByValue(string value);//Searchs
 
 
         //  Service Broker?

@@ -3,12 +3,6 @@ using System.Windows.Forms;
 
 using System.Data.Entity.Validation;
 using Microsoft.EntityFrameworkCore;
-using Ex4_ModelInvoice;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Microsoft.VisualBasic.ApplicationServices;
-using System.ComponentModel;
-using System.Reflection;
-using System.Security.AccessControl;
 
 // Error CS1061	'DbContextOptionsBuilder' does not contain a definition for 'UseLazyLoadingProxies'
 // and no accessible extension method 'UseLazyLoadingProxies' accepting a first argument of type

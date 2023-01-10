@@ -46,14 +46,14 @@ Use visual editor to define Database Db
 Use the 'Auto Generate' to create models inside : Model.generated.cs
 
  We are after
-public partial class PetModel
+public partial class Pet
    {
       partial void Init();
 
       /// <summary>
       /// Default constructor
       /// </summary>
-      public PetModel()
+      public Pet()
       {
          Init();
       }
@@ -80,7 +80,7 @@ c. Create: IModelRepository.cs -> Manually Expose <b> interface via
 public interface IRepository
 {
  void Add(Model model);
- IEnumerable<PetModel> GetAll();
+ IEnumerable<Pet> GetAll();
 }   
 ```
 
