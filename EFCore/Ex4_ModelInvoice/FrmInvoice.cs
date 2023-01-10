@@ -114,7 +114,7 @@ namespace Ex4_ModelInvoice
                     // Install Missing : PM> Install-Package Microsoft.EntityFrameworkCore.Proxies
                     foreach (InvoiceDetails LineItem in invoice.InvoiceDetails)
                     {
-                        txtDebug.Text += $"Line Id {LineItem.Id}  |  Details Desc:{LineItem.ItemDescription} Qty:{LineItem.Quantity} x Price:{LineItem.Price} = Sub Total:{LineItem.Total}\r\n";
+                        txtDebug.Text += $"Line Id {LineItem.Id} Details Desc:{LineItem.ItemDescription}\t Qty:{LineItem.Quantity} x Price:{LineItem.Price} = Sub Total:\t{LineItem.Total}\r\n";
                     }
                 }
             }

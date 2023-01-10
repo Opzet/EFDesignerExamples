@@ -52,7 +52,7 @@ namespace Ex4_ModelInvoice
             this.txtDebug.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
             this.txtDebug.Multiline = true;
             this.txtDebug.Name = "txtDebug";
-            this.txtDebug.Size = new System.Drawing.Size(614, 332);
+            this.txtDebug.Size = new System.Drawing.Size(943, 332);
             this.txtDebug.TabIndex = 11;
             // 
             // label1
@@ -78,7 +78,7 @@ namespace Ex4_ModelInvoice
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(889, 450);
+            this.ClientSize = new System.Drawing.Size(1228, 450);
             this.Controls.Add(this.txtDebug);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtConnection);
