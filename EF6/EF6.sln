@@ -15,6 +15,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex7_Mvp", "Ex7_Mvp\Ex7_Mvp.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex1_Person", "Ex1_ModelPerson\Ex1_Person.csproj", "{B0C345BB-4B38-44CE-8D42-3E00545347BA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ex8_openApi", "Ex8_openApi", "{CF20808B-D311-4140-AB2F-0AF866F9FD8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex8_OpenApi.Client", "Ex8_OpenApi.Client\Ex8_OpenApi.Client.csproj", "{C15C717C-4313-40CB-98AF-C049E3432278}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ex8_OpenApi.WebApi", "Ex8_OpenApi.WebApi\Ex8_OpenApi.WebApi.csproj", "{E9AE029F-27CA-4465-8854-3F70E2F9F3E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +51,14 @@ Global
 		{B0C345BB-4B38-44CE-8D42-3E00545347BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0C345BB-4B38-44CE-8D42-3E00545347BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0C345BB-4B38-44CE-8D42-3E00545347BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C15C717C-4313-40CB-98AF-C049E3432278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C15C717C-4313-40CB-98AF-C049E3432278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C15C717C-4313-40CB-98AF-C049E3432278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C15C717C-4313-40CB-98AF-C049E3432278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9AE029F-27CA-4465-8854-3F70E2F9F3E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9AE029F-27CA-4465-8854-3F70E2F9F3E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9AE029F-27CA-4465-8854-3F70E2F9F3E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9AE029F-27CA-4465-8854-3F70E2F9F3E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
