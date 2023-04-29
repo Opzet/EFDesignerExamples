@@ -16,8 +16,11 @@
 using System.Diagnostics;
 using Ex7_DAL;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Design;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
 
 
 //Spin up Database
@@ -32,6 +35,7 @@ if (Debugger.IsAttached)
     optionsBuilder.EnableSensitiveDataLogging();
     optionsBuilder.EnableDetailedErrors();
 }
+
 using (CourseManager db = new CourseManager(optionsBuilder.Options))
 {
 
@@ -44,8 +48,6 @@ using (CourseManager db = new CourseManager(optionsBuilder.Options))
 }
 
 SeedData();
-
-
 
 // Add services to the container.
 
@@ -62,15 +64,30 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(c =>
+    {
+        c.SerializeAsV2 = true;
+    });
+
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = "swagger";
+    });
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+//app.UseEndpoints(endpoints =>
+//{
+//    endpoints.MapControllers();
+//});
+
 
 app.Run();
 
@@ -130,4 +147,20 @@ void SeedData()
         db.SaveChanges();
     }
 
+}
+
+
+/*
+    If a class implementing this interface is found in either the same project as the derived DbContext or in the application's startup project,
+    the tools bypass the other ways of creating the DbContext and use the design-time factory instead.
+*/
+public class CourseManagerContextFactory : IDesignTimeDbContextFactory<CourseManager>
+{
+    public CourseManager CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
+        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CourseManager;Trusted_Connection=True;MultipleActiveResultSets=true");
+
+        return new CourseManager(optionsBuilder.Options);
+    }
 }

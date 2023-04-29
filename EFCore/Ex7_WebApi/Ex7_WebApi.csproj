@@ -22,9 +22,4 @@
     <ProjectReference Include="..\Ex7_DAL\Ex7_DAL.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
