@@ -17,11 +17,9 @@ using System.Diagnostics;
 using Ex7_DAL;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Win32;
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-
 
 //Spin up Database
 DbContextOptionsBuilder<CourseManager> optionsBuilder;
@@ -49,8 +47,56 @@ using (CourseManager db = new CourseManager(optionsBuilder.Options))
 
 SeedData();
 
-// Add services to the container.
 
+#region How do you expose the database context to the Visual Studion Design-time Tools
+/*
+    Finding the generator 'controller'...
+    Running the generator 'controller'...
+    Minimal hosting scenario!
+    Attempting to figure out the EntityFramework metadata for the model and DbContext: 'Student'
+    Unable to create an object of type 'CourseManager'. For the different patterns supported at design time, 
+    see https://go.microsoft.com/fwlink/?linkid=851728 
+    
+    StackTrace:Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContextOptions`1[Ex7_DAL.CourseManager]' while attempting to activate 'Ex7_DAL.CourseManager'.
+
+*/
+
+// Attempt 3
+//Register the database context
+builder.Services.AddDbContext<CourseManager>(optionsBuilder =>
+    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CourseManager;Trusted_Connection=True;MultipleActiveResultSets=true"));
+
+builder.Services.AddScoped<DbContext, CourseManager>();
+
+
+// Attempt 2
+//builder.Services.AddScoped<DbContextOptions<CourseManager>>(provider =>
+//    provider.GetService<DbContextOptions<CourseManager>>());
+
+
+
+///*
+//  Attemp 1:
+//  If a class implementing this interface is found in either the same project as the derived DbContext or in the application's startup project,
+//    the tools bypass the other ways of creating the DbContext and use the design-time factory instead.
+//*/
+//public class CourseManagerContextFactory : IDesignTimeDbContextFactory<CourseManager>
+//{
+//    public CourseManager CreateDbContext(string[] args)
+//    {
+//        var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
+//        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CourseManager;Trusted_Connection=True;MultipleActiveResultSets=true");
+
+//        return new CourseManager(optionsBuilder.Options);
+//    }
+//}
+
+
+#endregion
+
+
+
+// Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -149,18 +195,3 @@ void SeedData()
 
 }
 
-
-/*
-    If a class implementing this interface is found in either the same project as the derived DbContext or in the application's startup project,
-    the tools bypass the other ways of creating the DbContext and use the design-time factory instead.
-*/
-public class CourseManagerContextFactory : IDesignTimeDbContextFactory<CourseManager>
-{
-    public CourseManager CreateDbContext(string[] args)
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CourseManager;Trusted_Connection=True;MultipleActiveResultSets=true");
-
-        return new CourseManager(optionsBuilder.Options);
-    }
-}
