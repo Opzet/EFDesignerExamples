@@ -8,4 +8,41 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="swagger.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="swagger.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <Generator>KiotaCodeGenerator</Generator>
+      <LastGenOutput>swagger.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Identity" Version="1.8.2" />
+    <PackageReference Include="JsonSubTypes" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Kiota.Abstractions" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Kiota.Authentication.Azure" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Kiota.Http.HttpClientLibrary" Version="1.0.2" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Form" Version="1.0.1" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Json" Version="1.0.5" />
+    <PackageReference Include="Microsoft.Kiota.Serialization.Text" Version="1.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Polly" Version="7.2.3" />
+    <PackageReference Include="Refit" Version="6.5.1" />
+    <PackageReference Include="RestSharp" Version="108.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="swagger.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>swagger.json</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
