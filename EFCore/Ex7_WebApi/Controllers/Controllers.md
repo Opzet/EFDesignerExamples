@@ -23,20 +23,25 @@ The tools first try to obtain the service provider by invoking
 		calling Build(), 
 		then accessing the Services property.
 
-Use a design-time factory
+Use a design-time factory, needs to be in DAL project (e.g Ex7_DAL), not in API project.
 
-        public class BloggingContextFactory : IDesignTimeDbContextFactory<BloggingContext>
+        using Microsoft.EntityFrameworkCore.Design;
+        using Microsoft.EntityFrameworkCore;
+        
+        namespace Ex7_DAL
         {
-            public BloggingContext CreateDbContext(string[] args)
+            public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManager>
             {
-                var optionsBuilder = new DbContextOptionsBuilder<BloggingContext>();
-                optionsBuilder.UseSqlite("Data Source=blog.db");
+                public CourseManager CreateDbContext(string[] args)
+                {
+                    var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
+                    optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
 
-                return new BloggingContext(optionsBuilder.Options);
+                    return new CourseManager(optionsBuilder.Options);
+                }
             }
         }
 
-# Ex7_DAL
 
 # Generating controllers can be done in various ways depending on your needs and preferences. 
 

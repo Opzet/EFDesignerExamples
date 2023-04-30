@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
-using Ex7_DAL;
 
-namespace Ex7_WebApi
+namespace Ex7_DAL
 {
     public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManager>
     {
