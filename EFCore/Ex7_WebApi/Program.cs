@@ -43,83 +43,21 @@ using Microsoft.Extensions.Options;
 //SeedData();
 
 
-
-//Register the database context
-//In ASP.NET Core, services such as the DB context must be registered with the dependency injection (DI) container. The container provides the service to controllers.
-
-
+// Create WebApi
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-
-// Try 1 : Db Context - Basic
+// Register the database context
 builder.Services.AddDbContext<CourseManager>(options =>
     options.UseSqlServer(CourseManager.ConnectionString)
            .EnableSensitiveDataLogging()
            .EnableDetailedErrors());
 
-// Try 2 : Db Context - AddScoped by reflection?
-//builder.Services.AddScoped<DbContext, CourseManager>();
-
-
-
-// Try 3 : Db Context 
-////Register the database context
-//builder.Services.AddDbContext<CourseManager>(optionsBuilder =>
-//    optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CourseManager;Trusted_Connection=True;MultipleActiveResultSets=true"));
-
-// Try 4 : Db Context using Microsoft.Extensions.DependencyInjection;
-//// Configure the database context
-//DbContextOptionsBuilder<CourseManager> optionsBuilder;
-//optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-//optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
-//if (Debugger.IsAttached)
-//{
-//    optionsBuilder.EnableDetailedErrors();
-//    optionsBuilder.EnableSensitiveDataLogging();
-//    optionsBuilder.EnableDetailedErrors();
-//}
-//CourseManager courseManager = new CourseManager(optionsBuilder.Options);
-//builder.Services.AddScoped<CourseManager>(courseManager);
-
-
-//// Try 5 : Db Context design time factory
-////  If a class implementing this interface is found in either the same project as the derived DbContext or in the application's startup project,
-////    the tools bypass the other ways of creating the DbContext and use the design-time factory instead.
-////*/
-////public class CourseManagerContextFactory : IDesignTimeDbContextFactory<CourseManager>
-////{
-////    public CourseManager CreateDbContext(string[] args)
-////    {
-////        var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-////        optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CourseManager;Trusted_Connection=True;MultipleActiveResultSets=true");
-
-////        return new CourseManager(optionsBuilder.Options);
-////    }
-////}
-///
-
-/// --------------------
-/// Dependancy Injection
-/// --------------------
-
-
-//Try 1 : DI
+// Register CourseManager as a service
 builder.Services.AddScoped<CourseManager>();
 
-
-//Try 2 : DI
-//builder.Services.AddScoped<DbContext, CourseManager>(); //CourseManager db = new CourseManager(optionsBuilder.Options)
-
-//Try 3 : DI
-//builder.Services.AddScoped<DbContextOptions<CourseManager>>(provider =>
-//    provider.GetService<DbContextOptions<CourseManager>>());
-
-
-
 builder.Services.AddEndpointsApiExplorer();
-
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
@@ -127,9 +65,9 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(c =>
-        {
-            c.SerializeAsV2 = true;
-        });
+    {
+        c.SerializeAsV2 = true;
+    });
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
@@ -138,12 +76,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
+
 
 // Now the registering part is done, you can retrieve your context from the framework.
 // E.g.: inversion of control through a constructor in your controller:
