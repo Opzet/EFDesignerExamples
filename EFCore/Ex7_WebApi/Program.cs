@@ -13,67 +13,71 @@
 // HTTP APIs created with .NET Core 2.x can be documented using Swagger,
 // which includes the ability to read the API metadata from a known endpoint and generate client library code.
 
+using System.Data.Entity.Core.Common.CommandTrees.ExpressionBuilder;
 using System.Diagnostics;
 using Ex7_DAL;
 using Microsoft.EntityFrameworkCore;
 
+// -----------------------
+//  Create WebApi
+// -----------------------
+
 var builder = WebApplication.CreateBuilder(args);
 
-
-//Spin up Database
 DbContextOptionsBuilder<CourseManager> optionsBuilder;
 optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=CourseManager;Trusted_Connection=True;MultipleActiveResultSets=true");
-CourseManager courseManager = new CourseManager(optionsBuilder.Options);
+optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
 
+//Spin up Database
 if (Debugger.IsAttached)
 {
-    optionsBuilder.EnableDetailedErrors();
-    optionsBuilder.EnableSensitiveDataLogging();
-    optionsBuilder.EnableDetailedErrors();
-}
-using (CourseManager db = new CourseManager(optionsBuilder.Options))
-{
+    using (CourseManager db = new CourseManager(optionsBuilder.Options))
+    {
+        db.Database.EnsureDeleted();
+        Debug.WriteLine("Deleted DB\r\n");
 
-    db.Database.EnsureDeleted();
-    Debug.WriteLine( "Deleted DB\r\n");
+        db.Database.EnsureCreated();
+        Debug.WriteLine("Created DB\r\n");
+    }
 
-    db.Database.EnsureCreated();
-    Debug.WriteLine("Created DB\r\n");
-
+    SeedData();
 }
 
-SeedData();
-
-
-
-// Add services to the container.
-
+// Create WebApi
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Register the CourseManager database context as a service
+builder.Services.AddDbContext<CourseManager>(options =>
+    options.UseSqlServer(CourseManager.ConnectionString)
+           .EnableSensitiveDataLogging()
+           .EnableDetailedErrors());
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-
-
-
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(c =>
+    {
+        c.SerializeAsV2 = true;
+    });
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+        c.RoutePrefix = "swagger";
+    });
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
 
+// -------------------------- DATABASE UTILS ------------------------------------------
 void SeedData()
 {
     using (CourseManager db = new CourseManager(optionsBuilder.Options))
@@ -98,11 +102,6 @@ void SeedData()
 
             db.Students.Add(stu);
         }
-
-        // If you get Duplicate Key added error, and it looks like PK is not auto incrementing but you have an Id setup ok..?
-        // The issue arised because ef uses a Pk naming convention that sometimes contends with table field naming.
-        // That is..Watch out for duplication / usage of both 'Id' and 'IdTablename' when creating db structure
-        // as ef uses Pk naming convention and detection.  Think of it kind of like reserved keywords?
 
         db.SaveChanges();
 
@@ -131,3 +130,57 @@ void SeedData()
     }
 
 }
+
+// -----------------------
+//  Next Scaffold a controller
+// -----------------------
+//    Visual Studio
+//    Right-click the Controllers folder.
+
+//    Select Add > New Scaffolded Item.
+
+//    Select API Controller with actions, using Entity Framework, and then select Add.
+
+//    In the Add API Controller with actions, using Entity Framework dialog:
+
+//    Select TodoItem(TodoApi.Models) in the Model class.
+//    Select TodoContext(TodoApi.Models) in the Data context class.
+//    Select Add.
+//    If the scaffolding operation fails, select Add to try scaffolding a second time.
+// -----------------------------------------------------------------------------------
+
+
+
+#region  ardilo (https://www.fiverr.com/ardilo)
+
+//    FIX: Expose the database context to the Visual Studion Design-time Tools
+/*
+ * 
+//    Finding the generator 'controller'...
+//    Running the generator 'controller'...
+//    Minimal hosting scenario!
+//    Attempting to figure out the EntityFramework metadata for the model and DbContext: 'Student'
+//    Unable to create an object of type 'CourseManager'. For the different patterns supported at design time, 
+//    see https://go.microsoft.com/fwlink/?linkid=851728 
+
+//    StackTrace:Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContextOptions`1[Ex7_DAL.CourseManager]' while attempting to activate 'Ex7_DAL.CourseManager'.
+
+// FIX: Add missing IDesignTimeDbContextFactory to Data Access Layer 
+
+        namespace Ex7_WebApi
+        {
+            public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManager>
+            {
+                public CourseManager CreateDbContext(string[] args)
+                {
+                    var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
+                    optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
+
+                    return new CourseManager(optionsBuilder.Options);
+                }
+            }
+        }
+*/
+
+#endregion
+
