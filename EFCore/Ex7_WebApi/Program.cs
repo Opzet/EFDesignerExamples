@@ -33,14 +33,14 @@ if (Debugger.IsAttached)
 {
     using (CourseManager db = new CourseManager(optionsBuilder.Options))
     {
-        db.Database.EnsureDeleted();
-        Debug.WriteLine("Deleted DB\r\n");
+        //db.Database.EnsureDeleted();
+        //Debug.WriteLine("Deleted DB\r\n");
 
         db.Database.EnsureCreated();
         Debug.WriteLine("Created DB\r\n");
     }
 
-    SeedData();
+    //SeedData();
 }
 
 // Create WebApi
@@ -52,7 +52,7 @@ builder.Services.AddDbContext<CourseManager>(options =>
            .EnableSensitiveDataLogging()
            .EnableDetailedErrors());
 
-
+//Creates Web Pages for dev
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
