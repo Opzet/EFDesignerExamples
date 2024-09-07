@@ -19,13 +19,13 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
-namespace Ex6_Mvp.Models
+namespace Ex6_Mvp
 {
    /// <inheritdoc/>
    public partial class EFPetDb : DbContext
    {
       #region DbSets
-      public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex6_Mvp.Models.Pet> Pets { get; set; }
+      public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex6_Mvp.Pet> Pets { get; set; }
 
       #endregion DbSets
 
@@ -80,20 +80,20 @@ namespace Ex6_Mvp.Models
 
          modelBuilder.HasDefaultSchema("dbo");
 
-         modelBuilder.Entity<global::Ex6_Mvp.Models.Pet>()
+         modelBuilder.Entity<global::Ex6_Mvp.Pet>()
                      .UseTpcMappingStrategy().ToTable("Pets")
                      .HasKey(t => t.Id);
-         modelBuilder.Entity<global::Ex6_Mvp.Models.Pet>()
+         modelBuilder.Entity<global::Ex6_Mvp.Pet>()
                      .Property(t => t.Id)
                      .ValueGeneratedOnAdd()
                      .IsRequired();
-         modelBuilder.Entity<global::Ex6_Mvp.Models.Pet>()
+         modelBuilder.Entity<global::Ex6_Mvp.Pet>()
                      .Property(t => t.Name)
                      .HasMaxLength(50);
-         modelBuilder.Entity<global::Ex6_Mvp.Models.Pet>()
+         modelBuilder.Entity<global::Ex6_Mvp.Pet>()
                      .Property(t => t.Type)
                      .HasMaxLength(50);
-         modelBuilder.Entity<global::Ex6_Mvp.Models.Pet>()
+         modelBuilder.Entity<global::Ex6_Mvp.Pet>()
                      .Property(t => t.Colour)
                      .HasMaxLength(50);
 

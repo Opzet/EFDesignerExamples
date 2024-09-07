@@ -23,7 +23,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-namespace Ex6_Mvp.Models
+namespace Ex6_Mvp
 {
    public partial class Pet
    {

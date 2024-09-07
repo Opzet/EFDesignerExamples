@@ -24,20 +24,7 @@ namespace Ex6_Mvp._Repositories
 
         public PetRepository()
         {
-            //Setup Connection string holder
-            optionsBuilder = new DbContextOptionsBuilder<EFPetDb>();
-            optionsBuilder.UseSqlServer(EFPetDb.ConnectionString);
-
-            // Required for Bi directional 1 to many loading
-            //  optionsBuilder.UseLazyLoadingProxies(); // <-- no need to set here,
-            // You enable Lazy Loading via efmodeller gui property
-
-            if (Debugger.IsAttached)
-            {
-                optionsBuilder.EnableDetailedErrors();
-                optionsBuilder.EnableSensitiveDataLogging();
-                optionsBuilder.EnableDetailedErrors();
-            }
+          
 
             using (EFPetDb db = new EFPetDb())
             {
@@ -61,7 +48,6 @@ namespace Ex6_Mvp._Repositories
                 db.Database.EnsureCreated();
                 Console.WriteLine("Created DB\r\n");
 
-                Console.WriteLine(EFPetDb.ConnectionString);
             }
             SeedData();
         }
