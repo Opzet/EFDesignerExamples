@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
-using Bogus; // for generating fake data
+using Bogus;
+using System.Text; // for generating fake data
 
 namespace Ex1_ModelPerson
 {
@@ -20,6 +21,9 @@ namespace Ex1_ModelPerson
 
         private void TestPeople()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             txtDebug.Text = "TestPerson()\r\n";
 
             using (PersonModel context = new PersonModel())
@@ -37,17 +41,15 @@ namespace Ex1_ModelPerson
                 context.Database.EnsureCreated();
                 txtDebug.Text += "Created DB\r\n";
 
-                List<Person> people = GeneratePeople(50);
+                List<Person> people = GeneratePeople(500);
 
-                foreach(var p in people)
-                {
-                    context.People.Add(p);
-                }
+                context.People.AddRange(people);
 
                 try
                 {
-                    txtDebug.Text += "Saved filesystem based DB as people.json\r\n";
+                    txtDebug.Text += "Saving data to the database...\r\n";
                     context.SaveChanges();
+                    txtDebug.Text += "Data saved successfully\r\n";
                 }
                 catch (DbUpdateException dbEx)
                 {
@@ -65,8 +67,16 @@ namespace Ex1_ModelPerson
                 // Read it back
                 List<Person> dbpeople = context.People.ToList();
 
+                stopwatch.Stop();
+                txtDebug.Text += $"Database operations completed in {stopwatch.ElapsedMilliseconds} ms\r\n";
+
+                StringBuilder peopleList = new StringBuilder();
                 foreach (Person p in dbpeople)
-                    txtDebug.Text += String.Format("{0} {1} {2} {3} {4}", p.Id, p.FirstName, p.MiddleName, p.LastName, p.Phone) + "\r\n";
+                {
+                    peopleList.AppendFormat("{0} {1} {2} {3} {4}\r\n", p.Id, p.FirstName, p.MiddleName, p.LastName, p.Phone);
+                }
+
+                txtDebug.Text += peopleList.ToString();
 
                 result = MessageBox.Show("Do you want to view the database filesystem?", "Open Folder", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
@@ -76,7 +86,10 @@ namespace Ex1_ModelPerson
                     Process.Start("explorer.exe", dbFolderPath);
                 }
             }
+
+            txtDebug.Text += $"Total operation time: {stopwatch.ElapsedMilliseconds} ms\r\n";
         }
+
 
         public static List<Person> GeneratePeople(int count)
         {
@@ -85,8 +98,60 @@ namespace Ex1_ModelPerson
                 .RuleFor(p => p.LastName, f => f.Name.LastName())
                 // Make Mobile phone number format (eg. 04## ### ###)
                 .RuleFor(p => p.Phone, f => f.Phone.PhoneNumber("04## ### ###"));
-                
+
             return personFaker.Generate(count);
         }
+
+        
+        private void btnClear_Click(object sender, EventArgs e)
+        {
+            txtFilter.Text = "";
+
+        }
+        private void txtFilter_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            txtDebug.Text = "Starting search...\r\n";
+
+            using (PersonModel context = new PersonModel())
+            {
+                try
+                {
+                    // Search for people within the first and last name containing the filter text
+                    List<Person> people = context.People
+                        .Where(p => p.FirstName.Contains(txtFilter.Text) || p.LastName.Contains(txtFilter.Text))
+                        .ToList();
+
+                    stopwatch.Stop();
+                    txtDebug.Text += $"Search completed in {stopwatch.ElapsedMilliseconds} ms\r\n";
+                    txtDebug.Text += $"Found {people.Count} people matching the filter\r\n";
+
+                    txtResults.Text = "";
+
+                    SuspendLayout();
+                    StringBuilder resultsBuilder = new StringBuilder();
+                    foreach (Person p in people)
+                    {
+                        // Pause updating the textbox to make it faster
+                        resultsBuilder.AppendFormat("{0} {1} {2} {3} {4}\r\n", p.Id, p.FirstName, p.MiddleName, p.LastName, p.Phone);
+                    }
+                    txtResults.Text = resultsBuilder.ToString();
+                    ResumeLayout(false);
+                    PerformLayout();
+                    txtDebug.Text += "Results displayed successfully\r\n";
+                }
+                catch (Exception ex)
+                {
+                    txtDebug.Text += $"An error occurred: {ex.Message}\r\n";
+                }
+            }
+
+            stopwatch.Stop();
+            txtDebug.Text += $"Total operation time: {stopwatch.ElapsedMilliseconds} ms\r\n";
+        }
+
+      
     }
 }
