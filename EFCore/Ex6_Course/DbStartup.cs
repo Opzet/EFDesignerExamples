@@ -38,7 +38,7 @@ namespace Ex5_Course
         {
             if (!File.Exists(VersionFilePath))
             {
-                return true;
+                SaveCurrentSchemaVersion();
             }
 
             string storedVersion = File.ReadAllText(VersionFilePath);

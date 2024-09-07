@@ -38,7 +38,7 @@ namespace Ex2_ModelOne2One
         {
             if (!File.Exists(VersionFilePath))
             {
-                return true;
+                SaveCurrentSchemaVersion();
             }
 
             string storedVersion = File.ReadAllText(VersionFilePath);

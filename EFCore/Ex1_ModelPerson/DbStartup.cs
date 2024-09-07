@@ -50,7 +50,7 @@ namespace Ex1_ModelPerson
         {
             if (!File.Exists(VersionFilePath))
             {
-                return true;
+                SaveCurrentSchemaVersion();
             }
 
             string storedVersion = File.ReadAllText(VersionFilePath);

@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Diagnostics;
-using System.IO;
 
 using Microsoft.EntityFrameworkCore;
 using FileBaseContext.Extensions;
+using System.IO;
 
-
-namespace Ex3_ModelOnetoMany
+namespace Ex4_ModelManytoMany
 {
-    public partial class EFModelOnetoMany : DbContext
+    public partial class EFModelManytoMany : DbContext
     {
-       
-        public static string DatabaseName = "EFModelOnetoMany"; // Will create folder \bin\my_local_db and tables.json files
+        // In EF Core you add in a Database provider
+        // FileBaseContext is a provider of Entity Framework Core 8 to store database information in files.
+        // https://github.com/Opzet/FileBaseContext
+        // NUGET EntityFilesystem
+        // using FileBaseContext.Extensions;
+        /// </summary>
+        public static string DatabaseName = "EFModelManytoMany"; // Will create folder \bin\my_local_db and tables.json files
         private static string SchemaVersion = "1.0"; // Update this version when schema changes
         private static string VersionFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DatabaseName, "schema_version.txt");
-
 
         partial void CustomInit(DbContextOptionsBuilder optionsBuilder)
         {
