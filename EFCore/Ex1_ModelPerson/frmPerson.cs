@@ -1,17 +1,7 @@
-﻿using System.Globalization;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using Microsoft.Extensions.Logging;
 
-// TOOLS>NUGET PACKAGE MANAGE> 'Nuget GUI' or 'Package Manager Console/CLI'
-// PM:> Install-Package Microsoft.EntityFramework
-// PM:> Install-Package Microsoft.EntityFrameworkCore.SqlServer
-
-
-// Enable-> optionsBuilder.UseLazyLoadingProxies();
-// using Microsoft.EntityFrameworkCore.Proxies;
-// Install-Package Microsoft.EntityFrameworkCore.Proxies
-
+using Bogus; // for generating fake data
 
 namespace Ex1_ModelPerson
 {
@@ -20,76 +10,48 @@ namespace Ex1_ModelPerson
         DbContextOptionsBuilder<PersonModel> optionsBuilder;
         public FrmPerson()
         {
-            //Setup Connection string holder
-            optionsBuilder = new DbContextOptionsBuilder<PersonModel>();
-            optionsBuilder.UseSqlServer(PersonModel.ConnectionString);
-            if (Debugger.IsAttached)
-            {
-                optionsBuilder.EnableDetailedErrors();
-                optionsBuilder.EnableSensitiveDataLogging();
-                optionsBuilder.EnableDetailedErrors();
-            }
-
             InitializeComponent();
-
-        }
-
-        private void FrmPerson_Load(object sender, EventArgs e)
-        {
-            txtConnection.Text = PersonModel.ConnectionString;
         }
 
         private void btnTestPerson_Click(object sender, EventArgs e)
         {
-            TestPerson();
+            TestPeople();
         }
-        private void TestPerson()
+
+        private void TestPeople()
         {
             txtDebug.Text = "TestPerson()\r\n";
 
-            //.Net Core has IoC (Inversion Of Control) implemented in it's roots and uses Dependency Injection, Instance pooling 
-            // This means; you don't create a context, you ask the framework to give you one, based on some rules you defined before.
-            // Unfortunatley, using DI enables many things, true, including complexity.. this is beyond this basic demos requirements.
-            
-            // So for this we use, a constructor  For this example we create a dbcontext object on request and dynamically point it to the user's individual database
-            // Sometimes requirements, time or money constraints, quality attributes or anything else 
-
-            // This is a way to "just a way to instantiate" the object, activator's CreateInstance
-            
-
-            using (PersonModel context = new PersonModel(optionsBuilder.Options))
+            using (PersonModel context = new PersonModel())
             {
                 // Perform data access using the context
 
-                // ---------------
-                // TODO: I dont know where to set AutomaticMigrationDataLossAllowed = true in efmodeller tool?
-                // Can set AutomaticMigrationDataLossAllowed in break points, runtime doing it via a delete and recreate
+                txtDebug.Text += "Attempting to delete \r\n";
 
-                txtDebug.Text += "Attempting to Delete, \r\n";
-                context.Database.EnsureDeleted();
-                txtDebug.Text += "Deleted DB\r\n";
+                // Ask for confirmation before deleting the database
+                var result = MessageBox.Show("Do you really want to delete the existing database?", "Confirm Delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    context.DeleteOldStore();
+                    txtDebug.Text += "Deleted DB\r\n";
+                }
 
-                context.Database.EnsureCreated();
-                txtDebug.Text += "Created DB\r\n";
+                List<Person> people = GeneratePeople(50);
 
-                Person person = new Person();
-                person.FirstName = "Bob";
-                person.MiddleName = "James";
-                person.LastName = "Smith";
-                person.Phone = "555-123-321";
-                CultureInfo culture = new CultureInfo("en-AU");
-                person.DOB = Convert.ToDateTime("6/12/70", culture);
+                foreach(var p in people)
+                {
+                    context.People.Add(p);
+                }
 
-                context.People.Add(person);
-
-                // This Exception handler helps to describe what went wrong with the EF database save.
-                // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                 try
                 {
+                    txtDebug.Text += "Saved filesystem based DB as people.json\r\n";
                     context.SaveChanges();
                 }
                 catch (DbUpdateException dbEx)
                 {
+                    // This Exception handler helps to describe what went wrong with the EF database save inner exception detail.
+                    // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                     Exception raise = dbEx;
                     foreach (var entry in dbEx.Entries)
                     {
@@ -98,13 +60,32 @@ namespace Ex1_ModelPerson
                     }
                     throw raise;
                 }
-           
-                //Read it back
-                DbSet<Person> people = context.People;
 
-                foreach (Person p in people)
+                // Read it back
+                List<Person> dbpeople = context.People.ToList();
+
+                foreach (Person p in dbpeople)
                     txtDebug.Text += String.Format("{0} {1} {2} {3} {4}", p.Id, p.FirstName, p.MiddleName, p.LastName, p.Phone) + "\r\n";
+
+                result = MessageBox.Show("Do you want to view the database filesystem?", "Open Folder", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    // Open the database folder
+                    string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "my_local_db");
+                    Process.Start("explorer.exe", dbFolderPath);
+                }
             }
+        }
+
+        public static List<Person> GeneratePeople(int count)
+        {
+            var personFaker = new Faker<Person>()
+                .RuleFor(p => p.FirstName, f => f.Name.FirstName())
+                .RuleFor(p => p.LastName, f => f.Name.LastName())
+                // Make Mobile phone number format (eg. 04## ### ###)
+                .RuleFor(p => p.Phone, f => f.Phone.PhoneNumber("04## ### ###"));
+                
+            return personFaker.Generate(count);
         }
     }
 }
