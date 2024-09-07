@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v4.2.1.3
+//     Produced by Entity Framework Visual Editor v4.2.7.3
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -30,10 +30,10 @@ namespace Ex3_ModelOnetoMany
 
       #endregion DbSets
 
-      /// <summary>
-      /// Default connection string
-      /// </summary>
-      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True";
+      /// <inheritdoc />
+      public EFModelOnetoMany() : base()
+      {
+      }
 
       /// <summary>
       ///     <para>
@@ -82,7 +82,7 @@ namespace Ex3_ModelOnetoMany
          modelBuilder.HasDefaultSchema("dbo");
 
          modelBuilder.Entity<global::Ex3_ModelOnetoMany.Author>()
-                     .ToTable("Authors")
+                     .UseTpcMappingStrategy().ToTable("Authors")
                      .HasKey(t => t.AuthorId);
          modelBuilder.Entity<global::Ex3_ModelOnetoMany.Author>()
                      .Property(t => t.AuthorId)
@@ -101,7 +101,7 @@ namespace Ex3_ModelOnetoMany
                      .IsRequired();
 
          modelBuilder.Entity<global::Ex3_ModelOnetoMany.Book>()
-                     .ToTable("Books")
+                     .UseTpcMappingStrategy().ToTable("Books")
                      .HasKey(t => t.BookId);
          modelBuilder.Entity<global::Ex3_ModelOnetoMany.Book>()
                      .Property(t => t.BookId)

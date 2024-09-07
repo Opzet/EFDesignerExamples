@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v4.2.1.3
+//     Produced by Entity Framework Visual Editor v4.2.7.3
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -13,6 +13,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,30 +30,23 @@ namespace Ex3_ModelOnetoMany
       partial void Init();
 
       /// <summary>
-      /// Default constructor. Protected due to required properties, but present because EF needs it.
+      /// Default constructor
       /// </summary>
-      protected Book()
+      public Book()
       {
          Init();
-      }
-
-      /// <summary>
-      /// Replaces default constructor, since it's protected. Caller assumes responsibility for setting all required values before saving.
-      /// </summary>
-      public static Book CreateBookUnsafe()
-      {
-         return new Book();
       }
 
       /// <summary>
       /// Public constructor with required data
       /// </summary>
       /// <param name="_author0"></param>
-      public Book(global::Ex3_ModelOnetoMany.Author _author0) : this()
+      public Book(global::Ex3_ModelOnetoMany.Author _author0)
       {
          if (_author0 == null) throw new ArgumentNullException(nameof(_author0));
          _author0.Books.Add(this);
 
+         Init();
       }
 
       /// <summary>

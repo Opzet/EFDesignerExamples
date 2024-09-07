@@ -34,7 +34,7 @@
             // 
             // btnTestPerson
             // 
-            btnTestPerson.Location = new Point(42, 30);
+            btnTestPerson.Location = new Point(41, 12);
             btnTestPerson.Name = "btnTestPerson";
             btnTestPerson.Size = new Size(75, 23);
             btnTestPerson.TabIndex = 0;
@@ -44,17 +44,18 @@
             // 
             // txtDebug
             // 
-            txtDebug.Location = new Point(159, 30);
+            txtDebug.Location = new Point(159, 12);
             txtDebug.Multiline = true;
             txtDebug.Name = "txtDebug";
-            txtDebug.Size = new Size(242, 167);
+            txtDebug.ScrollBars = ScrollBars.Both;
+            txtDebug.Size = new Size(321, 329);
             txtDebug.TabIndex = 3;
             // 
             // FrmPerson
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(414, 210);
+            ClientSize = new Size(492, 353);
             Controls.Add(txtDebug);
             Controls.Add(btnTestPerson);
             Name = "FrmPerson";

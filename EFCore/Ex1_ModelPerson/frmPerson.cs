@@ -24,17 +24,18 @@ namespace Ex1_ModelPerson
 
             using (PersonModel context = new PersonModel())
             {
-                // Perform data access using the context
-
-                txtDebug.Text += "Attempting to delete \r\n";
-
                 // Ask for confirmation before deleting the database
                 var result = MessageBox.Show("Do you really want to delete the existing database?", "Confirm Delete", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
-                    context.DeleteOldStore();
-                    txtDebug.Text += "Deleted DB\r\n";
+                    txtDebug.Text += "Deleting DB...\r\n";
+                    context.Database.EnsureDeleted();
+                    txtDebug.Text += "Deleted Ok\r\n";
                 }
+
+                txtDebug.Text += "Creating DB...\r\n";
+                context.Database.EnsureCreated();
+                txtDebug.Text += "Created DB\r\n";
 
                 List<Person> people = GeneratePeople(50);
 
@@ -71,7 +72,7 @@ namespace Ex1_ModelPerson
                 if (result == DialogResult.Yes)
                 {
                     // Open the database folder
-                    string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "my_local_db");
+                    string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PersonModel");
                     Process.Start("explorer.exe", dbFolderPath);
                 }
             }
