@@ -1,40 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Validation;
-using System.Globalization;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
-using Ex3_ModelOnetoMany;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
-// To Enable-> optionsBuilder.UseLazyLoadingProxies();
-// <Change from EF6>
-// Required for Bi directional 1 to many loading
-// using Microsoft.EntityFrameworkCore.Proxies;
-// Install-Package Microsoft.EntityFrameworkCore.Proxies
 
-namespace Ex3_ModelManytoMany
+
+namespace Ex3_ModelOnetoMany
 {
     public partial class FrmModelOnetoMany : Form
     {
-
-        DbContextOptionsBuilder<EFModelOnetoMany> optionsBuilder;
-
         public FrmModelOnetoMany()
         {
             InitializeComponent();
-            optionsBuilder = new DbContextOptionsBuilder<EFModelOnetoMany>();
-            optionsBuilder.UseSqlServer(EFModelOnetoMany.ConnectionString);
-            optionsBuilder.LogTo(Console.WriteLine);
-        }
-
-        private void FrmMany2Many_Load(object sender, EventArgs e)
-        {
-            using (EFModelOnetoMany context = new EFModelOnetoMany(optionsBuilder.Options))
-            {
-                txtConnection.Text = EFModelOnetoMany.ConnectionString;
-            }
         }
 
         private void btnMany2Many_Click(object sender, EventArgs e)
@@ -45,15 +24,19 @@ namespace Ex3_ModelManytoMany
 
         void TestOne2Many()
         {
-            txtDebug.Text = "TestMany2May()\r\n";
+            txtDebug.Text = "TestOne2Many()\r\n";
 
-            using (EFModelOnetoMany context = new EFModelOnetoMany(optionsBuilder.Options))
+            using (EFModelOnetoMany context = new EFModelOnetoMany())
             {
-                // Perform data access using the context
+                var result = MessageBox.Show("Do you really want to delete the existing database?", "Confirm Delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    txtDebug.Text += "Deleting DB...\r\n";
+                    context.Database.EnsureDeleted();
+                    txtDebug.Text += "Deleted Ok\r\n";
+                }
 
-                context.Database.EnsureDeleted();
-                txtDebug.Text += "Deleted DB\r\n";
-
+                txtDebug.Text += "Creating DB...\r\n";
                 context.Database.EnsureCreated();
                 txtDebug.Text += "Created DB\r\n";
 
@@ -102,30 +85,24 @@ namespace Ex3_ModelManytoMany
                 {
                     context.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                catch (DbUpdateException dbEx)
                 {
+                    // This Exception handler helps to describe what went wrong with the EF database save inner exception detail.
+                    // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                     Exception raise = dbEx;
-                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entry in dbEx.Entries)
                     {
-                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting the current instance as InnerException  
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        string message = $"Entity of type {entry.Entity.GetType().Name} in state {entry.State} could not be updated";
+                        raise = new InvalidOperationException(message, raise);
                     }
                     throw raise;
                 }
+
             }
-
-            using (EFModelOnetoMany readback = new EFModelOnetoMany(optionsBuilder.Options))
+            txtDebug.Text += "\r\n--------- READ -------\r\n";
+            using (EFModelOnetoMany readback = new EFModelOnetoMany())
             {
-
-                // Read it back - need to enable lazy loading!  See top of source
-                // Install-Package Microsoft.EntityFrameworkCore.Proxies
-                var AllAuthors = readback.Authors.ToList();
+                 var AllAuthors = readback.Authors.ToList();
 
                 foreach (Author author in readback.Authors)
                 {
@@ -134,15 +111,18 @@ namespace Ex3_ModelManytoMany
 
 
                     foreach (Book thisbook in author.Books)
-                    // System.InvalidOperationException: 'There is already an open DataReader associated with this Connection which must be closed first.'
-                    // This is only single reader -> 'Data Source = (localdb)\mssqllocaldb; Initial Catalog = EFLocalDb; Integrated Security = True'
-                    // need multiple, missing 'MultipleActiveResultSets=true'
-                    // so -> 'Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True'
                     {
                         txtDebug.Text += $"Book Title:{thisbook.Title} - {thisbook.ISBN}\r\n";
                     }
-
                 }
+            }
+
+            var openresult = MessageBox.Show("Do you want to view the database filesystem?", "Open Folder", MessageBoxButtons.YesNo);
+            if (openresult == DialogResult.Yes)
+            {
+                // Open the database folder
+                string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EFModelOnetoMany");
+                Process.Start("explorer.exe", dbFolderPath);
             }
         }
     }
