@@ -1,20 +1,30 @@
 # EF Visual Designer Examples
 
+Model and generate code for Database
+
+Examples for both Entity Framework v6.x (Dot Net 4.x)  and Entity Framework Core (Net Core)
+
 You can read more about how to use the designer in the [Documentation site](https://msawczyn.github.io/EFDesigner/).
 
-## Examples for Entity Framework visual design surface and code-first code generation for EF6, EFCore and beyond.
+## EF Core Example Links 
 
-Model and generate code for both Entity Framework v6.x and Entity Framework Core 2 through 6.
+Created with [Entity Framework Visual Editor Extension](https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner2022) from Visual Studio Marketplace
 
-**[Install with NuGet](https://docs.microsoft.com/en-us/visualstudio/ide/finding-and-using-visual-studio-extensions) from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner2022)** (currently available as a pre-release extension)
+ - [Ex1_ModelPerson](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore/Ex1_ModelPerson)
+ - [Ex2_ModelOne2One](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore/Ex2_ModelOne2One)
+ - [Ex3_ModelOnetoMany](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore/Ex3_ModelOnetoMany)
+ - [Ex4_ModeManytoMany](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore/Ex4_ModeManytoMany)
+ - [Ex5_ModelInvoice](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore/Ex5_ModelInvoice)
+ - [Ex6_Course](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore/Ex6_Course)
+ - [Ex7_Mvp](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore/Ex7_Mvp)
+   
+[https://github.com/Opzet/EFDesignerExamples](https://github.com/Opzet/EFDesignerExamples/tree/main/EFCore)
 
-**Complete documentation in the [project's documentation site](https://msawczyn.github.io/EFDesigner/)**
+Note: Also contains Net4.x examples
 
-<table><tbody><tr><td>
-<img src="https://msawczyn.github.io/EFDesigner/images/Designer.jpg">
-</td></tr></tbody></table>
+# About Entity Framework VIsual Designer
 
-This Visual Studio 2022 extension is the easiest way to add a consistently correct Entity Framework (EF6 or EFCore) model to your project. 
+The Entity Framework VIsual Designer, a Visual Studio 2022 extension is the easiest way to add a consistently correct Entity Framework (EF6 or EFCore) model to your project. 
 
 It's an opinionated code generator, adding a new file type (.efmodel) that allows for fast, easy and, most importantly, **visual** design 
 of persistent classes. Inheritance, unidirectional and bidirectional associations are all supported. Enumerations are also included in 
@@ -41,7 +51,6 @@ add all the little things that *should* have been there. Things like:
 and many other nice-to-have bits.
 
 Code generation is completely customizable via T4 templates. The tool installs templates that 
-target both EF6 and EFCore, and generate both a code-first DbContext class and 
-POCO entity classes. The DbContext code is written to allow consumption in 
+target both EF6 and EFCore, and generate both a code-first DbContext class and POCO entity classes. The DbContext code is written to allow consumption in 
 ASP.Net Core in addition to any other project type, so you'll have flexibility in your development.
 
