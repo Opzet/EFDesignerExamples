@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Data.Entity.Validation;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using Microsoft.Extensions.Logging;
@@ -89,23 +88,17 @@ namespace Ex1_ModelPerson
                 {
                     context.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                catch (DbUpdateException dbEx)
                 {
                     Exception raise = dbEx;
-                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entry in dbEx.Entries)
                     {
-                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting the current instance as InnerException  
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        string message = $"Entity of type {entry.Entity.GetType().Name} in state {entry.State} could not be updated";
+                        raise = new InvalidOperationException(message, raise);
                     }
                     throw raise;
                 }
-
+           
                 //Read it back
                 DbSet<Person> people = context.People;
 
