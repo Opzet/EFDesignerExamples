@@ -8,8 +8,8 @@ Running the generator 'minimalapi'...
 Minimal hosting scenario!
 Attempting to figure out the EntityFramework metadata for the model and DbContext: 'Student'
 
-Unable to create an object of type 'CourseManager'. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728 StackTrace:
-Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContextOptions`1[Ex7_DAL.CourseManager]' while attempting to activate 'Ex7_DAL.CourseManager'.
+Unable to create an object of type 'CourseManagerModel'. For the different patterns supported at design time, see https://go.microsoft.com/fwlink/?linkid=851728 StackTrace:
+Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContextOptions`1[Ex7_DAL.CourseManagerModel]' while attempting to activate 'Ex7_DAL.CourseManagerModel'.
 
 == SOLUTION ==
 
@@ -30,14 +30,14 @@ Use a design-time factory, needs to be in DAL project (e.g Ex7_DAL), not in API 
         
         namespace Ex7_DAL
         {
-            public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManager>
+            public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManagerModel>
             {
-                public CourseManager CreateDbContext(string[] args)
+                public CourseManagerModel CreateDbContext(string[] args)
                 {
-                    var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-                    optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
+                    var optionsBuilder = new DbContextOptionsBuilder<CourseManagerModel>();
+                    optionsBuilder.UseSqlServer(CourseManagerModel.ConnectionString);
 
-                    return new CourseManager(optionsBuilder.Options);
+                    return new CourseManagerModel();
                 }
             }
         }

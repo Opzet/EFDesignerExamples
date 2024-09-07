@@ -22,7 +22,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ex7_DAL
 {
    /// <inheritdoc/>
-   public partial class CourseManager : DbContext
+   public partial class CourseManagerModel : DbContext
    {
       #region DbSets
       public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex7_DAL.Course> Courses { get; set; }
@@ -44,7 +44,7 @@ namespace Ex7_DAL
       ///     </para>
       /// </summary>
       /// <param name="options">The options for this context.</param>
-      public CourseManager(DbContextOptions<CourseManager> options) : base(options)
+      public CourseManagerModel(DbContextOptions<CourseManagerModel> options) : base(options)
       {
       }
 

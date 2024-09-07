@@ -24,14 +24,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-DbContextOptionsBuilder<CourseManager> optionsBuilder;
-optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
+DbContextOptionsBuilder<CourseManagerModel> optionsBuilder;
+optionsBuilder = new DbContextOptionsBuilder<CourseManagerModel>();
+optionsBuilder.UseSqlServer(CourseManagerModel.ConnectionString);
 
 //Spin up Database
 if (Debugger.IsAttached)
 {
-    using (CourseManager db = new CourseManager(optionsBuilder.Options))
+    using (CourseManagerModel db = new CourseManagerModel())
     {
         //db.Database.EnsureDeleted();
         //Debug.WriteLine("Deleted DB\r\n");
@@ -46,9 +46,9 @@ if (Debugger.IsAttached)
 // Create WebApi
 builder.Services.AddControllers();
 
-// Register the CourseManager database context as a service
-builder.Services.AddDbContext<CourseManager>(options =>
-    options.UseSqlServer(CourseManager.ConnectionString)
+// Register the CourseManagerModel database context as a service
+builder.Services.AddDbContext<CourseManagerModel>(options =>
+    options.UseSqlServer(CourseManagerModel.ConnectionString)
            .EnableSensitiveDataLogging()
            .EnableDetailedErrors());
 
@@ -80,7 +80,7 @@ app.Run();
 // -------------------------- DATABASE UTILS ------------------------------------------
 void SeedData()
 {
-    using (CourseManager db = new CourseManager(optionsBuilder.Options))
+    using (CourseManagerModel db = new CourseManagerModel())
     {
         List<Student> students = new List<Student>
             {
@@ -160,23 +160,23 @@ void SeedData()
 //    Running the generator 'controller'...
 //    Minimal hosting scenario!
 //    Attempting to figure out the EntityFramework metadata for the model and DbContext: 'Student'
-//    Unable to create an object of type 'CourseManager'. For the different patterns supported at design time, 
+//    Unable to create an object of type 'CourseManagerModel'. For the different patterns supported at design time, 
 //    see https://go.microsoft.com/fwlink/?linkid=851728 
 
-//    StackTrace:Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContextOptions`1[Ex7_DAL.CourseManager]' while attempting to activate 'Ex7_DAL.CourseManager'.
+//    StackTrace:Unable to resolve service for type 'Microsoft.EntityFrameworkCore.DbContextOptions`1[Ex7_DAL.CourseManagerModel]' while attempting to activate 'Ex7_DAL.CourseManagerModel'.
 
 // FIX: Add missing IDesignTimeDbContextFactory to Data Access Layer 
 
         namespace Ex7_WebApi
         {
-            public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManager>
+            public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManagerModel>
             {
-                public CourseManager CreateDbContext(string[] args)
+                public CourseManagerModel CreateDbContext(string[] args)
                 {
-                    var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-                    optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
+                    var optionsBuilder = new DbContextOptionsBuilder<CourseManagerModel>();
+                    optionsBuilder.UseSqlServer(CourseManagerModel.ConnectionString);
 
-                    return new CourseManager(optionsBuilder.Options);
+                    return new CourseManagerModel();
                 }
             }
         }

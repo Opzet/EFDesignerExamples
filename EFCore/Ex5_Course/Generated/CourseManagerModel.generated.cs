@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v4.2.1.3
+//     Produced by Entity Framework Visual Editor v4.2.7.3
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -22,7 +22,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Ex5_Course
 {
    /// <inheritdoc/>
-   public partial class CourseManager : DbContext
+   public partial class CourseManagerModel : DbContext
    {
       #region DbSets
       public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex5_Course.Course> Courses { get; set; }
@@ -31,10 +31,10 @@ namespace Ex5_Course
 
       #endregion DbSets
 
-      /// <summary>
-      /// Default connection string
-      /// </summary>
-      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True";
+      /// <inheritdoc />
+      public CourseManagerModel() : base()
+      {
+      }
 
       /// <summary>
       ///     <para>
@@ -44,7 +44,7 @@ namespace Ex5_Course
       ///     </para>
       /// </summary>
       /// <param name="options">The options for this context.</param>
-      public CourseManager(DbContextOptions<CourseManager> options) : base(options)
+      public CourseManagerModel(DbContextOptions<CourseManagerModel> options) : base(options)
       {
       }
 
@@ -83,7 +83,7 @@ namespace Ex5_Course
          modelBuilder.HasDefaultSchema("dbo");
 
          modelBuilder.Entity<global::Ex5_Course.Course>()
-                     .ToTable("Courses")
+                     .UseTpcMappingStrategy().ToTable("Courses")
                      .HasKey(t => t.CourseId);
          modelBuilder.Entity<global::Ex5_Course.Course>()
                      .Property(t => t.CourseId)
@@ -99,7 +99,7 @@ namespace Ex5_Course
                      .IsRequired();
 
          modelBuilder.Entity<global::Ex5_Course.Enrollment>()
-                     .ToTable("Enrollments")
+                     .UseTpcMappingStrategy().ToTable("Enrollments")
                      .HasKey(t => t.EnrollmentId);
          modelBuilder.Entity<global::Ex5_Course.Enrollment>()
                      .Property(t => t.EnrollmentId)
@@ -107,7 +107,7 @@ namespace Ex5_Course
                      .IsRequired();
 
          modelBuilder.Entity<global::Ex5_Course.Student>()
-                     .ToTable("Students")
+                     .UseTpcMappingStrategy().ToTable("Students")
                      .HasKey(t => t.StudentId);
          modelBuilder.Entity<global::Ex5_Course.Student>()
                      .Property(t => t.StudentId)

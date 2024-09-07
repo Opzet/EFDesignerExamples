@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v4.2.1.3
+//     Produced by Entity Framework Visual Editor v4.2.7.3
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -13,6 +13,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,30 +30,23 @@ namespace Ex4_ModelInvoice
       partial void Init();
 
       /// <summary>
-      /// Default constructor. Protected due to required properties, but present because EF needs it.
+      /// Default constructor
       /// </summary>
-      protected InvoiceDetails()
+      public InvoiceDetails()
       {
          Init();
-      }
-
-      /// <summary>
-      /// Replaces default constructor, since it's protected. Caller assumes responsibility for setting all required values before saving.
-      /// </summary>
-      public static InvoiceDetails CreateInvoiceDetailsUnsafe()
-      {
-         return new InvoiceDetails();
       }
 
       /// <summary>
       /// Public constructor with required data
       /// </summary>
       /// <param name="_invoiceheaders0"></param>
-      public InvoiceDetails(global::Ex4_ModelInvoice.InvoiceHeaders _invoiceheaders0) : this()
+      public InvoiceDetails(global::Ex4_ModelInvoice.InvoiceHeaders _invoiceheaders0)
       {
          if (_invoiceheaders0 == null) throw new ArgumentNullException(nameof(_invoiceheaders0));
          _invoiceheaders0.InvoiceDetails.Add(this);
 
+         Init();
       }
 
       /// <summary>

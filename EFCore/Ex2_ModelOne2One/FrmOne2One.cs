@@ -121,7 +121,7 @@ namespace Ex2_ModelOne2One
                 if (result == DialogResult.Yes)
                 {
                     // Open the database folder
-                    string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EFModelOne2One");
+                    string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, EFModelOne2One.DatabaseName);
                     Process.Start("explorer.exe", dbFolderPath);
                 }
             }

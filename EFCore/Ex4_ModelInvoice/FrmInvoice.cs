@@ -1,46 +1,38 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows.Forms;
-
-using System.Data.Entity.Validation;
 using Microsoft.EntityFrameworkCore;
-
-// Error CS1061	'DbContextOptionsBuilder' does not contain a definition for 'UseLazyLoadingProxies'
-// and no accessible extension method 'UseLazyLoadingProxies' accepting a first argument of type
-// 'DbContextOptionsBuilder' could be found (are you missing a using directive or an assembly reference?)	
-
 
 namespace Ex4_ModelInvoice
 {
     public partial class FrmInvoice : Form
     {
-        DbContextOptionsBuilder<AccountingSystemModel> optionsBuilder;
-
+      
         public FrmInvoice()
         {
             InitializeComponent();
-            optionsBuilder = new DbContextOptionsBuilder<AccountingSystemModel>();
-            optionsBuilder.UseSqlServer(AccountingSystemModel.ConnectionString);
-            optionsBuilder.LogTo(Console.WriteLine);
-            optionsBuilder.EnableDetailedErrors();
+           
         }
 
 
         private void button1_Click(object sender, EventArgs e)
         {
 
-            txtDebug.Text = "TestOne2One()\r\n";
+            txtDebug.Text = "TestModelInvoice()\r\n";
 
-            using (AccountingSystemModel db = new AccountingSystemModel(optionsBuilder.Options))
+            using (AccountingSystemModel db = new AccountingSystemModel())
             {
-                txtConnection.Text = AccountingSystemModel.ConnectionString;
-
+              
                 txtDebug.Text += "\r\nEx 4: Invoice - Header and Detail\r\n----------------\r\n";
 
-                db.Database.EnsureDeleted();
-                txtDebug.Text += "Deleted DB\r\n";
-
-                db.Database.EnsureCreated();
-                txtDebug.Text += "Created DB\r\n";
+                var result = MessageBox.Show("Do you really want to delete the existing database?", "Confirm Delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    txtDebug.Text += "Deleting DB...\r\n";
+                    db.DeleteOldStore(); //<- my implementation, would be nice to implement Database.EnsureDeleted(); above
+                    txtDebug.Text += "Deleted Ok\r\n";
+                }
 
                 InvoiceHeaders invHeader = new InvoiceHeaders();
 
@@ -73,26 +65,21 @@ namespace Ex4_ModelInvoice
                 {
                     db.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                catch (DbUpdateException dbEx)
                 {
+                    // This Exception handler helps to describe what went wrong with the EF database save inner exception detail.
+                    // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                     Exception raise = dbEx;
-                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entry in dbEx.Entries)
                     {
-                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting the current instance as InnerException  
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        string message = $"Entity of type {entry.Entity.GetType().Name} in state {entry.State} could not be updated";
+                        raise = new InvalidOperationException(message, raise);
                     }
                     throw raise;
-
                 }
             }
 
-            using (AccountingSystemModel db = new AccountingSystemModel(optionsBuilder.Options))
+            using (AccountingSystemModel db = new AccountingSystemModel())
             {
                 //Read it back
                 DbSet<InvoiceHeaders> invoices = db.InvoiceHeaders;
@@ -103,23 +90,21 @@ namespace Ex4_ModelInvoice
 
                     txtDebug.Text += "--- Detail --\r\n";
 
-                    // Error: There is already an open DataReader associated with this Command which must be closed first.
-                    // or 'DbContextOptionsBuilder' does not contain a definition for 'UseLazyLoadingProxies' 
-                    // Install Missing : PM> Install-Package Microsoft.EntityFrameworkCore.Proxies
                     foreach (InvoiceDetails LineItem in invoice.InvoiceDetails)
                     {
                         txtDebug.Text += $"Line Id {LineItem.Id} Details Desc:{LineItem.ItemDescription}\t Qty:{LineItem.Quantity} x Price:{LineItem.Price} = Sub Total:\t{LineItem.Total}\r\n";
                     }
                 }
             }
-        }
-        private void FRmInvoice_Load(object sender, EventArgs e)
-        {
 
-            using (AccountingSystemModel db = new AccountingSystemModel(optionsBuilder.Options))
+            var openresult = MessageBox.Show("Do you want to view the database filesystem?", "Open Folder", MessageBoxButtons.YesNo);
+            if (openresult == DialogResult.Yes)
             {
-                txtConnection.Text = AccountingSystemModel.ConnectionString;
+                // Open the database folder
+                string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, AccountingSystemModel.DatabaseName);
+                Process.Start("explorer.exe", dbFolderPath);
             }
         }
+      
     }
 }

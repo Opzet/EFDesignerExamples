@@ -32,9 +32,6 @@
     <commentBoxShape Id="985a812f-0e7c-462b-8ad1-f37826d3aa5a" absoluteBounds="2.8437500102445483, 1.8437500176951289, 1.5, 0.3" fillColor="255, 255, 204" outlineColor="204, 204, 102" textColor="Black" outlineDashStyle="Solid" outlineThickness="0.01">
       <commentMoniker Id="7393c3bb-1902-4d04-9fa2-f6fb3bf7da06" />
     </commentBoxShape>
-    <commentBoxShape Id="0b29434b-2989-46cf-bd27-bf38b94085a5" absoluteBounds="5.6874999888241291, 0.89583335351198912, 3.8020833851769567, 0.3" fillColor="255, 255, 204" outlineColor="204, 204, 102" textColor="Black" outlineDashStyle="Solid" outlineThickness="0.01">
-      <commentMoniker Id="c1e47c27-fced-40ad-a1e6-df3c57204157" />
-    </commentBoxShape>
   </nestedChildShapes>
 </eFModelDiagram>
 </eFModelDiagrams>

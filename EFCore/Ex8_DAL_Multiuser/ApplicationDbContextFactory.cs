@@ -33,7 +33,7 @@ namespace Ex8_DAL_Multiuser
                 var optionsBuilder = new DbContextOptionsBuilder<EFToDo>();
                 optionsBuilder.UseSqlServer(EFToDo.ConnectionString);
 
-                return new EFToDo(optionsBuilder.Options);
+                return new EFToDo();
             }
         }
     }

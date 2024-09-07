@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v4.2.1.3
+//     Produced by Entity Framework Visual Editor v4.2.7.3
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -30,10 +30,10 @@ namespace Ex4_ModelInvoice
 
       #endregion DbSets
 
-      /// <summary>
-      /// Default connection string
-      /// </summary>
-      public static string ConnectionString { get; set; } = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True";
+      /// <inheritdoc />
+      public AccountingSystemModel() : base()
+      {
+      }
 
       /// <summary>
       ///     <para>
@@ -82,7 +82,7 @@ namespace Ex4_ModelInvoice
          modelBuilder.HasDefaultSchema("dbo");
 
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceDetails>()
-                     .ToTable("InvoiceDetails")
+                     .UseTpcMappingStrategy().ToTable("InvoiceDetails")
                      .HasKey(t => t.Id);
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceDetails>()
                      .Property(t => t.Id)
@@ -91,14 +91,26 @@ namespace Ex4_ModelInvoice
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceDetails>()
                      .Property(t => t.ItemDescription)
                      .HasMaxLength(255);
+         modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceDetails>()
+                     .Property(t => t.Price)
+                     .HasPrecision(18, 2);
+         modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceDetails>()
+                     .Property(t => t.Quantity)
+                     .HasPrecision(18, 2);
+         modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceDetails>()
+                     .Property(t => t.Total)
+                     .HasPrecision(18, 2);
 
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceHeaders>()
-                     .ToTable("InvoiceHeaders")
+                     .UseTpcMappingStrategy().ToTable("InvoiceHeaders")
                      .HasKey(t => t.Id);
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceHeaders>()
                      .Property(t => t.Id)
                      .ValueGeneratedOnAdd()
                      .IsRequired();
+         modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceHeaders>()
+                     .Property(t => t.Total)
+                     .HasPrecision(18, 2);
          modelBuilder.Entity<global::Ex4_ModelInvoice.InvoiceHeaders>()
                      .HasMany<global::Ex4_ModelInvoice.InvoiceDetails>(p => p.InvoiceDetails)
                      .WithOne()

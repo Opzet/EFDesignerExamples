@@ -18,10 +18,10 @@
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="CourseManagerModel.cs">
+    <Compile Update="CourseManagerModelCourseManagerModel.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>CourseManagerModel.tt</DependentUpon>
+      <DependentUpon>CourseManagerModelCourseManagerModel.tt</DependentUpon>
     </Compile>
     <Compile Update="EFModel1.cs">
       <DesignTime>True</DesignTime>
@@ -30,9 +30,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Update="CourseManagerModel.tt">
+    <None Update="CourseManagerModelCourseManagerModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CourseManagerModel.cs</LastGenOutput>
+      <LastGenOutput>CourseManagerModelCourseManagerModel.cs</LastGenOutput>
     </None>
     <None Update="EFModel1.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

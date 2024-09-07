@@ -32,12 +32,14 @@ namespace Ex3_ModelOnetoMany
                 if (result == DialogResult.Yes)
                 {
                     txtDebug.Text += "Deleting DB...\r\n";
-                    context.Database.EnsureDeleted();
+                    context.Database.EnsureDeleted(); // <- this doesnt do anything 
+                    context.DeleteOldStore(); //<- my implementation, would be nice to implement Database.EnsureDeleted(); above
+
                     txtDebug.Text += "Deleted Ok\r\n";
                 }
 
                 txtDebug.Text += "Creating DB...\r\n";
-                context.Database.EnsureCreated();
+                context.Database.EnsureCreated(); // <- this does nothing either
                 txtDebug.Text += "Created DB\r\n";
 
 
@@ -99,10 +101,15 @@ namespace Ex3_ModelOnetoMany
                 }
 
             }
+
+        }
+
+        void ReadDb()
+        {
             txtDebug.Text += "\r\n--------- READ -------\r\n";
             using (EFModelOnetoMany readback = new EFModelOnetoMany())
             {
-                 var AllAuthors = readback.Authors.ToList();
+                var AllAuthors = readback.Authors.ToList();
 
                 foreach (Author author in readback.Authors)
                 {
@@ -121,9 +128,15 @@ namespace Ex3_ModelOnetoMany
             if (openresult == DialogResult.Yes)
             {
                 // Open the database folder
-                string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "EFModelOnetoMany");
+                string dbFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, EFModelOnetoMany.DatabaseName);
                 Process.Start("explorer.exe", dbFolderPath);
             }
+        }
+
+        private void btnRead_Click(object sender, EventArgs e)
+        {
+            txtDebug.Text = "Reading Database...\r\n";
+            ReadDb();
         }
     }
 }

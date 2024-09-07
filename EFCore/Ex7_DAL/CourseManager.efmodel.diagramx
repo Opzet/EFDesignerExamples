@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <eFModelDiagrams>
-<eFModelDiagram dslVersion="1.0.0.0" Id="1f456e80-2992-4e08-8ec4-0513ca645a46" type="Sawczyn.EFDesigner.EFModel.EFModelDiagram" absoluteBounds="0, 0, 11, 8.5" name="CourseManager" fillColor="31, 31, 31" textColor="White">
+<eFModelDiagram dslVersion="1.0.0.0" Id="1f456e80-2992-4e08-8ec4-0513ca645a46" type="Sawczyn.EFDesigner.EFModel.EFModelDiagram" absoluteBounds="0, 0, 11, 8.5" name="CourseManagerModel" fillColor="31, 31, 31" textColor="White">
   <modelRootMoniker Id="cba47279-0950-4257-bb2c-e4d5e72a52a4" />
   <nestedChildShapes>
     <classShape Id="0970d284-33f4-4d83-a502-2b86ed0f70a1" absoluteBounds="0.5, 3.125, 1.5, 2.1396761067708332" fillColor="0, 122, 204" textColor="White" outlineColor="Black" outlineDashStyle="Solid" outlineThickness="0.01">

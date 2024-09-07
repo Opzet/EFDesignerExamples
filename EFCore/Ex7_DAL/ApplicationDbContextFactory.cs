@@ -25,14 +25,14 @@ namespace Ex7_DAL
         
         namespace Ex7_DAL
     {
-        public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManager>
+        public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManagerModel>
         {
-            public CourseManager CreateDbContext(string[] args)
+            public CourseManagerModel CreateDbContext(string[] args)
             {
-                var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-                optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
+                var optionsBuilder = new DbContextOptionsBuilder<CourseManagerModel>();
+                optionsBuilder.UseSqlServer(CourseManagerModel.ConnectionString);
 
-                return new CourseManager(optionsBuilder.Options);
+                return new CourseManagerModel();
             }
         }
     }
@@ -40,14 +40,14 @@ namespace Ex7_DAL
 
 
 
-    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManager>
+    public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<CourseManagerModel>
     {
-        public CourseManager CreateDbContext(string[] args)
+        public CourseManagerModel CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-            optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
+            var optionsBuilder = new DbContextOptionsBuilder<CourseManagerModel>();
+            optionsBuilder.UseSqlServer(CourseManagerModel.ConnectionString);
 
-            return new CourseManager(optionsBuilder.Options);
+            return new CourseManagerModel();
         }
     }
 }

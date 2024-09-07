@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="4.2.3.5" Id="cba47279-0950-4257-bb2c-e4d5e72a52a4" entityContainerName="CourseManager" namespace="Ex7_DAL" connectionString="Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True" automaticMigrationsEnabled="false" contextOutputDirectory="Generated" showCascadeDeletes="false" databaseType="None" warnOnMissingDocumentation="false" exposeForeignKeys="false" generateDbContextFactory="false" showInterfaceIndicators="false" xmlns="http://schemas.microsoft.com/dsltools/EFModel">
+<modelRoot xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" dslVersion="4.2.3.5" Id="cba47279-0950-4257-bb2c-e4d5e72a52a4" entityContainerName="CourseManagerModel" namespace="Ex7_DAL" connectionString="Data Source=(localdb)\mssqllocaldb;Initial Catalog=EFVisualExamples;MultipleActiveResultSets=true;Integrated Security=True" automaticMigrationsEnabled="false" contextOutputDirectory="Generated" showCascadeDeletes="false" databaseType="None" warnOnMissingDocumentation="false" exposeForeignKeys="false" generateDbContextFactory="false" showInterfaceIndicators="false" xmlns="http://schemas.microsoft.com/dsltools/EFModel">
   <comments>
     <comment Id="cd8466ca-5b1f-483a-91f6-8c55f1dc04e9" text="Working." />
     <comment Id="48ca10bf-251c-41bb-9b1e-4463e0a53fd7" text="Note: Bi Directional Mapping" />
@@ -46,7 +46,7 @@
   </classes>
   <diagrams>
     <modelRootHasModelDiagrams Id="116ad42a-8f20-432e-9513-2a2bcdb268a9">
-      <modelDiagramData name="CourseManager" />
+      <modelDiagramData name="CourseManagerModel" />
     </modelRootHasModelDiagrams>
   </diagrams>
 </modelRoot>

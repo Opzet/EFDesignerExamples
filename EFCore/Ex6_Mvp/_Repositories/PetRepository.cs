@@ -39,7 +39,7 @@ namespace Ex6_Mvp._Repositories
                 optionsBuilder.EnableDetailedErrors();
             }
 
-            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            using (EFPetDb db = new EFPetDb())
             {
                 
                 //if (!db.Database.Exists())
@@ -52,7 +52,7 @@ namespace Ex6_Mvp._Repositories
 
         public void DeleteandSeed()
         {
-            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            using (EFPetDb db = new EFPetDb())
             {
                 //Reset Database
                 db.Database.EnsureDeleted();
@@ -75,7 +75,7 @@ namespace Ex6_Mvp._Repositories
         }
         void SeedData()
         {
-            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            using (EFPetDb db = new EFPetDb())
             {
                 List<Pet> Pets = new List<Pet>
                 {
@@ -116,7 +116,7 @@ namespace Ex6_Mvp._Repositories
                 //Methods
         public void Add(Pet petModel)
         {
-            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            using (EFPetDb db = new EFPetDb())
             {
                 db.Pets.Add(petModel);
                 db.SaveChanges();
@@ -125,7 +125,7 @@ namespace Ex6_Mvp._Repositories
 
         public void Delete(long id)
         {
-            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            using (EFPetDb db = new EFPetDb())
             {
                 //Pet pet = db.Pets.FirstOrDefault(p => p.Id == id);
                 Pet pet = db.Pets.Find(id);
@@ -136,7 +136,7 @@ namespace Ex6_Mvp._Repositories
 
         public void Edit(Pet pet)
         {
-            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            using (EFPetDb db = new EFPetDb())
             {
                 Pet petinDb = db.Pets.Find(pet.Id);
                 petinDb.Name = pet.Name;
@@ -149,7 +149,7 @@ namespace Ex6_Mvp._Repositories
         public IEnumerable<Pet> GetAll()
         {
             var petList = new List<Pet>();
-            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            using (EFPetDb db = new EFPetDb())
             {
                 petList = db.Pets.ToList();
             }
@@ -161,7 +161,7 @@ namespace Ex6_Mvp._Repositories
             List<Pet> petList = new List<Pet>();
             int petId = int.TryParse(value, out _) ? Convert.ToInt32(value) : 0;
 
-            using (EFPetDb db = new EFPetDb(optionsBuilder.Options))
+            using (EFPetDb db = new EFPetDb())
             {
                 // Query for all pets that match value in any field
                 var enumpetList = from b in db.Pets

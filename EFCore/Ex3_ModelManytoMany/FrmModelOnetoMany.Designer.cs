@@ -31,6 +31,7 @@ namespace Ex3_ModelOnetoMany
         {
             txtDebug = new System.Windows.Forms.TextBox();
             btnTestOne2One = new System.Windows.Forms.Button();
+            btnRead = new System.Windows.Forms.Button();
             SuspendLayout();
             // 
             // txtDebug
@@ -54,17 +55,29 @@ namespace Ex3_ModelOnetoMany
             btnTestOne2One.UseVisualStyleBackColor = true;
             btnTestOne2One.Click += btnMany2Many_Click;
             // 
+            // btnRead
+            // 
+            btnRead.Location = new System.Drawing.Point(12, 93);
+            btnRead.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            btnRead.Name = "btnRead";
+            btnRead.Size = new System.Drawing.Size(132, 47);
+            btnRead.TabIndex = 13;
+            btnRead.Text = "Read records";
+            btnRead.UseVisualStyleBackColor = true;
+            btnRead.Click += btnRead_Click;
+            // 
             // FrmModelOnetoMany
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(745, 338);
+            Controls.Add(btnRead);
             Controls.Add(txtDebug);
             Controls.Add(btnTestOne2One);
             Margin = new System.Windows.Forms.Padding(2);
             Name = "FrmModelOnetoMany";
             Text = "Ex 3: One 2 Many - Authors & Books";
-             ResumeLayout(false);
+            ResumeLayout(false);
             PerformLayout();
         }
 
@@ -72,5 +85,6 @@ namespace Ex3_ModelOnetoMany
 
         private System.Windows.Forms.TextBox txtDebug;
       private System.Windows.Forms.Button btnTestOne2One;
-   }
+        private System.Windows.Forms.Button btnRead;
+    }
 }

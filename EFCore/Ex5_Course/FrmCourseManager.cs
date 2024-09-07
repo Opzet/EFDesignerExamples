@@ -2,43 +2,19 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-using System.Data.Entity.Validation;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 using System.Diagnostics;
 
-//https://learn.microsoft.com/en-us/ef/core/querying/related-data/#lazy-loading
-// To Enable-> optionsBuilder.UseLazyLoadingProxies();
-// <Change from EF6>
-// Required for Bi directional 1 to many loading
-// using Microsoft.EntityFrameworkCore.Proxies;
-// Install-Package Microsoft.EntityFrameworkCore.Proxies
 
 namespace Ex5_Course
 {
     public partial class FrmCourseManager : Form
     {
-        DbContextOptionsBuilder<CourseManager> optionsBuilder;
-
         public FrmCourseManager()
         {
             InitializeComponent();
-
-            //Setup Connection string holder
-            optionsBuilder = new DbContextOptionsBuilder<CourseManager>();
-            optionsBuilder.UseSqlServer(CourseManager.ConnectionString);
-
-            // Required for Bi directional 1 to many loading
-            //  optionsBuilder.UseLazyLoadingProxies(); // <-- no need to set here,
-            // You enable Lazy Loading via efmodeller gui property
-
-            if (Debugger.IsAttached)
-            {
-                optionsBuilder.EnableDetailedErrors();
-                optionsBuilder.EnableSensitiveDataLogging();
-                optionsBuilder.EnableDetailedErrors();
-            }
         }
 
         public class Logger
@@ -51,16 +27,15 @@ namespace Ex5_Course
 
         private void FrmCourseManager_Load(object sender, EventArgs e)
         {
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
-
-                db.Database.EnsureDeleted();
-                txtDebug.Text += "Deleted DB\r\n";
-
-                db.Database.EnsureCreated();
-                txtDebug.Text += "Created DB\r\n";
-
-                txtConnection.Text = CourseManager.ConnectionString;
+                var result = MessageBox.Show("Do you really want to delete the existing database?", "Confirm Delete", MessageBoxButtons.YesNo);
+                if (result == DialogResult.Yes)
+                {
+                    txtDebug.Text += "Deleting DB...\r\n";
+                    db.DeleteOldStore(); //<- my implementation, would be nice to implement Database.EnsureDeleted(); above
+                    txtDebug.Text += "Deleted Ok\r\n";
+                }
             }
 
             SeedData();
@@ -98,7 +73,7 @@ namespace Ex5_Course
 
             lvStudents.Items.Clear();
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
 
                 DbSet<Student> people = db.Students;
@@ -119,7 +94,7 @@ namespace Ex5_Course
 
             txtDebug.Text = "btnNewStudent_Click()\r\n";
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 Student student = new Student();
 
@@ -134,19 +109,15 @@ namespace Ex5_Course
                 {
                     db.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                catch (DbUpdateException dbEx)
                 {
+                    // This Exception handler helps to describe what went wrong with the EF database save inner exception detail.
+                    // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                     Exception raise = dbEx;
-                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entry in dbEx.Entries)
                     {
-                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting the current instance as InnerException  
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        string message = $"Entity of type {entry.Entity.GetType().Name} in state {entry.State} could not be updated";
+                        raise = new InvalidOperationException(message, raise);
                     }
                     throw raise;
                 }
@@ -166,7 +137,7 @@ namespace Ex5_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 // Get student to delete
                 Student StudentToDelete = db.Students.First(s => s.StudentId == pk);
@@ -195,7 +166,7 @@ namespace Ex5_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 Student student = db.Students.SingleOrDefault(b => b.StudentId == pk);
                 if (student != null)
@@ -239,9 +210,20 @@ namespace Ex5_Course
 
             lvCourses.Items.Clear();
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 DbSet<Course> courses = db.Courses;
+                
+                // System.InvalidOperationException: 'An error was generated for warning 'Microsoft.EntityFrameworkCore.Infrastructure.ManyServiceProvidersCreatedWarning':
+                
+                // More than twenty 'IServiceProvider' instances have been created for internal use by Entity Framework.
+                
+                // This is commonly caused by injection of a new singleton service instance into every DbContext instance.
+
+                // For example, calling 'UseLoggerFactory' passing in a new instance each time--see https://go.microsoft.com/fwlink/?linkid=869049 for more details.
+                // This may lead to performance issues, consider reviewing calls on 'DbContextOptionsBuilder' that may require new service providers to be built.
+                // This exception can be suppressed or logged by passing event ID 'CoreEventId.ManyServiceProvidersCreatedWarning' to the 'ConfigureWarnings' method in
+                // 'DbContext.OnConfiguring' or 'AddDbContext'.'
 
                 int count = courses.Count();
 
@@ -264,7 +246,7 @@ namespace Ex5_Course
 
             txtDebug.Text = "btnNewCourse_Click()\r\n";
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 Course course = new Course();
 
@@ -275,25 +257,19 @@ namespace Ex5_Course
 
                 db.Courses.Add(course);
 
-                // This Exception handler helps to describe what went wrong with the EF database save.
-                // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
-                try
+                 try
                 {
                     db.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                catch (DbUpdateException dbEx)
                 {
+                    // This Exception handler helps to describe what went wrong with the EF database save inner exception detail.
+                    // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                     Exception raise = dbEx;
-                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entry in dbEx.Entries)
                     {
-                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting the current instance as InnerException  
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        string message = $"Entity of type {entry.Entity.GetType().Name} in state {entry.State} could not be updated";
+                        raise = new InvalidOperationException(message, raise);
                     }
                     throw raise;
                 }
@@ -315,7 +291,7 @@ namespace Ex5_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 // Get course to delete
                 Course CourseToDelete = db.Courses.First(c => c.CourseId == pk);
@@ -346,7 +322,7 @@ namespace Ex5_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 // Get course to delete
                 Course CourseToUpdate = db.Courses.First(c => c.CourseId == pk);
@@ -393,7 +369,7 @@ namespace Ex5_Course
             sPk = lvItem.SubItems[0].Text;
             long StudentPk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                
                 Course CourseToLink = db.Courses.First(c => c.CourseId == CoursePk);
@@ -413,19 +389,15 @@ namespace Ex5_Course
                 {
                     db.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                catch (DbUpdateException dbEx)
                 {
+                    // This Exception handler helps to describe what went wrong with the EF database save inner exception detail.
+                    // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                     Exception raise = dbEx;
-                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entry in dbEx.Entries)
                     {
-                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting the current instance as InnerException  
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        string message = $"Entity of type {entry.Entity.GetType().Name} in state {entry.State} could not be updated";
+                        raise = new InvalidOperationException(message, raise);
                     }
                     throw raise;
                 }
@@ -453,7 +425,7 @@ namespace Ex5_Course
             string sPk = lvItem.SubItems[0].Text;
             long EnrolPk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 Enrollment EnrolToUpdate = db.Enrollments.First(en => en.EnrollmentId == EnrolPk);
 
@@ -480,19 +452,15 @@ namespace Ex5_Course
                 {
                     db.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                catch (DbUpdateException dbEx)
                 {
+                    // This Exception handler helps to describe what went wrong with the EF database save inner exception detail.
+                    // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                     Exception raise = dbEx;
-                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entry in dbEx.Entries)
                     {
-                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting the current instance as InnerException  
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        string message = $"Entity of type {entry.Entity.GetType().Name} in state {entry.State} could not be updated";
+                        raise = new InvalidOperationException(message, raise);
                     }
                     throw raise;
                 }
@@ -515,7 +483,7 @@ namespace Ex5_Course
             string sPk = lvItem.SubItems[0].Text;
             long pk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 // Get course to delete
                 Enrollment EnrolToDelete = db.Enrollments.First(en => en.EnrollmentId == pk);
@@ -537,7 +505,7 @@ namespace Ex5_Course
         {
             lvEnrolments.Items.Clear();
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 DbSet<Enrollment> enrolments = db.Enrollments;
 
@@ -550,28 +518,10 @@ namespace Ex5_Course
                     string StudentName = "";
                     string CourseTitle = "";
 
-
-                    /*
-                    //If you get already an open datareader error?
-                    
-                    //Simply include "MultipleActiveResultSets=true" in your connection string
-
-                    It is not about closing connection. EF manages connection correctly. 
-                    My understanding of this problem is that there are multiple data retrieval commands executed on single connection 
-                    (or single command with multiple selects) while next DataReader is executed before first one has completed the reading. 
-                    The only way to avoid the exception is to allow multiple nested DataReaders = turn on MultipleActiveResultSets.
-                    Another scenario when this always happens is when you iterate through result of the query (IQueryable) 
-                    and you will trigger lazy loading for loaded entity inside the iteration.
-                    
-                    */
-
-
                     Course course = en.Course;
 
                     //Debug.Assert(en.Student != null);
                     //Debug.Assert(en.Course != null);
-
-                    // To Enable record retrival -> optionsBuilder.UseLazyLoadingProxies(); via efvisualmodeller gui 
 
                     if (course != null)
                         CourseTitle = course.Title;
@@ -621,7 +571,7 @@ namespace Ex5_Course
         #region SeedDb
         void SeedData()
         {
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 List<Student> students = new List<Student>
             {
@@ -702,7 +652,7 @@ namespace Ex5_Course
             string sPk = lvItem.SubItems[0].Text;
             long EnrolPk = Convert.ToInt64(sPk);
 
-            using (CourseManager db = new CourseManager(optionsBuilder.Options))
+            using (CourseManagerModel db = new CourseManagerModel())
             {
                 Enrollment EnrolToUpdate = db.Enrollments.First(en => en.EnrollmentId == EnrolPk);
 
@@ -731,19 +681,15 @@ namespace Ex5_Course
                 {
                     db.SaveChanges();
                 }
-                catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+                catch (DbUpdateException dbEx)
                 {
+                    // This Exception handler helps to describe what went wrong with the EF database save inner exception detail.
+                    // It decodes why the data did not comply with defined database field structure. e.g too long or wrong type.
                     Exception raise = dbEx;
-                    foreach (DbEntityValidationResult validationErrors in dbEx.EntityValidationErrors)
+                    foreach (var entry in dbEx.Entries)
                     {
-                        foreach (DbValidationError validationError in validationErrors.ValidationErrors)
-                        {
-                            string message = string.Format("{0}:{1}",
-                                validationErrors.Entry.Entity.ToString(),
-                                validationError.ErrorMessage);
-                            // raise a new exception nesting the current instance as InnerException  
-                            raise = new InvalidOperationException(message, raise);
-                        }
+                        string message = $"Entity of type {entry.Entity.GetType().Name} in state {entry.State} could not be updated";
+                        raise = new InvalidOperationException(message, raise);
                     }
                     throw raise;
                 }

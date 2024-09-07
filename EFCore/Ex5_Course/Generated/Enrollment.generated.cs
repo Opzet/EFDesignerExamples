@@ -5,7 +5,7 @@
 //     Manual changes to this file may cause unexpected behavior in your application.
 //     Manual changes to this file will be overwritten if the code is regenerated.
 //
-//     Produced by Entity Framework Visual Editor v4.2.1.3
+//     Produced by Entity Framework Visual Editor v4.2.7.3
 //     Source:                    https://github.com/msawczyn/EFDesigner
 //     Visual Studio Marketplace: https://marketplace.visualstudio.com/items?itemName=michaelsawczyn.EFDesigner
 //     Documentation:             https://msawczyn.github.io/EFDesigner/
@@ -13,6 +13,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+#nullable disable
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,51 +30,19 @@ namespace Ex5_Course
       partial void Init();
 
       /// <summary>
-      /// Default constructor. Protected due to required properties, but present because EF needs it.
+      /// Default constructor
       /// </summary>
-      protected Enrollment()
+      public Enrollment()
       {
          Init();
       }
 
       /// <summary>
-      /// Replaces default constructor, since it's protected. Caller assumes responsibility for setting all required values before saving.
-      /// </summary>
-      public static Enrollment CreateEnrollmentUnsafe()
-      {
-         return new Enrollment();
-      }
-
-      /// <summary>
-      /// Public constructor with required data
-      /// </summary>
-      /// <param name="course"></param>
-      public Enrollment(global::Ex5_Course.Course course) : this()
-      {
-         if (course == null) throw new ArgumentNullException(nameof(course));
-         this.Course = course;
-         course.Enrollments.Add(this);
-
-      }
-
-      /// <summary>
-      /// Public constructor with required data
-      /// </summary>
-      /// <param name="student"></param>
-      public Enrollment(global::Ex5_Course.Student student) : this()
-      {
-         if (student == null) throw new ArgumentNullException(nameof(student));
-         this.Student = student;
-         student.Enrollments.Add(this);
-
-      }
-
-      /// <summary>
       /// Public constructor with required data
       /// </summary>
       /// <param name="course"></param>
       /// <param name="student"></param>
-      public Enrollment(global::Ex5_Course.Course course, global::Ex5_Course.Student student) : this()
+      public Enrollment(global::Ex5_Course.Course course, global::Ex5_Course.Student student)
       {
          if (course == null) throw new ArgumentNullException(nameof(course));
          this.Course = course;
@@ -83,24 +52,7 @@ namespace Ex5_Course
          this.Student = student;
          student.Enrollments.Add(this);
 
-      }
-
-      /// <summary>
-      /// Static create function (for use in LINQ queries, etc.)
-      /// </summary>
-      /// <param name="course"></param>
-      public static Enrollment Create(global::Ex5_Course.Course course)
-      {
-         return new Enrollment(course);
-      }
-
-      /// <summary>
-      /// Static create function (for use in LINQ queries, etc.)
-      /// </summary>
-      /// <param name="student"></param>
-      public static Enrollment Create(global::Ex5_Course.Student student)
-      {
-         return new Enrollment(student);
+         Init();
       }
 
       /// <summary>

@@ -12,7 +12,7 @@ optionsBuilder.UseSqlServer(EFToDo.ConnectionString);
 //Spin up Database
 if (Debugger.IsAttached)
 {
-    using (EFToDo db = new EFToDo(optionsBuilder.Options))
+    using (EFToDo db = new EFToDo())
     {
         db.Database.EnsureDeleted();
         Debug.WriteLine("Deleted DB\r\n");

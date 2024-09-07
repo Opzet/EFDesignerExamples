@@ -13,9 +13,9 @@ namespace Ex7_WebApi.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly CourseManager _context;
+        private readonly CourseManagerModel _context;
 
-        public CoursesController(CourseManager context)
+        public CoursesController(CourseManagerModel context)
         {
             _context = context;
         }
@@ -87,7 +87,7 @@ namespace Ex7_WebApi.Controllers
         {
           if (_context.Courses == null)
           {
-              return Problem("Entity set 'CourseManager.Courses'  is null.");
+              return Problem("Entity set 'CourseManagerModel.Courses'  is null.");
           }
             _context.Courses.Add(course);
             await _context.SaveChangesAsync();
