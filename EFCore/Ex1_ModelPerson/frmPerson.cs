@@ -8,7 +8,6 @@ namespace Ex1_ModelPerson
 {
     public partial class FrmPerson : Form
     {
-        DbContextOptionsBuilder<PersonModel> optionsBuilder;
         public FrmPerson()
         {
             InitializeComponent();
@@ -34,6 +33,8 @@ namespace Ex1_ModelPerson
                 {
                     txtDebug.Text += "Deleting DB...\r\n";
                     context.Database.EnsureDeleted();
+                    context.DeleteOldStore(); // Custom implementation to delete old store
+
                     txtDebug.Text += "Deleted Ok\r\n";
                 }
 

@@ -33,13 +33,11 @@ namespace Ex1_ModelPerson
                 SaveCurrentSchemaVersion();
             }
 
-           
+            Debug.WriteLine($"optionsBuilder.IsConfigure [{optionsBuilder.IsConfigured}]");
+
             if (!optionsBuilder.IsConfigured)
             {
-                /*
-                Dont create a new Options instance and the efcore infrastructure detects it and throws InvalidOperationException.
-                This is a no-no for production.
-                */
+                Debug.WriteLine("Creating new options instance");
 
                 if (Debugger.IsAttached)
                 {
@@ -48,6 +46,9 @@ namespace Ex1_ModelPerson
                     optionsBuilder.EnableDetailedErrors();
                 }
                 optionsBuilder.UseFileBaseContextDatabase(databaseName: DatabaseName);
+                Debug.WriteLine($"optionsBuilder.IsConfigure [{optionsBuilder.IsConfigured}]");
+
+
             }
         }
       
