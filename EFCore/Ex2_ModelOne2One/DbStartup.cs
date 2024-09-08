@@ -25,13 +25,21 @@ namespace Ex2_ModelOne2One
                 SaveCurrentSchemaVersion();
             }
 
-            if (Debugger.IsAttached)
+            if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.EnableDetailedErrors();
-                optionsBuilder.EnableSensitiveDataLogging();
-                optionsBuilder.EnableDetailedErrors();
+                /*
+                Dont create a new Options instance and the efcore infrastructure detects it and throws InvalidOperationException.
+                This is a no-no for production.
+                */
+
+                if (Debugger.IsAttached)
+                {
+                    optionsBuilder.EnableDetailedErrors();
+                    optionsBuilder.EnableSensitiveDataLogging();
+                    optionsBuilder.EnableDetailedErrors();
+                }
+                optionsBuilder.UseFileBaseContextDatabase(databaseName: DatabaseName);
             }
-            optionsBuilder.UseFileBaseContextDatabase(databaseName: DatabaseName);
         }
 
         private bool HasSchemaChanged()

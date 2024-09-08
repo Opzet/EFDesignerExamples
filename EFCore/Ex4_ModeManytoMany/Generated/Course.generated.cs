@@ -34,7 +34,7 @@ namespace Ex4_ModelManytoMany
       /// </summary>
       public Course()
       {
-         Students = new System.Collections.ObjectModel.Collection<global::Ex4_ModelManytoMany.Student>();
+         Enrollments = new System.Collections.Generic.HashSet<global::Ex4_ModelManytoMany.Enrollment>();
 
          Init();
       }
@@ -63,7 +63,12 @@ namespace Ex4_ModelManytoMany
        * Navigation properties
        *************************************************************************/
 
-      public virtual ICollection<global::Ex4_ModelManytoMany.Student> Students { get; private set; }
+      /// <summary>
+      /// Association class for Students
+      /// </summary>
+      [System.ComponentModel.Description("Association class for Students")]
+      [System.ComponentModel.DataAnnotations.Display(Name="Association object for Students")]
+      public virtual ICollection<global::Ex4_ModelManytoMany.Enrollment> Enrollments { get; private set; }
 
    }
 }

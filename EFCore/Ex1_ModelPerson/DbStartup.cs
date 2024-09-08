@@ -7,11 +7,7 @@ using System.Threading.Tasks;
 using FileBaseContext.Extensions;
 
 
-
-// Step 1: Entity Framework Core has come a long way from only supporting Microsoft SQL Server.
-//PM > Install-Package Microsoft.EntityFrameworkCore.SqlServer
 using Microsoft.EntityFrameworkCore;
-
 
 namespace Ex1_ModelPerson
 {
@@ -37,14 +33,25 @@ namespace Ex1_ModelPerson
                 SaveCurrentSchemaVersion();
             }
 
-            if (Debugger.IsAttached)
+           
+            if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.EnableDetailedErrors();
-                optionsBuilder.EnableSensitiveDataLogging();
-                optionsBuilder.EnableDetailedErrors();
+                /*
+                Dont create a new Options instance and the efcore infrastructure detects it and throws InvalidOperationException.
+                This is a no-no for production.
+                */
+
+                if (Debugger.IsAttached)
+                {
+                    optionsBuilder.EnableDetailedErrors();
+                    optionsBuilder.EnableSensitiveDataLogging();
+                    optionsBuilder.EnableDetailedErrors();
+                }
+                optionsBuilder.UseFileBaseContextDatabase(databaseName: DatabaseName);
             }
-            optionsBuilder.UseFileBaseContextDatabase(databaseName: DatabaseName);
         }
+      
+
 
         private bool HasSchemaChanged()
         {

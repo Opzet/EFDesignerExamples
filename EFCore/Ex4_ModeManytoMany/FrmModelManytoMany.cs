@@ -24,7 +24,7 @@ namespace Ex4_ModelManytoMany
 
         void TestMany2Many()
         {
-            txtDebug.Text = "TestOne2Many()\r\n";
+            txtDebug.Text = "TestMany2Many()\r\n";
 
             using (EFModelManytoMany context = new EFModelManytoMany())
             {
@@ -47,46 +47,37 @@ namespace Ex4_ModelManytoMany
                 context.Students.AddRange(students);
                 context.Courses.AddRange(courses);
 
+                // Associate random many-to-many
+                Random random = new Random();
+                for (int i = 0; i < 30; i++)
+                {
+                    var student = students[random.Next(students.Count)];
+                    var course = courses[random.Next(courses.Count)];
+
+                    // Check if the enrollment already exists for student and course
+                    if (!context.Enrollments.Any(e => e.Student.Id == student.Id && e.Course.Id == course.Id))
+                    {
+                        // Joining table for many-to-many
+                        Enrollment enrollment = new Enrollment();
+                        enrollment.Student = student;
+                        enrollment.Course = course;
+                        context.Enrollments.Add(enrollment);
+                        context.SaveChanges();
+                    }
+                }
+
                 context.SaveChanges();
 
-                txtDebug.Text += "Added students and courses to the context and saved changes.\r\n";
+                txtDebug.Text += "Added students, courses, and enrollments to the context and saved changes.\r\n";
             }
 
             using (EFModelManytoMany context = new EFModelManytoMany())
             {
-                // Retrieve the saved students and courses from the database
-                var dbStudents = context.Students.Include(s => s.Courses).ToList();
-                var dbCourses = context.Courses.Include(c => c.Students).ToList();
-
-                txtDebug.Text += $"[{dbStudents.Count}] students and [{dbCourses.Count}] courses.\r\n";
-
-                // Establish many-to-many relationships
-                for (int i = 0; i < dbStudents.Count; i++)
-                {
-                    var student = dbStudents[i];
-                    var course = dbCourses[i % dbCourses.Count]; // Ensure we don't go out of bounds
-
-                    // Relationship Management:
-                    // Ensure that the many-to-many relationships are being managed correctly and that there are no duplicate entries in the enrollments join table.
-
-                    // Check if the course is already in the student's courses collection
-                    if (!student.Courses.Any(c => c.Id == course.Id))
-                    {
-                        // Add the course to the student's courses collection
-                        student.Courses.Add(course);
-                        txtDebug.Text += $"course {course.Title} to student {student.FirstName} {student.LastName}.\r\n";
-                    }
-                    else
-                    {
-                        txtDebug.Text += $"Course {course.Title} already exists for student {student.FirstName} {student.LastName} .\r\n";
-                    }
-                }
-
                 try
                 {
                     // Save changes to persist the relationships
                     context.SaveChanges();
-                    txtDebug.Text += "Saved changesOk to persist the many-to-many relationships.\r\n";
+                    txtDebug.Text += "Saved changes to persist the many-to-many relationships.\r\n";
                 }
                 catch (DbUpdateException dbEx)
                 {
@@ -103,31 +94,42 @@ namespace Ex4_ModelManytoMany
             }
         }
 
-
         void ReadDbEnrolments()
         {
             txtDebug.Text += "\r\n--------- READ ENROLMENTS -------\r\n";
             using (EFModelManytoMany readback = new EFModelManytoMany())
             {
-              
                 // Read Joining Table enrollments
-                // Retrieve the students and their courses from the database
-
-                // To Do  : Fix System.ArgumentException: 'An item with the same key has already been added. Key: System.Object[]'
-                var students = readback.Students.Include(s => s.Courses).ToList();
-
-                // Display the relationships
-                foreach (var student in students)
-                {
-                    txtDebug.Text += $"Student: {student.FirstName} {student.LastName} (ID: {student.Id})\r\n";
-                    foreach (var course in student.Courses)
+                var enrollments = readback.Enrollments
+                    .Select(e => new
                     {
-                        txtDebug.Text += $"\tEnrolled in: {course.Title} (ID: {course.Id})\r\n";
-                    }
+                        EnrollmentId = e.Id,
+                        StudentId = e.Student.Id,
+                        CourseId = e.Course.Id
+                    })
+                    .ToList();
+
+                // Display enrollments by showing students and their courses
+                foreach (var enrol in enrollments)
+                {
+                    txtDebug.Text += $"Enrollment: {enrol.EnrollmentId} {enrol.StudentId} {enrol.CourseId} \r\n";
                 }
+                    // Display enrollments by showing students and their courses
 
+                    //// Read Joining Table enrollments
+                    //var enrollments = readback.Enrollments
+                    //    .Include(e => e.Student)
+                    //    .Include(e => e.Course)
+                    //    .ToList();
 
-            }
+                    //// Display enrollments by showing students and their courses
+                    //foreach (var enrol in enrollments)
+                    //{
+                    //    txtDebug.Text += $"Enrollment: {enrol.Id} {enrol.Course.Id} {enrol.Student.Id} \r\n";
+
+                    //    //txtDebug.Text += $"Enrollment: {enrol.Id} {enrol.Course.Title} {enrol.Student.FirstName} {enrol.Student.LastName}\r\n";
+                    //}
+                }
 
             // Prompt to open the database folder
             var openresult = MessageBox.Show("Do you want to view the database filesystem?", "Open Folder", MessageBoxButtons.YesNo);
@@ -139,14 +141,13 @@ namespace Ex4_ModelManytoMany
             }
         }
 
-
-
         private void btnRead_Click(object sender, EventArgs e)
         {
             // Trigger the database read operation
             txtDebug.Text = "Reading Database...\r\n";
             ReadDbEnrolments();
         }
+
         public static List<Student> GenerateStudents(int count)
         {
             // Generate a list of students using Bogus
@@ -180,6 +181,5 @@ namespace Ex4_ModelManytoMany
 
             return courseFaker.Generate(count);
         }
-
     }
 }

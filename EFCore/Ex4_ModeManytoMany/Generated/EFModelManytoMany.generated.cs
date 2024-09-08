@@ -26,6 +26,7 @@ namespace Ex4_ModelManytoMany
    {
       #region DbSets
       public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex4_ModelManytoMany.Course> Courses { get; set; }
+      public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex4_ModelManytoMany.Enrollment> Enrollments { get; set; }
       public virtual Microsoft.EntityFrameworkCore.DbSet<global::Ex4_ModelManytoMany.Student> Students { get; set; }
 
       #endregion DbSets
@@ -92,10 +93,26 @@ namespace Ex4_ModelManytoMany
                      .Property(t => t.Title)
                      .HasMaxLength(255);
          modelBuilder.Entity<global::Ex4_ModelManytoMany.Course>()
-                     .HasMany<global::Ex4_ModelManytoMany.Student>(p => p.Students)
-                     .WithMany(p => p.Courses)
-                     .UsingEntity<Dictionary<string, object>>(right => right.HasOne<global::Ex4_ModelManytoMany.Student>().WithMany().HasForeignKey("Student_Id").OnDelete(DeleteBehavior.Cascade),left => left.HasOne<global::Ex4_ModelManytoMany.Course>().WithMany().HasForeignKey("Course_Id").OnDelete(DeleteBehavior.Cascade),join => join.ToTable("Enrollments"));
-         modelBuilder.Entity<global::Ex4_ModelManytoMany.Course>().Navigation(e => e.Students).AutoInclude();
+                     .HasMany<global::Ex4_ModelManytoMany.Enrollment>(p => p.Enrollments)
+                     .WithOne(p => p.Course)
+                     .HasForeignKey(k => k.CoursesId)
+                     .IsRequired();
+
+         modelBuilder.Entity<global::Ex4_ModelManytoMany.Enrollment>()
+                     .ToTable("Enrollments")
+                     .HasKey(t => new { t.Id, t.CoursesId, t.StudentsId });
+         modelBuilder.Entity<global::Ex4_ModelManytoMany.Enrollment>()
+                     .Property(t => t.Id)
+                     .ValueGeneratedOnAdd()
+                     .IsRequired();
+         modelBuilder.Entity<global::Ex4_ModelManytoMany.Enrollment>()
+                     .Property(t => t.CoursesId)
+                     .ValueGeneratedNever()
+                     .IsRequired();
+         modelBuilder.Entity<global::Ex4_ModelManytoMany.Enrollment>()
+                     .Property(t => t.StudentsId)
+                     .ValueGeneratedNever()
+                     .IsRequired();
 
          modelBuilder.Entity<global::Ex4_ModelManytoMany.Student>()
                      .ToTable("Students")
@@ -110,6 +127,11 @@ namespace Ex4_ModelManytoMany
          modelBuilder.Entity<global::Ex4_ModelManytoMany.Student>()
                      .Property(t => t.LastName)
                      .HasMaxLength(255);
+         modelBuilder.Entity<global::Ex4_ModelManytoMany.Student>()
+                     .HasMany<global::Ex4_ModelManytoMany.Enrollment>(p => p.Enrollments)
+                     .WithOne(p => p.Student)
+                     .HasForeignKey(k => k.StudentsId)
+                     .IsRequired();
 
          OnModelCreatedImpl(modelBuilder);
       }
