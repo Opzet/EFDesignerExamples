@@ -103,7 +103,7 @@ namespace Ex1_ModelPerson
             return personFaker.Generate(count);
         }
 
-        
+
         private void btnClear_Click(object sender, EventArgs e)
         {
             txtFilter.Text = "";
@@ -131,7 +131,7 @@ namespace Ex1_ModelPerson
 
                     txtResults.Text = "";
 
-                    SuspendLayout();
+
                     StringBuilder resultsBuilder = new StringBuilder();
                     foreach (Person p in people)
                     {
@@ -139,8 +139,7 @@ namespace Ex1_ModelPerson
                         resultsBuilder.AppendFormat("{0} {1} {2} {3} {4}\r\n", p.Id, p.FirstName, p.MiddleName, p.LastName, p.Phone);
                     }
                     txtResults.Text = resultsBuilder.ToString();
-                    ResumeLayout(false);
-                    PerformLayout();
+
                     txtDebug.Text += "Results displayed successfully\r\n";
                 }
                 catch (Exception ex)
@@ -153,6 +152,31 @@ namespace Ex1_ModelPerson
             txtDebug.Text += $"Total operation time: {stopwatch.ElapsedMilliseconds} ms\r\n";
         }
 
-      
+        private void btnLoadPeople_Click(object sender, EventArgs e)
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            txtDebug.Text = "Loading people search...\r\n";
+
+            using (PersonModel context = new PersonModel())
+            {
+                List<Person> people = context.People.ToList();
+
+                stopwatch.Stop();
+                txtDebug.Text += $"Search completed in {stopwatch.ElapsedMilliseconds} ms\r\n";
+                txtDebug.Text += $"Found {people.Count} people \r\n";
+
+                txtResults.Text = "";
+
+                StringBuilder resultsBuilder = new StringBuilder();
+                foreach (Person p in people)
+                {
+                    // Pause updating the textbox to make it faster
+                    resultsBuilder.AppendFormat("{0} {1} {2} {3} {4}\r\n", p.Id, p.FirstName, p.MiddleName, p.LastName, p.Phone);
+                }
+                txtResults.Text = resultsBuilder.ToString();
+            }
+        }
     }
 }

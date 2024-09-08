@@ -34,12 +34,13 @@
             label1 = new Label();
             txtResults = new TextBox();
             btnClear = new Button();
+            btnLoadPeople = new Button();
             SuspendLayout();
             // 
             // btnTestPerson
             // 
             btnTestPerson.Location = new Point(15, 15);
-            btnTestPerson.Margin = new Padding(6, 6, 6, 6);
+            btnTestPerson.Margin = new Padding(6);
             btnTestPerson.Name = "btnTestPerson";
             btnTestPerson.Size = new Size(236, 49);
             btnTestPerson.TabIndex = 0;
@@ -50,11 +51,11 @@
             // txtDebug
             // 
             txtDebug.Location = new Point(15, 87);
-            txtDebug.Margin = new Padding(6, 6, 6, 6);
+            txtDebug.Margin = new Padding(6);
             txtDebug.Multiline = true;
             txtDebug.Name = "txtDebug";
             txtDebug.ScrollBars = ScrollBars.Both;
-            txtDebug.Size = new Size(593, 651);
+            txtDebug.Size = new Size(593, 589);
             txtDebug.TabIndex = 3;
             // 
             // txtFilter
@@ -94,18 +95,30 @@
             btnClear.UseVisualStyleBackColor = true;
             btnClear.Click += btnClear_Click;
             // 
+            // btnLoadPeople
+            // 
+            btnLoadPeople.Location = new Point(175, 689);
+            btnLoadPeople.Margin = new Padding(6);
+            btnLoadPeople.Name = "btnLoadPeople";
+            btnLoadPeople.Size = new Size(236, 49);
+            btnLoadPeople.TabIndex = 8;
+            btnLoadPeople.Text = "Load People";
+            btnLoadPeople.UseVisualStyleBackColor = true;
+            btnLoadPeople.Click += btnLoadPeople_Click;
+            // 
             // FrmPerson
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1579, 753);
+            Controls.Add(btnLoadPeople);
             Controls.Add(btnClear);
             Controls.Add(txtResults);
             Controls.Add(label1);
             Controls.Add(txtFilter);
             Controls.Add(txtDebug);
             Controls.Add(btnTestPerson);
-            Margin = new Padding(6, 6, 6, 6);
+            Margin = new Padding(6);
             Name = "FrmPerson";
             Text = "FrmPerson";
             ResumeLayout(false);
@@ -120,5 +133,6 @@
         private Label label1;
         private TextBox txtResults;
         private Button btnClear;
+        private Button btnLoadPeople;
     }
 }

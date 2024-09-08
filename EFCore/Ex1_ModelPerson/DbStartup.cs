@@ -45,7 +45,9 @@ namespace Ex1_ModelPerson
                     optionsBuilder.EnableSensitiveDataLogging();
                     optionsBuilder.EnableDetailedErrors();
                 }
-                optionsBuilder.UseFileBaseContextDatabase(databaseName: DatabaseName);
+
+                //string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, DatabaseName);
+                optionsBuilder.UseFileBaseContextDatabase(databaseName: DatabaseName); //, location: dbPath);
                 Debug.WriteLine($"optionsBuilder.IsConfigure [{optionsBuilder.IsConfigured}]");
 
 
