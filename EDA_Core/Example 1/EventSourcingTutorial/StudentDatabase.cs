@@ -1,9 +1,3 @@
-using System.Net.WebSockets;
-using System.Text.Json;
-using Amazon;
-using Amazon.DynamoDBv2;
-using Amazon.DynamoDBv2.DocumentModel;
-using Amazon.DynamoDBv2.Model;
 using EventSourcingTutorial.Events;
 
 namespace EventSourcingTutorial;
